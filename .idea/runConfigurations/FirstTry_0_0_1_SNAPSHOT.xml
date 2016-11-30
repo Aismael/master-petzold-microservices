@@ -1,15 +1,15 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="FirstTry-0.0.1-SNAPSHOT" type="docker-deploy" factoryName="Docker Deployment" editBeforeRun="true" server-name="Docker">
+  <configuration default="false" name="FirstTry-0.0.1-SNAPSHOT" type="docker-deploy" factoryName="Docker Deployment" server-name="Docker">
     <deployment type="dockerfile" path="$PROJECT_DIR$/src/main/docker/Dockerfile">
       <settings>
         <option name="JSONFilePath" value="$PROJECT_DIR$/src/main/docker/container_settings.json" />
         <option name="command" value="java -agentlib:jdwp=transport=dt_socket,address=14096,suspend=n,server=y -jar app.jar" />
         <option name="containerName" value="test" />
         <option name="entrypoint" value="" />
-        <option name="imageTag" value="test" />
+        <option name="imageTag" value="" />
         <option name="portBindingsExpanded" value="true" />
         <option name="startBrowserSettings">
-          <browser url="http://192.168.99.100" />
+          <browser start="true" with-js-debugger="true" url="http://localhost:18080" />
         </option>
       </settings>
     </deployment>
