@@ -12,33 +12,39 @@ buildscript {
 
 apply plugin: 'groovy'
 apply plugin: 'java'
-apply plugin: 'war'
+//apply plugin: 'war'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
+apply plugin: 'application'
 
-jar {
-    baseName = 'gs-spring-boot'
-    version =  '0.1.0'
-}
+
 
 repositories {
     mavenCentral()
 }
 
+
+
+springBoot {
+    mainClass = "hello.Application"
+}
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    compile 'org.codehaus.groovy:groovy-all'
     // tag::jetty[]
     compile("org.springframework.boot:spring-boot-starter-web") {
         exclude module: "spring-boot-starter-tomcat"
     }
+    compile("org.springframework.boot:spring-boot")
+    compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-jetty")
     // end::jetty[]
     // tag::actuator[]
     compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile ('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
     // end::actuator[]
     //testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile("junit:junit")
@@ -46,3 +52,17 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
 
 }
+
+
+
+
+task copyToDockerDeploy << {
+    task copyJarToBin {
+        copy {
+            from 'build/libs/FirstTry-1.0-SNAPSHOT.jar'
+            into 'src/main/docker'
+        }
+    }
+}
+
+build.finalizedBy(copyToDockerDeploy)
