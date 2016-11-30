@@ -12,13 +12,16 @@ buildscript {
 
 apply plugin: 'groovy'
 apply plugin: 'java'
-//apply plugin: 'war'
+apply plugin: 'war'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'application'
 
-
+jar {
+    baseName = 'gs-spring-boot-docker'
+    version =  '0.1.0'
+}
 
 repositories {
     mavenCentral()
@@ -53,15 +56,21 @@ dependencies {
 
 }
 
-
-
-
+/**
+ * Method to Copy built jar file and Rename it for easy
+ * Docker-Deployment independent from Versioning
+ * at build-process
+ */
 task copyToDockerDeploy << {
     task copyJarToBin {
         copy {
-            from 'build/libs/FirstTry-1.0-SNAPSHOT.jar'
+            from jar.getArchivePath()
             into 'src/main/docker'
+            rename {String fileName ->
+                fileName.replace(jar.getArchivePath().getName(), "SpringBootDocker.jar")
+            }
         }
+
     }
 }
 
