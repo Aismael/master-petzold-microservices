@@ -1,7 +1,6 @@
-build/
-out/
-.gradle/
-.settings/
-.idea/
+build/*
+.gradle/*
+.settings/*
+.idea/*
 src/main/docker/SpringBootDocker.jar
 
