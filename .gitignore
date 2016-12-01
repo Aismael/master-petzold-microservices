@@ -4,3 +4,6 @@ build/*
 .idea/*
 src/main/docker/SpringBootDocker.jar
 
+.gradle/
+.idea/
+/build/
