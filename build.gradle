@@ -56,7 +56,7 @@ dependencies {
     // end::actuator[]
     testCompile("junit:junit")
     testCompile("org.springframework.boot:spring-boot-starter-test")
-    compile("org.flywaydb:flyway-core")
+    //compile("org.flywaydb:flyway-core")
     runtime("mysql:mysql-connector-java")
     compile("org.springframework.boot:spring-boot-starter-actuator")
 
