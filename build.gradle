@@ -7,8 +7,12 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
+
     }
 }
+
+//MYSQL on Docker
+//docker run -d -p 3306:3306 --name demo-mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=demo -e MYSQL_USER=demo_user -e MYSQL_PASSWORD=demo_pass -d mysql:5.6
 
 apply plugin: 'groovy'
 apply plugin: 'java'
@@ -36,25 +40,29 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
+
     compile 'org.codehaus.groovy:groovy-all'
     // tag::jetty[]
-    compile("org.springframework.boot:spring-boot-starter-web") {
-        exclude module: "spring-boot-starter-tomcat"
-    }
+    compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-jetty")
+    compile("org.springframework.boot:spring-boot-starter-logging")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
     // end::jetty[]
     // tag::actuator[]
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile ('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
     // end::actuator[]
-    //testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile("junit:junit")
     testCompile("org.springframework.boot:spring-boot-starter-test")
+    compile("org.flywaydb:flyway-core")
+    runtime("mysql:mysql-connector-java")
     compile("org.springframework.boot:spring-boot-starter-actuator")
 
 }
+
+
 
 /**
  * Method to Copy built jar file and Rename it for easy
