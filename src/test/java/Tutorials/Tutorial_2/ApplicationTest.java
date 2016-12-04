@@ -1,4 +1,5 @@
 package Tutorials.Tutorial_2;
+import Tutorials.Tutorial_1.Application;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,19 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
-@RestController
-@ComponentScan({"Tutorials"})
-@EnableJpaRepositories(basePackages ={ "Tutorials.Tutorial_3"})
-@EntityScan(basePackages = "Tutorials.Tutorial_3")
-@EnableScheduling
-@EnableAutoConfiguration
-@ConfigurationProperties
-@EnableConfigurationProperties
-public class Application {
-    @RequestMapping("/")
-    public String home() {
-        return "Hello Docker World";
-    }
+public class ApplicationTest {
+
 
    public static void main(String[] args) {
       SpringApplication.run(Application.class, args);

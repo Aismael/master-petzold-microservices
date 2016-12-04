@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 @ComponentScan({"Tutorials"})
-@EnableJpaRepositories(basePackages ={ "Tutorials.Tutorial_3"})
-@EntityScan(basePackages = "Tutorials.Tutorial_3")
+@EnableJpaRepositories(basePackages ={ "Tutorials.Tutorial_3","Tutorials.Tutorial_5","Tutorials.Tutorial_6"})
+@EntityScan(basePackages = {"Tutorials.Tutorial_3","Tutorials.Tutorial_5","Tutorials.Tutorial_6"})
 @EnableScheduling
 @EnableAutoConfiguration
 @ConfigurationProperties
