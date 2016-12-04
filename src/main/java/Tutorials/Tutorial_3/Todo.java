@@ -1,4 +1,4 @@
-package hello;
+package Tutorials.Tutorial_3;
 
 import javax.persistence.*;
 

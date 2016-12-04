@@ -1,4 +1,4 @@
-package hello;
+package Tutorials.Tutorial_2;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
