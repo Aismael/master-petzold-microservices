@@ -1,5 +1,0 @@
-rootProject.name='sbwd-full'
-include 'billing', 'eureka', 'master', 'order'
-include 'feign-client'
-include 'feign-server'
-
