@@ -1,2 +1,2 @@
-rootProject.name = 'FirstTry'
-
+rootProject.name='sbwd-full'
+include 'billing', 'eureka', 'master', 'order'
