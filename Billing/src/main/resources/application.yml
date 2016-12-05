@@ -1,0 +1,21 @@
+spring:
+  profiles.active: default
+---
+spring:
+    jpa:
+        database: POSTGRESQL
+        hibernate:
+            ddl-auto: validate
+        show-sql: true
+
+
+    datasource:
+        url: jdbc:postgresql://localhost:5432/demo
+        username: postgres
+        password: mysecretpassword
+        driver-class-name: org.postgresql.Driver
+---
+spring:
+  profiles: docker
+spring.datasource:
+  url: jdbc:postgresql://192.168.1.100:5432/demo

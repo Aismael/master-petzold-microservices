@@ -1,0 +1,14 @@
+version: '2'
+ 
+services:
+  app:
+    image: /Order
+    ports:
+      - 8080
+    depends_on:
+      - db
+ 
+  db:
+    container_name: demo-mysql
+    environment:
+      - SERVICE_NAME=books-ms-db
