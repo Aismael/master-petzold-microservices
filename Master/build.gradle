@@ -48,13 +48,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-logging")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-actuator")
-<<<<<<< HEAD
-    compile("org.springframework.cloud:spring-cloud-starter-eureka:1.2.3.RELEASE")
-    compile("org.springframework.cloud:spring-cloud-starter-feign:1.2.3.RELEASE")
-=======
     compile("org.springframework.cloud:spring-cloud-starter-feign:1.2.3.RELEASE")
     compile("org.springframework.cloud:spring-cloud-starter-eureka:1.2.3.RELEASE")
->>>>>>> master
     compile('org.springframework.hateoas:spring-hateoas')
     compile('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
 
