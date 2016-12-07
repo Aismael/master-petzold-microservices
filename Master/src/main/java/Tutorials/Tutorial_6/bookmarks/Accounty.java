@@ -1,4 +1,4 @@
-package Tutorials.Tutorial_5.bookmarks;
+package Tutorials.Tutorial_6.bookmarks;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -13,16 +13,16 @@ import java.util.Set;
  * Created by Aismael on 04.12.2016.
  */
 @Entity
-public class Account {
+public class Accounty {
 
-    @OneToMany(mappedBy = "account")
-    private Set<Bookmark> bookmarks = new HashSet<>();
+    @OneToMany(mappedBy = "accounty")
+    private Set<Bookmarky> bookmarks = new HashSet<>();
 
     @Id
     @GeneratedValue
     private Long id;
 
-    public Set<Bookmark> getBookmarks() {
+    public Set<Bookmarky> getBookmarks() {
         return bookmarks;
     }
 
@@ -42,11 +42,11 @@ public class Account {
     public String password;
     public String username;
 
-    public Account(String name, String password) {
+    public Accounty(String name, String password) {
         this.username = name;
         this.password = password;
     }
 
-    Account() { // jpa only
+    Accounty() { // jpa only
     }
 }

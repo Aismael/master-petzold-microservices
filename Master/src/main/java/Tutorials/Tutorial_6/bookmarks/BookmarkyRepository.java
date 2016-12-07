@@ -7,6 +7,6 @@ import java.util.Collection;
 /**
  * Created by Aismael on 04.12.2016.
  */
-public interface Bookmark2Repository extends JpaRepository<Bookmark2, Long> {
-    Collection<Bookmark2> findByAccountUsername(String username);
+public interface BookmarkyRepository extends JpaRepository<Bookmarky, Long> {
+    Collection<Bookmarky> findByAccountyUsername(String username);
 }

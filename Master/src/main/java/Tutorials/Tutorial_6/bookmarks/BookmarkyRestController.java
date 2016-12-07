@@ -22,42 +22,42 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/2/{userId}/bookmarks")
-class Bookmark2RestController {
+class BookmarkyRestController {
 
-    private final Bookmark2Repository bookmarkRepository;
+    private final BookmarkyRepository bookmarkyRepository;
 
-    private final Account2Repository accountRepository;
+    private final AccountyRepository accountRepository;
 
     @Autowired
-    Bookmark2RestController(Bookmark2Repository bookmarkRepository,
-                           Account2Repository accountRepository) {
-        this.bookmarkRepository = bookmarkRepository;
+    BookmarkyRestController(BookmarkyRepository bookmarkRepository,
+                            AccountyRepository accountRepository) {
+        this.bookmarkyRepository = bookmarkRepository;
         this.accountRepository = accountRepository;
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    Resources<Bookmark2Resource> readBookmarks(@PathVariable String userId) {
+    Resources<BookmarkyResource> readBookmarks(@PathVariable String userId) {
 
         this.validateUser(userId);
 
-        List<Bookmark2Resource> bookmarkResourceList = bookmarkRepository
-                .findByAccountUsername(userId).stream().map(Bookmark2Resource::new)
+        List<BookmarkyResource> bookmarkResourceList = bookmarkyRepository
+                .findByAccountyUsername(userId).stream().map(BookmarkyResource::new)
                 .collect(Collectors.toList());
 
         return new Resources<>(bookmarkResourceList);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<?> add(@PathVariable String userId, @RequestBody Bookmark2 input) {
+    ResponseEntity<?> add(@PathVariable String userId, @RequestBody Bookmarky input) {
 
         this.validateUser(userId);
 
         return accountRepository.findByUsername(userId)
                 .map(account -> {
-                    Bookmark2 bookmark = bookmarkRepository
-                            .save(new Bookmark2(account, input.uri, input.description));
+                    Bookmarky bookmark = bookmarkyRepository
+                            .save(new Bookmarky(account, input.uri, input.description));
 
-                    Link forOneBookmark = new Bookmark2Resource(bookmark).getLink("self");
+                    Link forOneBookmark = new BookmarkyResource(bookmark).getLink("self");
 
                     return ResponseEntity.created(URI.create(forOneBookmark.getHref())).build();
                 })
@@ -65,10 +65,10 @@ class Bookmark2RestController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{bookmarkId}")
-    Bookmark2Resource readBookmark(@PathVariable String userId,
+    BookmarkyResource readBookmark(@PathVariable String userId,
                                    @PathVariable Long bookmarkId) {
         this.validateUser(userId);
-        return new Bookmark2Resource(this.bookmarkRepository.findOne(bookmarkId));
+        return new BookmarkyResource(this.bookmarkyRepository.findOne(bookmarkId));
     }
 
     private void validateUser(String userId) {

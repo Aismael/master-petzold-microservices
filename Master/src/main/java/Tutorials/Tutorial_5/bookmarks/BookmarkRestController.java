@@ -12,31 +12,31 @@ import java.util.Collection;
 @RequestMapping("/1/{userId}/bookmarks")
 class BookmarkRestController {
 
-    private final BookmarkRepository bookmarkRepository;
+    private final BookmarkxRepository bookmarkxRepository;
 
-    private final AccountRepository accountRepository;
+    private final AccountxRepository accountxRepository;
 
     @Autowired
-    BookmarkRestController(BookmarkRepository bookmarkRepository,
-                           AccountRepository accountRepository) {
-        this.bookmarkRepository = bookmarkRepository;
-        this.accountRepository = accountRepository;
+    BookmarkRestController(BookmarkxRepository bookmarkxRepository,
+                           AccountxRepository accountxRepository) {
+        this.bookmarkxRepository = bookmarkxRepository;
+        this.accountxRepository = accountxRepository;
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    Collection<Bookmark> readBookmarks(@PathVariable String userId) {
+    Collection<Bookmarkx> readBookmarks(@PathVariable String userId) {
         this.validateUser(userId);
-        return this.bookmarkRepository.findByAccountUsername(userId);
+        return this.bookmarkxRepository.findByAccountxUsername(userId);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<?> add(@PathVariable String userId, @RequestBody Bookmark input) {
+    ResponseEntity<?> add(@PathVariable String userId, @RequestBody Bookmarkx input) {
         this.validateUser(userId);
 
-        return this.accountRepository
+        return this.accountxRepository
                 .findByUsername(userId)
                 .map(account -> {
-                    Bookmark result = bookmarkRepository.save(new Bookmark(account,
+                    Bookmarkx result = bookmarkxRepository.save(new Bookmarkx(account,
                             input.uri, input.description));
 
                     URI location = ServletUriComponentsBuilder
@@ -50,13 +50,13 @@ class BookmarkRestController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{bookmarkId}")
-    Bookmark readBookmark(@PathVariable String userId, @PathVariable Long bookmarkId) {
+    Bookmarkx readBookmark(@PathVariable String userId, @PathVariable Long bookmarkId) {
         this.validateUser(userId);
-        return this.bookmarkRepository.findOne(bookmarkId);
+        return this.bookmarkxRepository.findOne(bookmarkId);
     }
 
     private void validateUser(String userId) {
-        this.accountRepository.findByUsername(userId).orElseThrow(
+        this.accountxRepository.findByUsername(userId).orElseThrow(
                 () -> new UserNotFoundException(userId));
     }
 }

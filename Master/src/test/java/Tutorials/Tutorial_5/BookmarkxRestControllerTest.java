@@ -1,10 +1,9 @@
 package Tutorials.Tutorial_5;
 
-import Tutorials.Tutorial_1.Application;
-import Tutorials.Tutorial_5.bookmarks.Account;
-import Tutorials.Tutorial_5.bookmarks.AccountRepository;
-import Tutorials.Tutorial_5.bookmarks.Bookmark;
-import Tutorials.Tutorial_5.bookmarks.BookmarkRepository;
+import Tutorials.Tutorial_5.bookmarks.Accountx;
+import Tutorials.Tutorial_5.bookmarks.AccountxRepository;
+import Tutorials.Tutorial_5.bookmarks.Bookmarkx;
+import Tutorials.Tutorial_5.bookmarks.BookmarkxRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +36,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ApplicationTest.class)
 @WebAppConfiguration
-public class BookmarkRestControllerTest {
+public class BookmarkxRestControllerTest {
 
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
@@ -50,18 +49,18 @@ public class BookmarkRestControllerTest {
 
     private HttpMessageConverter mappingJackson2HttpMessageConverter;
 
-    private Account account;
+    private Accountx accountx;
 
-    private List<Bookmark> bookmarkList = new ArrayList<>();
+    private List<Bookmarkx> bookmarkxList = new ArrayList<>();
 
     @Autowired
-    private BookmarkRepository bookmarkRepository;
+    private BookmarkxRepository bookmarkxRepository;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
 
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountxRepository accountxRepository;
 
     @Autowired
     void setConverters(HttpMessageConverter<?>[] converters) {
@@ -79,18 +78,18 @@ public class BookmarkRestControllerTest {
     public void setup() throws Exception {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
 
-        this.bookmarkRepository.deleteAllInBatch();
-        this.accountRepository.deleteAllInBatch();
+        this.bookmarkxRepository.deleteAllInBatch();
+        this.accountxRepository.deleteAllInBatch();
 
-        this.account = accountRepository.save(new Account(userName, "password"));
-        this.bookmarkList.add(bookmarkRepository.save(new Bookmark(account, "http://bookmark.com/1/" + userName, "A description")));
-        this.bookmarkList.add(bookmarkRepository.save(new Bookmark(account, "http://bookmark.com/2/" + userName, "A description")));
+        this.accountx = accountxRepository.save(new Accountx(userName, "password"));
+        this.bookmarkxList.add(bookmarkxRepository.save(new Bookmarkx(accountx, "http://bookmark.com/1/" + userName, "A description")));
+        this.bookmarkxList.add(bookmarkxRepository.save(new Bookmarkx(accountx, "http://bookmark.com/2/" + userName, "A description")));
     }
 
     @Test
     public void userNotFound() throws Exception {
         mockMvc.perform(post("/george/bookmarks/")
-                .content(this.json(new Bookmark()))
+                .content(this.json(new Bookmarkx()))
                 .contentType(contentType))
                 .andExpect(status().isNotFound());
     }
@@ -98,10 +97,10 @@ public class BookmarkRestControllerTest {
     @Test
     public void readSingleBookmark() throws Exception {
         mockMvc.perform(get("/" + userName + "/bookmarks/"
-                + this.bookmarkList.get(0).getId()))
+                + this.bookmarkxList.get(0).getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
-                .andExpect(jsonPath("$.id", is(this.bookmarkList.get(0).getId().intValue())))
+                .andExpect(jsonPath("$.id", is(this.bookmarkxList.get(0).getId().intValue())))
                 .andExpect(jsonPath("$.uri", is("http://bookmark.com/1/" + userName)))
                 .andExpect(jsonPath("$.description", is("A description")));
     }
@@ -112,18 +111,18 @@ public class BookmarkRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].id", is(this.bookmarkList.get(0).getId().intValue())))
+                .andExpect(jsonPath("$[0].id", is(this.bookmarkxList.get(0).getId().intValue())))
                 .andExpect(jsonPath("$[0].uri", is("http://bookmark.com/1/" + userName)))
                 .andExpect(jsonPath("$[0].description", is("A description")))
-                .andExpect(jsonPath("$[1].id", is(this.bookmarkList.get(1).getId().intValue())))
+                .andExpect(jsonPath("$[1].id", is(this.bookmarkxList.get(1).getId().intValue())))
                 .andExpect(jsonPath("$[1].uri", is("http://bookmark.com/2/" + userName)))
                 .andExpect(jsonPath("$[1].description", is("A description")));
     }
 
     @Test
     public void createBookmark() throws Exception {
-        String bookmarkJson = json(new Bookmark(
-                this.account, "http://spring.io", "a bookmark to the best resource for Spring news and information"));
+        String bookmarkJson = json(new Bookmarkx(
+                this.accountx, "http://spring.io", "a bookmark to the best resource for Spring news and information"));
 
         this.mockMvc.perform(post("/" + userName + "/bookmarks")
                 .contentType(contentType)

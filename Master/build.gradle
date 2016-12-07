@@ -24,7 +24,7 @@ apply plugin: 'application'
 
 jar {
     baseName = 'gs-spring-boot-docker'
-    version =  '0.1.0'
+    version = '0.1.0'
 }
 
 repositories {
@@ -41,32 +41,24 @@ targetCompatibility = 1.8
 
 dependencies {
 
-    compile 'org.codehaus.groovy:groovy-all'
-    // tag::jetty[]
-    compile("org.springframework.boot:spring-boot-starter-web")
+    compile('org.codehaus.groovy:groovy-all')
     compile("org.springframework.boot:spring-boot")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-jetty")
     compile("org.springframework.boot:spring-boot-starter-logging")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile 'org.springframework.hateoas:spring-hateoas'
-
-    // end::jetty[]
-    // tag::actuator[]
     compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile ('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
-    // end::actuator[]
+    compile("org.springframework.cloud:spring-cloud-starter-eureka:1.2.3.RELEASE")
+    compile("org.springframework.cloud:spring-cloud-starter-feign:1.2.3.RELEASE")
+    compile('org.springframework.hateoas:spring-hateoas')
+    compile('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
+
     testCompile("junit:junit")
     testCompile("org.springframework.boot:spring-boot-starter-test")
-    compile("org.springframework.cloud:spring-cloud-starter-feign:1.0.0.RELEASE")
-    compile("org.springframework.cloud:spring-cloud-starter-eureka:1.0.0.RELEASE")
-    //compile("org.flywaydb:flyway-core")
+
     runtime("mysql:mysql-connector-java")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
 
 }
-
-
 
 /**
  * Method to Copy built jar file and Rename it for easy
@@ -78,7 +70,7 @@ task copyToDockerDeploy << {
         copy {
             from jar.getArchivePath()
             into 'src/main/docker'
-            rename {String fileName ->
+            rename { String fileName ->
                 fileName.replace(jar.getArchivePath().getName(), "SpringBootDocker.jar")
             }
         }

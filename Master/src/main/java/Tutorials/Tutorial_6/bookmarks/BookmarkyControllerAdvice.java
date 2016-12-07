@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-class Bookmark2ControllerAdvice {
+class BookmarkyControllerAdvice {
 
     @ResponseBody
     @ExceptionHandler(UserNotFoundException.class)

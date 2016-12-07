@@ -11,30 +11,30 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Bookmark2 {
+public class Bookmarky {
 
     @JsonIgnore
     @ManyToOne
-    private Account2 account;
+    private Accounty accounty;
 
     @Id
     @GeneratedValue
     private Long id;
 
-    public Bookmark2() { // jpa only
+    public Bookmarky() { // jpa only
     }
 
-    public Bookmark2(Account2 account, String uri, String description) {
+    public Bookmarky(Accounty account, String uri, String description) {
         this.uri = uri;
         this.description = description;
-        this.account = account;
+        this.accounty = account;
     }
 
     public String uri;
     public String description;
 
-    public Account2 getAccount() {
-        return account;
+    public Accounty getAccount() {
+        return accounty;
     }
 
     public Long getId() {
