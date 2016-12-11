@@ -96,7 +96,7 @@ public class BookmarkxRestControllerTest {
 
     @Test
     public void readSingleBookmark() throws Exception {
-        mockMvc.perform(get("/" + userName + "/bookmarks/"
+        mockMvc.perform(get("/1/" + userName + "/bookmarks/"
                 + this.bookmarkxList.get(0).getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
@@ -107,7 +107,7 @@ public class BookmarkxRestControllerTest {
 
     @Test
     public void readBookmarks() throws Exception {
-        mockMvc.perform(get("/" + userName + "/bookmarks"))
+        mockMvc.perform(get("/1/" + userName + "/bookmarks"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$", hasSize(2)))
@@ -124,7 +124,7 @@ public class BookmarkxRestControllerTest {
         String bookmarkJson = json(new Bookmarkx(
                 this.accountx, "http://spring.io", "a bookmark to the best resource for Spring news and information"));
 
-        this.mockMvc.perform(post("/" + userName + "/bookmarks")
+        this.mockMvc.perform(post("/1/" + userName + "/bookmarks")
                 .contentType(contentType)
                 .content(bookmarkJson))
                 .andExpect(status().isCreated());
