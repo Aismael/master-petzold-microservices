@@ -34,7 +34,7 @@ repositories {
 
 
 springBoot {
-    mainClass = "Tutorials.Tutorial_1.Application"
+    mainClass = "Order.Application"
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

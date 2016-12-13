@@ -9,12 +9,19 @@ import java.util.Set;
 public abstract class OrderConcept {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique=true)
     private Long id;
 
-    @OneToMany(mappedBy = "orderConcept")
-    private Set<Item> items=new HashSet<>();
+    public Set<ItemSet> getItemSets() {
+        return itemSets;
+    }
 
+    public void setItemSets(Set<ItemSet> itemSets) {
+        this.itemSets = itemSets;
+    }
 
+    @OneToMany(mappedBy = "orderConcept",cascade = CascadeType.ALL)
+    private Set<ItemSet> itemSets=new HashSet<>();
 
     public Long getId() {
         return id;
@@ -24,13 +31,7 @@ public abstract class OrderConcept {
         this.id = id;
     }
 
-    public Set<Item> getItems() {
-        return items;
-    }
 
-    public void setItems(Set<Item> items) {
-        this.items = items;
-    }
 
 
 

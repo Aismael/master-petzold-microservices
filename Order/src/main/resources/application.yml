@@ -9,7 +9,7 @@ spring:
     jpa:
         database: MYSQL
         hibernate:
-            ddl-auto: create
+            ddl-auto: create-drop
         show-sql: true
     datasource:
         url: jdbc:mysql://localhost:3306/demo
