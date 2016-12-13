@@ -20,6 +20,7 @@ public class ItemSetController {
 
     @Autowired
     private ItemSetRepository itemSetRepository;
+
     @RequestMapping(method = RequestMethod.GET)
     public List<ItemSet> findItems() {
         return itemSetRepository.findAll();

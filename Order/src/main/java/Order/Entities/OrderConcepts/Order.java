@@ -24,6 +24,18 @@ public class Order extends OrderConcept {
     @JoinColumn(name="itemOrder_id")
     private Account account;
 
+    private Boolean posted=false;
+
+
+    public Boolean isPosted() {
+        return posted;
+    }
+
+    public void setPosted(Boolean posted) {
+        this.posted = posted;
+    }
+
+
     public Date getDate() {
         return date;
     }
