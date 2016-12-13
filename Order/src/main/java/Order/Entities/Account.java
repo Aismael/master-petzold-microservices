@@ -2,6 +2,7 @@ package Order.Entities;
 
 import Order.Entities.OrderConcepts.Favorite;
 import Order.Entities.OrderConcepts.Order;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import java.util.Set;
 
 @Entity
 public class Account {
+
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
     private Set<Order> orders = new HashSet<>();
 

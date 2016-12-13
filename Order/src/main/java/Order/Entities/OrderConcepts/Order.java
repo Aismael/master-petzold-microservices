@@ -2,8 +2,10 @@ package Order.Entities.OrderConcepts;
 
 import Order.Entities.Account;
 import Order.Entities.OrderConcept;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.util.Date;
 
@@ -17,8 +19,11 @@ public class Order extends OrderConcept {
         this.account = account;
     }
 
+    @JsonIgnore
     @ManyToOne
+    @JoinColumn(name="itemOrder_id")
     private Account account;
+
     public Date getDate() {
         return date;
     }

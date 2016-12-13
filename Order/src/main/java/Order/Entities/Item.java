@@ -17,6 +17,9 @@ public class Item {
     private String details;
     private boolean allergens;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "item")
+    private Set<ItemSet> itemSets=new HashSet<>();
 
     public Set<ItemSet> getItemSets() {
         return itemSets;
@@ -25,9 +28,6 @@ public class Item {
     public void setItemSets(Set<ItemSet> itemSets) {
         this.itemSets = itemSets;
     }
-
-    @OneToMany(mappedBy = "item")
-    private Set<ItemSet> itemSets=new HashSet<>();
 
     public Long getId() {
         return id;

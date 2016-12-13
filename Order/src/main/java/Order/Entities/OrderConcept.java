@@ -12,6 +12,9 @@ public abstract class OrderConcept {
     @Column(unique=true)
     private Long id;
 
+    @OneToMany(mappedBy = "orderConcept",cascade = CascadeType.ALL)
+    private Set<ItemSet> itemSets=new HashSet<>();
+
     public Set<ItemSet> getItemSets() {
         return itemSets;
     }
@@ -20,8 +23,7 @@ public abstract class OrderConcept {
         this.itemSets = itemSets;
     }
 
-    @OneToMany(mappedBy = "orderConcept",cascade = CascadeType.ALL)
-    private Set<ItemSet> itemSets=new HashSet<>();
+
 
     public Long getId() {
         return id;

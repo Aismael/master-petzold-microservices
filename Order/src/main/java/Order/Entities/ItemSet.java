@@ -1,5 +1,7 @@
 package Order.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -7,6 +9,41 @@ import javax.persistence.*;
  */
 @Entity
 public class ItemSet{
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique=true)
+    private Long id;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="item_id")
+    private Item item;
+
+    private Integer count=1;
+
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="orderConcept_id")
+    private OrderConcept orderConcept;
+
+    public OrderConcept getOrderConcept() {
+        return orderConcept;
+    }
+
+    public void setOrderConcept(OrderConcept orderConcept) {
+        this.orderConcept = orderConcept;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+
     public Long getId() {
         return id;
     }
@@ -15,21 +52,12 @@ public class ItemSet{
         this.id = id;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(unique=true)
-    private Long id;
+    public Item getItem() {
+        return item;
+    }
 
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="item_id")
-    private Item item;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="orderConcept_id")
-    private OrderConcept orderConcept;
-
-    private Integer count=1;
-
+    public void setItem(Item item) {
+        this.item = item;
+    }
 
 }
