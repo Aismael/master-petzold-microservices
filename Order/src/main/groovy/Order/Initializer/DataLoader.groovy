@@ -31,6 +31,7 @@ class DataLoader implements ApplicationRunner {
 
     @Override
     void run(ApplicationArguments args) throws Exception {
+        //define
         Item i1=new Item(name: "Pizza Margherita",details: "Die standard Pizza",allergens: false)
         Item i2=new Item(name: "Hamburger",details: "Ein Burger ohne Käse",allergens: true)
         Order o=new Order(date:new Date())
@@ -41,20 +42,19 @@ class DataLoader implements ApplicationRunner {
         ItemSet is4=new ItemSet(orderConcept: f,item: i2)
         Account a=new  Account(name: "First",mail: "aismaelinc@gmail.com")
         Account a2=new  Account(name: "Second",mail: "aismaelinc@web.de")
+        //wire
         a.getOrders().add(o)
         a.getFavorites().add(f)
-        o.setAccount(a)
-        f.setAccount(a)
-        o.getItemSets().add(is1)
-        o.getItemSets().add(is2)
-        f.getItemSets().add(is3)
-        f.getItemSets().add(is4)
         i1.getItemSets().add(is1)
         i1.getItemSets().add(is3)
         i2.getItemSets().add(is2)
         i2.getItemSets().add(is4)
+        o.getItemSets().add(is1)
+        o.getItemSets().add(is2)
+        f.getItemSets().add(is3)
+        f.getItemSets().add(is4)
+        //save
         accountRepository.save(a)
         accountRepository.save(a2)
-
     }
 }

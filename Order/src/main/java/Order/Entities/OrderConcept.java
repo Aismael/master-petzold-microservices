@@ -1,5 +1,9 @@
 package Order.Entities;
 
+import Order.Entities.OrderConcepts.Order;
+import de.geobe.util.association.IToAny;
+import de.geobe.util.association.ToMany;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,9 +18,12 @@ public abstract class OrderConcept {
 
     @OneToMany(mappedBy = "orderConcept",cascade = CascadeType.ALL)
     private Set<ItemSet> itemSets=new HashSet<>();
+    @Transient
+    private ToMany<OrderConcept,ItemSet> toItemSets=
+            new ToMany<>(()->itemSets, this, ItemSet::getOrderConcept);
 
-    public Set<ItemSet> getItemSets() {
-        return itemSets;
+    public IToAny<ItemSet> getItemSets() {
+        return toItemSets;
     }
 
     public void setItemSets(Set<ItemSet> itemSets) {

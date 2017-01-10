@@ -1,6 +1,9 @@
 package Order.Entities;
 
+import Order.Entities.OrderConcepts.Favorite;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import de.geobe.util.association.IToAny;
+import de.geobe.util.association.ToOne;
 
 import javax.persistence.*;
 
@@ -19,6 +22,14 @@ public class ItemSet{
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="item_id")
     private Item item;
+    @Transient
+    private ToOne<ItemSet,Item> toItem = new ToOne<>(
+            () -> item, (Item i) -> item = i,
+            this, Item::getItemSets);
+
+    public IToAny<Item> getItem() {
+        return toItem;
+    }
 
     private Integer count=1;
 
@@ -26,10 +37,15 @@ public class ItemSet{
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="orderConcept_id")
     private OrderConcept orderConcept;
+    @Transient
+    private ToOne<ItemSet,OrderConcept> toOrderConcept = new ToOne<>(
+            () -> orderConcept, (OrderConcept o) -> orderConcept = o,
+            this, OrderConcept::getItemSets);
 
-    public OrderConcept getOrderConcept() {
-        return orderConcept;
+    public IToAny<OrderConcept> getOrderConcept() {
+        return toOrderConcept;
     }
+
 
     public void setOrderConcept(OrderConcept orderConcept) {
         this.orderConcept = orderConcept;
@@ -52,9 +68,6 @@ public class ItemSet{
         this.id = id;
     }
 
-    public Item getItem() {
-        return item;
-    }
 
     public void setItem(Item item) {
         this.item = item;

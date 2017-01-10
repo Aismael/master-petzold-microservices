@@ -2,21 +2,36 @@ package Order.Entities;
 
 import Order.Entities.OrderConcepts.Favorite;
 import Order.Entities.OrderConcepts.Order;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+
+import de.geobe.util.association.IToAny;
+import de.geobe.util.association.ToMany;
 
 @Entity
 public class Account {
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
     private Set<Order> orders = new HashSet<>();
+    @Transient
+    private ToMany<Account,Order> toOrders=
+            new ToMany<>(()->orders, this, Order::getAccount);
+
+    public IToAny<Order> getOrders() {
+        return toOrders;
+    }
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
     private Set<Favorite> favorites = new HashSet<>();
+    @Transient
+    private ToMany<Account,Favorite> toFavorites=
+            new ToMany<>(()->favorites, this, Favorite::getAccount);
 
+    public IToAny<Favorite> getFavorites() {
+        return toFavorites;
+    }
     @Id
     @GeneratedValue
     private Long id;
@@ -25,16 +40,9 @@ public class Account {
     @Column(unique=true)
     private String mail;
 
-    public Set<Order> getOrders() {
-        return orders;
-    }
 
     public void setOrders(Set<Order> orders) {
         this.orders = orders;
-    }
-
-    public Set<Favorite> getFavorites() {
-        return favorites;
     }
 
     public void setFavorites(Set<Favorite> favorites) {

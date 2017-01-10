@@ -1,6 +1,8 @@
 package Order.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import de.geobe.util.association.IToAny;
+import de.geobe.util.association.ToMany;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -20,9 +22,12 @@ public class Item {
     @JsonIgnore
     @OneToMany(mappedBy = "item")
     private Set<ItemSet> itemSets=new HashSet<>();
+    @Transient
+    private ToMany<Item,ItemSet> toItemSets=
+            new ToMany<>(()->itemSets, this, ItemSet::getItem);
 
-    public Set<ItemSet> getItemSets() {
-        return itemSets;
+    public IToAny<ItemSet> getItemSets() {
+        return toItemSets;
     }
 
     public void setItemSets(Set<ItemSet> itemSets) {
