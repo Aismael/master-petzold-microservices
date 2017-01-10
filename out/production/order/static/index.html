@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="orderApp" >
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src = "libraries/angular.js"></script>
+    <script src = "libraries/jquery-3.1.1.js"></script>
+    <script src = "libraries/ui-bootstrap-tpls-2.4.0.js"></script>
+    <link  href="libraries/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link  href="libraries/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <script src = "libraries/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="app/app.js"></script>
+
+
+</head >
+<body ng-controller="AccountListController">
+<p>Get your greeting <a href="/greeting">here</a></p>
+<ul>
+    <table class="table">
+    <tr ng-repeat="account in accounts">
+        <th>{{account.id}}</th>
+        <th>{{account.name}}</th>
+        <th>{{account.mail}}</th>
+    </tr>
+    </table>
+
+</ul>
+</body>
+</html>

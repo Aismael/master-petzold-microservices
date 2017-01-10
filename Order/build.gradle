@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
 
     }
 }
@@ -19,8 +19,11 @@ apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'spring-boot'
 apply plugin: 'application'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'spring-boot'
+
+
 
 jar {
     baseName = 'gs-spring-boot-docker'
@@ -36,6 +39,10 @@ repositories {
 springBoot {
     mainClass = "Order.Application"
 }
+bootRepackage {
+    mainClass = 'Order.Application'
+}
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -59,6 +66,7 @@ dependencies {
     //compile("org.flywaydb:flyway-core")
     runtime("mysql:mysql-connector-java")
     compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile project(':associations')
 
 }
 

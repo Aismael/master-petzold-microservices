@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @ConfigurationProperties
 @EnableConfigurationProperties
 public class Application {
-    @RequestMapping("/")
+    @RequestMapping("/greeting")
     public String home() {
         return "Hello Docker World";
     }
