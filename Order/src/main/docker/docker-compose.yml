@@ -1,14 +1,26 @@
 version: '2'
- 
 services:
-  app:
-    image: /Order
+  mysql:
+    container_name: mysql
+    image: mysql:5.6
     ports:
-      - 8080
-    depends_on:
-      - db
- 
-  db:
-    container_name: demo-mysql
+      - 3306:3306
     environment:
-      - SERVICE_NAME=books-ms-db
+        MYSQL_ROOT_PASSWORD: demo_pass
+        MYSQL_DATABASE: demo
+        MYSQL_USER: demo_user
+        MYSQL_PASSWORD: demo_pass
+
+  web:
+    container_name: Order
+    build: .
+    ports:
+      - 8081:8080
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/demo
+      SPRING_DATASOURCE_USERNAME: demo_user
+      SPRING_DATASOURCE_PASSWORD: demo_pass
