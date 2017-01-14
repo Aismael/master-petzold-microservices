@@ -1,0 +1,46 @@
+<div ng-controller="ListController" ng-init="init(topic.listPath)">
+    <table tr-ng-grid items='things'>
+        <thead>
+        <tr>
+            <th field-name="id" display-name="No">
+            </th>
+            <th field-name="name" display-name="Name">
+            </th>
+            <th field-name="mail" display-name="Mail">
+            </th>
+            <th display-name="Orders">
+            </th>
+            <th display-name="Favorites">
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <div>
+                    <table>
+                        <th>
+                            Ids
+                        </th>
+                        <tr ng-repeat="thing in gridItem.orders.all">
+                            <td>{{thing.id}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <table>
+                        <th>
+                            Ids
+                        </th>
+                        <tr ng-repeat="thing in gridItem.favorites.all">
+                            <td>{{thing.id}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

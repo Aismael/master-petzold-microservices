@@ -18,6 +18,7 @@ import java.util.List;
 public class AccountController {
     @Autowired
     private AccountRepository accountRepository;
+
     @RequestMapping(method = RequestMethod.GET)
     public List<Account> findAccounts() {
         return accountRepository.findAll();
@@ -26,45 +27,46 @@ public class AccountController {
     /**
      * http://localhost:8080/Account
      * {
-        "name": "Test",
-        "mail": "aismaelinctest@web.de"
-        }
+     * "name": "Test",
+     * "mail": "aismaelinctest@web.de"
+     * }
+     *
      * @param account
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
-    public Account makeAccount(@RequestBody Account account){
+    public Account makeAccount(@RequestBody Account account) {
         validateMailNotInUse(account.getMail());
         return accountRepository.saveAndFlush(account);
     }
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/mail/{mail:.+}")
-    public Account getAccountByMail(@PathVariable String mail){
+    public Account getAccountByMail(@PathVariable String mail) {
         validateAccountByMail(mail);
         return accountRepository.findByMail(mail);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/name/{name}")
-    public Account getAccountByName(@PathVariable String name){
+    public Account getAccountByName(@PathVariable String name) {
         validateAccountByName(name);
         return accountRepository.findByName(name);
     }
 
-    private void validateMailNotInUse(String mail){
-        if(this.accountRepository.findByMailIs(mail).isPresent()){
+    private void validateMailNotInUse(String mail) {
+        if (this.accountRepository.findByMailIs(mail).isPresent()) {
             throw new MailAllreadyInUseException(mail);
         }
     }
 
-    private void validateAccountByMail(String mail){
+    private void validateAccountByMail(String mail) {
         this.accountRepository.findByMailIs(mail).orElseThrow(
-                ()-> new AccountWithThisMailNotFoundException(mail));
+                () -> new AccountWithThisMailNotFoundException(mail));
     }
 
-    private void validateAccountByName(String name){
+    private void validateAccountByName(String name) {
         this.accountRepository.findByMailIs(name).orElseThrow(
-                ()-> new AccountWithThisNameNotFoundException(name));
+                () -> new AccountWithThisNameNotFoundException(name));
     }
 }
 

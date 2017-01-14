@@ -35,6 +35,9 @@ class DataLoader implements ApplicationRunner {
         Item i1=new Item(name: "Pizza Margherita",details: "Die standard Pizza",allergens: false)
         Item i2=new Item(name: "Hamburger",details: "Ein Burger ohne Käse",allergens: true)
         Order o=new Order(date:new Date())
+        Order o2=new Order(date:new Date().setYear(1968))
+        Order o3=new Order(date:new Date().setYear(1954))
+
         Favorite f=new Favorite(count: 5,name: "Monday")
         ItemSet is1=new ItemSet(orderConcept: o,item: i1)
         ItemSet is2=new ItemSet(orderConcept: o,item: i2,count: 2)
@@ -42,8 +45,13 @@ class DataLoader implements ApplicationRunner {
         ItemSet is4=new ItemSet(orderConcept: f,item: i2)
         Account a=new  Account(name: "First",mail: "aismaelinc@gmail.com")
         Account a2=new  Account(name: "Second",mail: "aismaelinc@web.de")
+        Account a3=new  Account(name: "Third",mail: "test@west@gmail.com")
+
         //wire
         a.getOrders().add(o)
+        a.getOrders().add(o2)
+        a2.getOrders().add(o3)
+
         a.getFavorites().add(f)
         i1.getItemSets().add(is1)
         i1.getItemSets().add(is3)
@@ -56,5 +64,7 @@ class DataLoader implements ApplicationRunner {
         //save
         accountRepository.save(a)
         accountRepository.save(a2)
+        accountRepository.save(a3)
+
     }
 }
