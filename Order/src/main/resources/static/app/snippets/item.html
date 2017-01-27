@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<div ng-controller="restGetCtrl" ng-init="init(config.item.path)">
+    <table tr-ng-grid items="things">
+        <thead>
+        <tr>
+            <th display-align="center" cell-width="2em">
+                <div class="tr-ng-title">&nbsp;</div>
+                <input type="checkbox" ng-model="areAllSelected" ng-change="areAllSelected?selectAll():clearSelection()">
+            </th>
+            <th field-name="id"></th>
+            <th field-name="name"></th>
+            <th field-name="details"></th>
+            <th field-name="allergens"></th>
+            <th field-name="currency"></th>
+            <th>
+                <div class="tr-ng-title">add</div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <div >
+                    <input type="checkbox" ng-model="isSelected" ng-change="isSelected?selectItem():deselectItem()">
+                </div>
+            </td>
+            <td>
+                <button class="btn btn-default btn-sm" ng-click="">
+                    add {{gridDisplayItem.id}}
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</html>

@@ -1,0 +1,12 @@
+{
+  "config": {
+    "account": {
+      "path": "/Account",
+      "url": "app/snippets/account.html"
+    },
+    "item": {
+      "path": "/Item",
+      "url": "app/snippets/item.html"
+    }
+  }
+}

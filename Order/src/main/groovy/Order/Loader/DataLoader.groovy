@@ -1,4 +1,4 @@
-package Order.Initializer
+package Order.Loader
 
 import Order.Entities.Account
 import Order.Entities.Item
@@ -32,8 +32,8 @@ class DataLoader implements ApplicationRunner {
     @Override
     void run(ApplicationArguments args) throws Exception {
         //define
-        Item i1=new Item(name: "Pizza Margherita",details: "Die standard Pizza",allergens: false)
-        Item i2=new Item(name: "Hamburger",details: "Ein Burger ohne Käse",allergens: true)
+        Item i1=new Item(name: "Pizza Margherita",details: "Die standard Pizza",allergens: false,currency: new BigDecimal("1.20"))
+        Item i2=new Item(name: "Hamburger",details: "Ein Burger ohne Käse",allergens: true,currency: new BigDecimal("2.01"))
         Order o=new Order(date:new Date())
         Order o2=new Order(date:new Date().setYear(1968))
         Order o3=new Order(date:new Date().setYear(1954))

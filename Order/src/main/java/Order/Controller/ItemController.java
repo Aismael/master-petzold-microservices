@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Aismael on 13.12.2016.
  */
 @RestController
-@RequestMapping("/Item")
+@RequestMapping("${RESTConfiguration.item.path}")
 public class ItemController {
 
     @Autowired

@@ -5,6 +5,8 @@ import de.geobe.util.association.IToAny;
 import de.geobe.util.association.ToMany;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Currency;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +20,8 @@ public class Item {
     private String name;
     private String details;
     private boolean allergens;
+    private BigDecimal currency;
+
 
     @JsonIgnore
     @OneToMany(mappedBy = "item")
@@ -62,6 +66,13 @@ public class Item {
         this.allergens = allergens;
     }
 
+    public BigDecimal getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(BigDecimal currency) {
+        this.currency = currency;
+    }
 
 
 

@@ -12,10 +12,23 @@ spring:
             ddl-auto: create-drop
         show-sql: true
     datasource:
-        url: jdbc:mysql://192.168.1.36:3306/demo
+        url: jdbc:mysql://192.168.1.16:3306/demo
         username: demo_user
         password: demo_pass
         driver-class-name: com.mysql.jdbc.Driver
+RESTConfiguration:
+    item:
+        path: "/Item"
+        list:
+            url:  "app/snippets/item.html"
+            controller: "restGetCtrl"
+    account:
+        path: "/Account"
+        list:
+            url:  "app/snippets/account.html"
+            controller: "restGetCtrl"
+
+        page:
 
 ---
 spring.profiles: docker
