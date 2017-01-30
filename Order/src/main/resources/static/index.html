@@ -24,17 +24,16 @@
 </head>
 <body class="container">
 <p>Get your greeting <a href="/greeting">here</a></p>
-<div ng-controller="configCtrl" ng-init="init('config/restConfig.json')">
-    <div ng-controller="pageCtrl">
+<div ng-controller="dataService">
+    <div ng-controller="configCtrl" ng-init="loadService.init('/config/restConfig.json')">
 
-    </div>
-    <div ng-controller="tabCtrl">
-        <uib-tabset active="active">
-            <uib-tab index="$index + 1" ng-repeat="side in Sides" heading="{{side.name}}" active="side.active"
-                     disable="tab.disabled">
-                <div ng-include="side.url"/>
-            </uib-tab>
-        </uib-tabset>
+        <div ng-include='url.data'>
+        </div>
+        <p>
+            <button type="button" class="btn btn-primary" ng-click="url.data='accountPage.html'">
+                logout
+            </button>
+        </p>
     </div>
 </div>
 </body>

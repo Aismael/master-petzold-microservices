@@ -1,12 +1,19 @@
 {
-  "config": {
-    "account": {
-      "path": "/Account",
-      "url": "app/snippets/account.html"
-    },
-    "item": {
-      "path": "/Item",
-      "url": "app/snippets/item.html"
+    "config": {
+        "item": {
+            "path": "/Item",
+            "list": {
+                "url": "app/snippets/item.html",
+                "controller": "restGetCtrl"
+            }
+        },
+        "account": {
+            "path": "/Account",
+            "list": {
+                "url": "app/snippets/account.html",
+                "controller": "restGetCtrl"
+            },
+            "page": null
+        }
     }
-  }
 }

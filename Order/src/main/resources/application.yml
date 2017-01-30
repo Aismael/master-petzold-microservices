@@ -17,19 +17,41 @@ spring:
         password: demo_pass
         driver-class-name: com.mysql.jdbc.Driver
 RESTConfiguration:
-    item:
-        path: "/Item"
-        list:
-            url:  "app/snippets/item.html"
-            controller: "restGetCtrl"
-    account:
-        path: "/Account"
-        list:
-            url:  "app/snippets/account.html"
-            controller: "restGetCtrl"
-
-        page:
-
+    view:
+        item:
+            path: "/Item"
+            one:
+                path: "/one"
+            all:
+                path: "/all"
+                favorite:
+                    path: "/Favorite"
+        account:
+            path: "/Account"
+            one:
+                path: "/one"
+                mail:
+                    path: "/mail"
+                name:
+                    path: "/name"
+            all:
+                path: "/all"
+        favorite:
+            path: "/Favorite"
+            one:
+                path: "/one"
+                order:
+                    path: "/Order"
+            all:
+                path: "/all"
+                account:
+                    path: "/Account"
+        order:
+            path: "/Order"
+            all:
+                path: "/all"
+                account:
+                    path: "/Account"
 ---
 spring.profiles: docker
 spring.datasource:

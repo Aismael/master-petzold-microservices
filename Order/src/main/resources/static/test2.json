@@ -1,0 +1,76 @@
+{
+  "id": 2,
+  "itemSets": {
+    all: [
+      {
+        id: 1,
+        item: {
+          all: [
+            {
+              id: 1,
+              name: "Hamburger",
+              details: "Ein Burger ohne Käse",
+              allergens: true,
+              currency: 2.01
+            }
+          ],
+          one: {
+            id: 1,
+            name: "Hamburger",
+            details: "Ein Burger ohne Käse",
+            allergens: true,
+            currency: 2.01
+          }
+        },
+        count: 1
+      },
+      {
+        id: 2,
+        item: {
+          all: [
+            {
+              id: 2,
+              name: "Pizza Margherita",
+              details: "Die standard Pizza",
+              allergens: false,
+              currency: 1.2
+            }
+          ],
+          one: {
+            id: 2,
+            name: "Pizza Margherita",
+            details: "Die standard Pizza",
+            allergens: false,
+            currency: 1.2
+          }
+        },
+        count: 2
+      }
+    ],
+    one: {
+      id: 1,
+      item: {
+        all: [
+          {
+            id: 1,
+            name: "Hamburger",
+            details: "Ein Burger ohne Käse",
+            allergens: true,
+            currency: 2.01
+          }
+        ],
+        one: {
+          id: 1,
+          name: "Hamburger",
+          details: "Ein Burger ohne Käse",
+          allergens: true,
+          currency: 2.01
+        }
+      },
+      count: 1
+    }
+  },
+  name: "Monday",
+  count: 5,
+  currency: 4.41
+}

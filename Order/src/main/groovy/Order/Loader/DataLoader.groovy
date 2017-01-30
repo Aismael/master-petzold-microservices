@@ -39,6 +39,8 @@ class DataLoader implements ApplicationRunner {
         Order o3=new Order(date:new Date().setYear(1954))
 
         Favorite f=new Favorite(count: 5,name: "Monday")
+        Favorite f2=new Favorite(count: 5,name: "Friday")
+
         ItemSet is1=new ItemSet(orderConcept: o,item: i1)
         ItemSet is2=new ItemSet(orderConcept: o,item: i2,count: 2)
         ItemSet is3=new ItemSet(orderConcept: f,item: i1,count: 2)
@@ -53,6 +55,7 @@ class DataLoader implements ApplicationRunner {
         a2.getOrders().add(o3)
 
         a.getFavorites().add(f)
+        a.getFavorites().add(f2)
         i1.getItemSets().add(is1)
         i1.getItemSets().add(is3)
         i2.getItemSets().add(is2)

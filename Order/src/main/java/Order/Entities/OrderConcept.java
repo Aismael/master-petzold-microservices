@@ -5,6 +5,7 @@ import de.geobe.util.association.IToAny;
 import de.geobe.util.association.ToMany;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,7 +31,14 @@ public abstract class OrderConcept {
         this.itemSets = itemSets;
     }
 
-
+public BigDecimal getCurrency(){
+    BigDecimal c=new BigDecimal("0.0");
+    for (ItemSet itemSet: getItemSets().getAll()) {
+        BigDecimal temp=itemSet.getItem().getOne().getCurrency().multiply(new BigDecimal(itemSet.getCount()));
+        c=c.add(temp);
+    }
+    return c;
+}
 
     public Long getId() {
         return id;

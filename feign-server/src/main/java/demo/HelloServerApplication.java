@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Spencer Gibb
  */
 @SpringBootApplication
-
 @RestController
 public class HelloServerApplication {
 	@Autowired

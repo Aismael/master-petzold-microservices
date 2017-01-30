@@ -1,0 +1,31 @@
+{
+  "id": 2,
+  "itemSets": {
+    "all": ,
+    "one": {
+      "id": 1,
+      "item": {
+        "all": [
+          {
+            "id": 1,
+            "name": "Hamburger",
+            "details": "Ein Burger ohne Käse",
+            "allergens": true,
+            "currency": 2.01
+          }
+        ],
+        "one": {
+          "id": 1,
+          "name": "Hamburger",
+          "details": "Ein Burger ohne Käse",
+          "allergens": true,
+          "currency": 2.01
+        }
+      },
+      "count": 1
+    }
+  },
+  "name": "Monday",
+  "count": 5,
+  "currency": 4.41
+}

@@ -41,7 +41,6 @@ public class ItemSet{
     private ToOne<ItemSet,OrderConcept> toOrderConcept = new ToOne<>(
             () -> orderConcept, (OrderConcept o) -> orderConcept = o,
             this, OrderConcept::getItemSets);
-
     public IToAny<OrderConcept> getOrderConcept() {
         return toOrderConcept;
     }
