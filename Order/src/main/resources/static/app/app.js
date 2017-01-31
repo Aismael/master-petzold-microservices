@@ -20,7 +20,6 @@ orderApp.factory('loadService', [function () {
     var listPath = null;
     return {
         init: function (path) {
-            console.log("y");
             listPath = path;
         }, listPath: function () {
             return listPath
@@ -33,8 +32,8 @@ orderApp.controller('dataService', function ($scope, $http) {
     //TODO init empty
     $scope.account = {
         id: null,
-        name: "First",
-        mail: "aismaelinc@gmail.com"
+        name: "Firste",
+        mail: "aismaelinc@gmail.come"
     }
 
     $scope.setHttpData = function (path) {
@@ -63,7 +62,6 @@ orderApp.controller('accountPageCtrl', function ($scope, $http) {
             $http.get($scope.path + $scope.pathExt).then(function (data) {
                 $scope.url.data = "orderChoosePage.html"
                 $scope.account.id=data.data.id;
-                console.log(data.data.id);
                 //window.alert("login success");
             }, function () {
                 $scope.url.data = "accountPage.html"
@@ -102,7 +100,6 @@ orderApp.controller('favoritePageCtrl', function ($scope, $http) {
         $scope.account.id
     ).then(function (data) {
         //window.alert("Favorites found for this Account");
-        console.log(data.data)
         $scope.myItems=data.data;
     },function () {
         window.alert("no Favorites found for this Account");
@@ -126,6 +123,73 @@ orderApp.controller('favoritePageCtrl', function ($scope, $http) {
             })
     }
 })
-orderApp.controller('orderPageCtrl', function () {
+orderApp.controller('orderPageCtrl', function ($scope, $http) {
+    $scope.myItems;
+    $scope.mySelectedItems = [];
+    $scope.favorite ={
+        name:"",
+        count:0,
+        id:null,
+        accountId: null,
+        itemSetStubDtos:[]
+    }
+    $scope.order ={
+        id:null,
+        posted:false,
+        date:new Date(),
+        accountId: null,
+        itemSetStubDtos:[]
+    }
+    $scope.itemSetStubDto={
+        count:0,
+        itemID:0
+    }
 
+    $scope.makeFavorite=function () {
+        $scope.favorite.accountId=$scope.account.id
+        $scope.mySelectedItems.forEach(function (item) {
+            $scope.itemSetStubDto.count=item.count;
+            $scope.itemSetStubDto.itemID=item.id;
+            $scope.favorite.itemSetStubDtos.push($scope.itemSetStubDto);
+        })
+        $scope.path = $scope.data.favorite.path +
+            $scope.data.favorite.one.path;
+        console.log( $scope.favorite);
+        $http.post($scope.path, $scope.favorite).then(
+            function (data) {window.alert("favorite made  success");
+            console.log(data);
+            },function () {window.alert("favorite made  error");})
+    }
+
+    $scope.orderNow=function () {
+        $scope.order.accountId=$scope.account.id
+        $scope.order.date=new Date();
+        $scope.mySelectedItems.forEach(function (item) {
+            $scope.itemSetStubDto.data=item.count;
+            $scope.itemSetStubDto.itemID=item.id;
+            $scope.order.itemSetStubDtos.push($scope.itemSetStubDto);
+        })
+        $scope.path = $scope.data.order.path +
+            $scope.data.order.one.path;
+        console.log( $scope.order);
+
+        $http.post($scope.path, $scope.order).then(
+            function (data) {window.alert("order made  success");
+                $scope.url.data = "accountPage.html"
+                console.log(data);
+
+            },function () {window.alert("order made  error");})
+    }
+    $scope.$watchCollection("mySelectedItems", function (data) {
+        console.log(data)
+    });
+    $http.get($scope.data.item.path+
+        $scope.data.order.all.path
+    ).then(function (data) {
+        //window.alert("Favorites found for this Account");
+        $scope.myItems=data.data;
+    },function () {
+        window.alert("no Items found");
+    })
+    $scope.input=1;
 })

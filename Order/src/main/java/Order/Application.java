@@ -1,5 +1,7 @@
 package Order;
+
 import Order.Loader.MyConfig;
+import com.fasterxml.jackson.databind.SerializationConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,9 +22,9 @@ import java.io.IOException;
 @Configuration
 @SpringBootApplication
 @RestController
-@ComponentScan({"Order"})
-@EnableJpaRepositories(basePackages ={ "Order.Repositories"})
-@EntityScan(basePackages = {"Order.Entities","Order.Beans"})
+@ComponentScan({"Order","Order.Aspects"})
+@EnableJpaRepositories(basePackages = {"Order.Repositories"})
+@EntityScan(basePackages = {"Order.Entities", "Order.Beans"})
 @EnableScheduling
 @EnableAutoConfiguration
 @ConfigurationProperties
@@ -33,10 +35,9 @@ public class Application {
         return "Hello Docker World";
     }
 
-   public static void main(String[] args) throws IOException {
-      SpringApplication.run(Application.class, args);
-
-   }
+    public static void main(String[] args) throws IOException {
+        SpringApplication.run(Application.class, args);
+    }
 
     @Bean
     public MyConfig myConfig() {

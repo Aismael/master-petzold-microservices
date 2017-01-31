@@ -7,37 +7,42 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.geobe.util.association.IToAny;
 import de.geobe.util.association.ToMany;
 
 @Entity
+@JsonSerialize
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Account {
 
-    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private Set<Order> orders = new HashSet<>();
     @Transient
-    private ToMany<Account,Order> toOrders=
-            new ToMany<>(()->orders, this, Order::getAccount);
+    private ToMany<Account, Order> toOrders =
+            new ToMany<>(() -> orders, this, Order::getAccount);
 
     public IToAny<Order> getOrders() {
         return toOrders;
     }
 
-    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private Set<Favorite> favorites = new HashSet<>();
     @Transient
-    private ToMany<Account,Favorite> toFavorites=
-            new ToMany<>(()->favorites, this, Favorite::getAccount);
+    private ToMany<Account, Favorite> toFavorites =
+            new ToMany<>(() -> favorites, this, Favorite::getAccount);
 
     public IToAny<Favorite> getFavorites() {
         return toFavorites;
     }
+
     @Id
     @GeneratedValue
     private Long id;
-    @Column(unique=true)
+    @Column(unique = true)
     private String name;
-    @Column(unique=true)
+    @Column(unique = true)
     private String mail;
 
 

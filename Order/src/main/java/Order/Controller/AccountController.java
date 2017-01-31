@@ -55,14 +55,14 @@ public class AccountController {
 
 
     @RequestMapping(value = "${RESTConfiguration.view.account.one.path}"
-            + "${RESTConfiguration.view.account.one.mail.path}"+"/{mail:.+}", method = RequestMethod.GET)
+            + "${RESTConfiguration.view.account.one.mail.path}" + "/{mail:.+}", method = RequestMethod.GET)
     public Account getAccountByMail(@PathVariable String mail) {
         validateAccountByMail(mail);
         return accountRepository.findByMail(mail);
     }
 
     @RequestMapping(value = "${RESTConfiguration.view.account.one.path}"
-            + "${RESTConfiguration.view.account.one.name.path}"+"/{name}", method = RequestMethod.GET)
+            + "${RESTConfiguration.view.account.one.name.path}" + "/{name}", method = RequestMethod.GET)
     public Account getAccountByName(@PathVariable String name) {
         validateAccountByName(name);
         return accountRepository.findByName(name);

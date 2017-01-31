@@ -11214,7 +11214,7 @@ function $HttpProvider() {
    * These service factories are ordered by request, i.e. they are applied in the same order as the
    * array, on request, but reverse order, on response.
    *
-   * {@link ng.$http#interceptors Interceptors detailed info}
+   * {@link ng.$http#interceptors Order.Aspects detailed info}
    **/
   var interceptorFactories = this.interceptors = [];
 
@@ -11230,7 +11230,7 @@ function $HttpProvider() {
       $injector.get(defaults.paramSerializer) : defaults.paramSerializer;
 
     /**
-     * Interceptors stored in reverse order. Inner interceptors before outer interceptors.
+     * Order.Aspects stored in reverse order. Inner interceptors before outer interceptors.
      * The reversal is needed so that we can build up the interception chain around the
      * server request.
      */

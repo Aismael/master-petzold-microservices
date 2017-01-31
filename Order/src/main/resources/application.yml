@@ -48,6 +48,8 @@ RESTConfiguration:
                     path: "/Account"
         order:
             path: "/Order"
+            one:
+                path: "/one"
             all:
                 path: "/all"
                 account:

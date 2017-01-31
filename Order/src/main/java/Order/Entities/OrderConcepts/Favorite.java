@@ -13,22 +13,32 @@ import javax.persistence.Transient;
 
 @Entity
 public class Favorite extends OrderConcept {
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name="itemFavorite_id")
+    @JoinColumn(name = "itemFavorite_id")
     private Account account;
     @Transient
     private ToOne<Favorite, Account> toAccount = new ToOne<>(
             () -> account, (Account a) -> account = a,
             this, Account::getFavorites);
+    private String name;
+    private int count;
+
+    public Favorite() {
+    }
+
+    public Favorite(Account account, String name, int count) {
+        this.account = account;
+        this.name = name;
+        this.count = count;
+    }
 
     public IToAny<Account> getAccount() {
         return toAccount;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public String getName() {
@@ -39,8 +49,6 @@ public class Favorite extends OrderConcept {
         this.name = name;
     }
 
-    private String name;
-
     public int getCount() {
         return count;
     }
@@ -48,6 +56,4 @@ public class Favorite extends OrderConcept {
     public void setCount(int count) {
         this.count = count;
     }
-
-    private int count;
 }

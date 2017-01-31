@@ -1,6 +1,7 @@
 package Order.Entities;
 
-import Order.Entities.OrderConcepts.Order;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.geobe.util.association.IToAny;
 import de.geobe.util.association.ToMany;
 
@@ -10,18 +11,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@JsonSerialize
 @Inheritance
 public abstract class OrderConcept {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(unique=true)
+    @Column(unique = true)
     private Long id;
-
-    @OneToMany(mappedBy = "orderConcept",cascade = CascadeType.ALL)
-    private Set<ItemSet> itemSets=new HashSet<>();
+    @OneToMany(mappedBy = "orderConcept", cascade = CascadeType.ALL)
+    private Set<ItemSet> itemSets = new HashSet<>();
     @Transient
-    private ToMany<OrderConcept,ItemSet> toItemSets=
-            new ToMany<>(()->itemSets, this, ItemSet::getOrderConcept);
+    private ToMany<OrderConcept, ItemSet> toItemSets =
+            new ToMany<>(() -> itemSets, this, ItemSet::getOrderConcept);
 
     public IToAny<ItemSet> getItemSets() {
         return toItemSets;
@@ -31,14 +32,14 @@ public abstract class OrderConcept {
         this.itemSets = itemSets;
     }
 
-public BigDecimal getCurrency(){
-    BigDecimal c=new BigDecimal("0.0");
-    for (ItemSet itemSet: getItemSets().getAll()) {
-        BigDecimal temp=itemSet.getItem().getOne().getCurrency().multiply(new BigDecimal(itemSet.getCount()));
-        c=c.add(temp);
+    public BigDecimal getCurrency() {
+        BigDecimal c = new BigDecimal("0.0");
+        for (ItemSet itemSet : getItemSets().getAll()) {
+            BigDecimal temp = itemSet.getItem().getOne().getCurrency().multiply(new BigDecimal(itemSet.getCount()));
+            c = c.add(temp);
+        }
+        return c;
     }
-    return c;
-}
 
     public Long getId() {
         return id;
@@ -47,14 +48,6 @@ public BigDecimal getCurrency(){
     public void setId(Long id) {
         this.id = id;
     }
-
-
-
-
-
-
-
-
 
 
 }
