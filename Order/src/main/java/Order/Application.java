@@ -25,7 +25,6 @@ import java.io.IOException;
 
 @Configuration
 @SpringBootApplication
-@EnableAsync
 @RestController
 @ComponentScan({"Order","Order.Aspects","Order.Loader"})
 @EnableJpaRepositories(basePackages = {"Order.Repositories"})

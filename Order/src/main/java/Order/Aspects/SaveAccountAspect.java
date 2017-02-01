@@ -25,9 +25,9 @@ public class SaveAccountAspect {
     }
 
     @AfterReturning(pointcut = "accountHasSaved()",returning = "returnValue")
-    public void broadcast(JoinPoint joinPoint,Object returnValue){
+    public void broadcast(JoinPoint joinPoint,Object returnValue) {
         if(returnValue instanceof Account){
-            broadCastNewAccountsController.broadcast(new AccountBroadcastDto(((Account) returnValue).getId(),((Account) returnValue).getName(),((Account) returnValue).getMail()));
+            broadCastNewAccountsController.broadcastAccount(new AccountBroadcastDto(((Account) returnValue).getId(),((Account) returnValue).getName(),((Account) returnValue).getMail()));
         }
 
 

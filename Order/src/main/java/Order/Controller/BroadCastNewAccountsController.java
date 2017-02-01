@@ -1,12 +1,11 @@
 package Order.Controller;
 
 import Order.DTOs.AccountBroadcastDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.*;
 
@@ -16,29 +15,17 @@ import java.util.*;
 @Controller
 public class BroadCastNewAccountsController {
     Queue<AccountBroadcastDto> accountBroadcastDtos = new LinkedList<>();
+    @Autowired
+    private SimpMessagingTemplate template;
 
-
-    @Async
-    public void broadcastRunner(){
-        if(!look()){
-            broadcast(get());
-        }else{
-            System.out.println("idle");
-        }
-    }
    @MessageMapping("/hello")
    @SendTo("/topic/greetings")
-    public String broadcast(AccountBroadcastDto in) {
+    public AccountBroadcastDto broadcast(AccountBroadcastDto in)  {
         System.out.println("~~~~~~~~~~~~~~~~~~~");
         System.out.println(in);
         System.out.println("~~~~~~~~~~~~~~~~~~~");
-        return "test";
+        return in;
     }
-
-
-
-
-
 
     public boolean set(AccountBroadcastDto abd) {
         return accountBroadcastDtos.add(abd);
@@ -50,5 +37,10 @@ public class BroadCastNewAccountsController {
 
     public boolean look() {
         return accountBroadcastDtos.isEmpty();
+    }
+
+    public void  broadcastAccount(AccountBroadcastDto in) {
+        System.out.println("Fire");
+        this.template.convertAndSend("/topic/greetings", in);
     }
 }

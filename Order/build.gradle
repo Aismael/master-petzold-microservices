@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.1.RELEASE")
 
     }
 }
@@ -15,12 +15,12 @@ buildscript {
 //docker run -d -p 3306:3306 --name demo-mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=demo -e MYSQL_USER=demo_user -e MYSQL_PASSWORD=demo_pass -d mysql:5.6
 
 apply plugin: 'groovy'
-apply plugin: 'war'
+//apply plugin: 'war'
 apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'application'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'spring-boot'
+//apply plugin: 'idea'
+//apply plugin: 'application'
+//apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.springframework.boot'
 apply plugin: 'java'
 
 
@@ -71,23 +71,21 @@ bootRepackage {
 dependencies {
 
     compile 'org.codehaus.groovy:groovy-all'
+    compile ('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
+
     // tag::jetty[]
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot")
-    compile("org.springframework.boot:spring-boot-starter-jetty")
-    compile("org.springframework.boot:spring-boot-starter-logging")
+    compile("org.springframework.boot:spring-boot-starter-websocket")
+    //compile("org.springframework.boot:spring-boot-starter-actuator")
+    //compile("org.springframework.boot:spring-boot-starter-web")
+    //compile("org.springframework.boot:spring-boot")
+    //compile("org.springframework.boot:spring-boot-starter-jetty")
+    //compile("org.springframework.boot:spring-boot-starter-logging")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    //compile "org.springframework.boot:spring-boot-starter-tomcat"
     // end::jetty[]
     // tag::actuator[]
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile ('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
     // end::actuator[]
-    testCompile("junit:junit")
-    testCompile("org.springframework.boot:spring-boot-starter-test")
-    //compile("org.flywaydb:flyway-core")
     runtime("mysql:mysql-connector-java")
-    compile("org.springframework.boot:spring-boot-starter-websocket")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
     compile project(':associations')
     //compile("org.webjars:webjars-locator")
     //compile("org.webjars:sockjs-client:1.0.2")

@@ -1,6 +1,5 @@
 package Order.Repositories;
 
-import Order.Entities.Account;
 import Order.Entities.OrderConcept;
 import org.springframework.data.jpa.repository.JpaRepository;
 
