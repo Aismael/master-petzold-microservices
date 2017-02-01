@@ -10,6 +10,7 @@ import java.lang.reflect.Array
 class MyConfig {
     RestConfigLoader rp
     def config
+
     MyConfig() {
         rp = new RestConfigLoader()
         config = rp.readFile("static/config/restConfig.json")

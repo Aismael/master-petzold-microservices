@@ -12,11 +12,51 @@ spring:
             ddl-auto: create-drop
         show-sql: true
     datasource:
-        url: jdbc:mysql://192.168.1.36:3306/demo
+        url: jdbc:mysql://192.168.1.16:3306/demo
         username: demo_user
         password: demo_pass
         driver-class-name: com.mysql.jdbc.Driver
-
+RESTConfiguration:
+    broadcast:
+        account:
+            path: "/accountBr"
+    view:
+        item:
+            path: "/Item"
+            one:
+                path: "/one"
+            all:
+                path: "/all"
+                favorite:
+                    path: "/Favorite"
+        account:
+            path: "/Account"
+            one:
+                path: "/one"
+                mail:
+                    path: "/mail"
+                name:
+                    path: "/name"
+            all:
+                path: "/all"
+        favorite:
+            path: "/Favorite"
+            one:
+                path: "/one"
+                order:
+                    path: "/Order"
+            all:
+                path: "/all"
+                account:
+                    path: "/Account"
+        order:
+            path: "/Order"
+            one:
+                path: "/one"
+            all:
+                path: "/all"
+                account:
+                    path: "/Account"
 ---
 spring.profiles: docker
 spring.datasource:

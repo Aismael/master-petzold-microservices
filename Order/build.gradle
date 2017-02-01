@@ -15,15 +15,37 @@ buildscript {
 //docker run -d -p 3306:3306 --name demo-mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=demo -e MYSQL_USER=demo_user -e MYSQL_PASSWORD=demo_pass -d mysql:5.6
 
 apply plugin: 'groovy'
-apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'application'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'spring-boot'
+apply plugin: 'java'
 
 
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src/groovy']
+        }
+        java {
+            srcDirs = ['src/java']
+        }
+    }
+
+    test {
+        groovy {
+            srcDirs = ['test/groovy']
+        }
+        java {
+            srcDirs = ['test/java']
+        }
+    }
+}
 
 jar {
     baseName = 'gs-spring-boot-docker'
@@ -43,8 +65,7 @@ bootRepackage {
     mainClass = 'Order.Application'
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+
 
 
 dependencies {
@@ -53,7 +74,6 @@ dependencies {
     // tag::jetty[]
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot")
-    compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-jetty")
     compile("org.springframework.boot:spring-boot-starter-logging")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -66,8 +86,16 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test")
     //compile("org.flywaydb:flyway-core")
     runtime("mysql:mysql-connector-java")
+    compile("org.springframework.boot:spring-boot-starter-websocket")
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile project(':associations')
+    //compile("org.webjars:webjars-locator")
+    //compile("org.webjars:sockjs-client:1.0.2")
+    //compile("org.webjars:stomp-websocket:2.3.3")
+    //compile("org.webjars:bootstrap:3.3.7")
+    //compile("org.webjars:jquery:3.1.0")
+
+
 
 }
 
@@ -103,3 +131,4 @@ build.finalizedBy(copyToDockerDeploy)
     volumes:
      - /var/run/docker.sock:/../../var/run/docker.sock
  */
+

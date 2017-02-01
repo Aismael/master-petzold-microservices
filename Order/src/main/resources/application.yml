@@ -17,6 +17,10 @@ spring:
         password: demo_pass
         driver-class-name: com.mysql.jdbc.Driver
 RESTConfiguration:
+    broadcast:
+        account:
+            message: "/accountMsg"
+            sendPath: "/accountBr"
     view:
         item:
             path: "/Item"
