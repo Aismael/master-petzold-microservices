@@ -25,7 +25,7 @@
 <body class="container">
 <p>Get your greeting <a href="/greeting">here</a></p>
 <div ng-controller="dataService">
-    <div ng-controller="configCtrl" ng-init="loadService.init('/config/json')">
+    <div ng-controller="configCtrl" ng-init="loadService.init('/config/restConfig.json')">
 
         <div ng-include='url.data'>
         </div>

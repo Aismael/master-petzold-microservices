@@ -18,8 +18,8 @@ public class BroadCastNewAccountsController {
     @Autowired
     private SimpMessagingTemplate template;
 
-   @MessageMapping("/hello")
-   @SendTo("/topic/greetings")
+   @MessageMapping("/accountIn")
+   @SendTo("/data/accountOut")
     public AccountBroadcastDto broadcast(AccountBroadcastDto in)  {
         System.out.println("~~~~~~~~~~~~~~~~~~~");
         System.out.println(in);
@@ -41,6 +41,6 @@ public class BroadCastNewAccountsController {
 
     public void  broadcastAccount(AccountBroadcastDto in) {
         System.out.println("Fire");
-        this.template.convertAndSend("/topic/greetings", in);
+        this.template.convertAndSend("/data/accountOut", in);
     }
 }

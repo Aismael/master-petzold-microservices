@@ -11,43 +11,23 @@ buildscript {
     }
 }
 
+
 //MYSQL on Docker
 //docker run -d -p 3306:3306 --name demo-mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=demo -e MYSQL_USER=demo_user -e MYSQL_PASSWORD=demo_pass -d mysql:5.6
 
 apply plugin: 'groovy'
-//apply plugin: 'war'
-apply plugin: 'eclipse'
-//apply plugin: 'idea'
-//apply plugin: 'application'
-//apply plugin: 'io.spring.dependency-management'
-apply plugin: 'org.springframework.boot'
 apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'application'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'spring-boot'
 
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
 
-sourceSets {
-    main {
-        groovy {
-            srcDirs = ['src/groovy']
-        }
-        java {
-            srcDirs = ['src/java']
-        }
-    }
-
-    
-
-    test {
-        groovy {
-            srcDirs = ['test/groovy']
-        }
-        java {
-            srcDirs = ['test/java']
-        }
-    }
-}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 jar {
     baseName = 'gs-spring-boot-docker'
@@ -58,45 +38,53 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src/main/groovy','src/main/java']
+        }
+        java {
+            srcDirs = []
+        }
+    }
+}
+
+
+
+
+
+repositories {
+    mavenCentral()
+}
+
 
 
 springBoot {
     mainClass = "Order.Application"
 }
-bootRepackage {
-    mainClass = 'Order.Application'
-}
+  bootRepackage      {
+            mainClass = "Order.Application"
+        }
+
 
 
 
 
 dependencies {
 
-    compile 'org.codehaus.groovy:groovy-all'
+    compile ('org.codehaus.groovy:groovy-all')
     compile ('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
-
-    // tag::jetty[]
+    providedCompile("org.apache.tomcat.embed:tomcat-embed-websocket")
+    compile("org.springframework.boot:spring-boot")
     compile("org.springframework.boot:spring-boot-starter-websocket")
-    //compile("org.springframework.boot:spring-boot-starter-actuator")
-    //compile("org.springframework.boot:spring-boot-starter-web")
-    //compile("org.springframework.boot:spring-boot")
-    //compile("org.springframework.boot:spring-boot-starter-jetty")
-    //compile("org.springframework.boot:spring-boot-starter-logging")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+    compile("org.springframework.boot:spring-boot-starter-logging")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    //compile "org.springframework.boot:spring-boot-starter-tomcat"
-    // end::jetty[]
-    // tag::actuator[]
-    // end::actuator[]
+    compile ("org.springframework.boot:spring-boot-starter-tomcat")
     runtime("mysql:mysql-connector-java")
     compile project(':associations')
-    //compile("org.webjars:webjars-locator")
-    //compile("org.webjars:sockjs-client:1.0.2")
-    //compile("org.webjars:stomp-websocket:2.3.3")
-    //compile("org.webjars:bootstrap:3.3.7")
-    //compile("org.webjars:jquery:3.1.0")
-
-
-
 }
 
 
@@ -121,14 +109,4 @@ task copyToDockerDeploy << {
 
 build.finalizedBy(copyToDockerDeploy)
 
-/** Docker compose ui
- * ui:
-    container_name: UI
-    image: uifd/ui-for-docker
-    privileged: true
-    ports:
-     - 9000:9000
-    volumes:
-     - /var/run/docker.sock:/../../var/run/docker.sock
- */
 
