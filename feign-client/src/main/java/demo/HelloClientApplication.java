@@ -33,7 +33,7 @@ public class HelloClientApplication {
 
 	@FeignClient("HelloServer")
 	interface HelloClient {
-		@RequestMapping(value = "/", method = GET)
+		@RequestMapping(value = "/dg", method = GET)
 		String hello();
 	}
 }

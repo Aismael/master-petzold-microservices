@@ -1,12 +1,17 @@
 package Order;
 
 import Order.Loader.MyConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -33,12 +38,23 @@ import java.io.IOException;
 @EnableAutoConfiguration
 @ConfigurationProperties
 @EnableConfigurationProperties
+@EnableDiscoveryClient
+@EnableFeignClients
+
 public class Application {
+    @Autowired
+    DiscoveryClient client;
+
     @RequestMapping("/greeting")
     public String home() {
         return "Hello Docker World";
     }
 
+    @RequestMapping("/dg")
+    public String eureka() {
+        ServiceInstance localInstance = client.getLocalServiceInstance();
+        return "Hello Docker World over nameservice eureka: "+ localInstance.getServiceId()+":"+localInstance.getHost()+":"+localInstance.getPort();
+    }
     public static void main(String[] args) throws IOException {
         SpringApplication.run(Application.class, args);
     }

@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Spencer Gibb
  */
 @SpringBootApplication
+@EnableDiscoveryClient
 @RestController
 public class HelloServerApplication {
 	@Autowired
     DiscoveryClient client;
 
-	@RequestMapping("/")
+	@RequestMapping("/dg")
 	public String hello() {
 		ServiceInstance localInstance = client.getLocalServiceInstance();
 		return "Hello World: "+ localInstance.getServiceId()+":"+localInstance.getHost()+":"+localInstance.getPort();

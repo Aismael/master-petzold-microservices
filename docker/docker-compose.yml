@@ -1,0 +1,55 @@
+version: '2'
+services:
+  some-postgres:
+    container_name: some-postgres
+    image: postgres:9.6.1
+    ports:
+      - 5432:5432
+    environment:
+        POSTGRES_DB: demo
+        POSTGRES_PASSWORD: mysecretpassword
+        POSTGRES_USER: postgres
+
+
+  mysql:
+    container_name: mysql
+    image: mysql:5.6
+    ports:
+      - 3306:3306
+    environment:
+        MYSQL_ROOT_PASSWORD: demo_pass
+        MYSQL_DATABASE: demo
+        MYSQL_USER: demo_user
+        MYSQL_PASSWORD: demo_pass
+
+  eureka:
+      container_name: eureka
+      build: ./../Eureka/src/main/docker/
+      ports:
+          - 8761:8761
+
+  web:
+    container_name: Order
+    build: ./../Order/src/main/docker/
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
+      - eureka
+    links:
+      - mysql
+      - eureka
+    command: ["./wait-for-it.sh", "eureka:8761"]
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/demo
+      SPRING_DATASOURCE_USERNAME: demo_user
+      SPRING_DATASOURCE_PASSWORD: demo_pass
+
+  ui:
+    container_name: UI
+    image: uifd/ui-for-docker
+    privileged: true
+    ports:
+      - 9000:9000
+    volumes:
+      - /var/run/docker.sock:/../../var/run/docker.sock

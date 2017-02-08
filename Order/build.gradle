@@ -75,6 +75,9 @@ dependencies {
     compile ('org.codehaus.groovy:groovy-all')
     compile ('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
     providedCompile("org.apache.tomcat.embed:tomcat-embed-websocket")
+    compile("org.springframework.cloud:spring-cloud-starter-feign:1.2.3.RELEASE")
+    compile("org.springframework.cloud:spring-cloud-starter-eureka:1.2.3.RELEASE")
+
     compile("org.springframework.boot:spring-boot")
     compile("org.springframework.boot:spring-boot-starter-websocket")
     compile("org.springframework.boot:spring-boot-starter-actuator")
