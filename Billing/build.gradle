@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.1.RELEASE")
 
     }
 }
@@ -19,8 +19,9 @@ apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'spring-boot'
 apply plugin: 'application'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'spring-boot'
 
 jar {
     baseName = 'gs-spring-boot-docker'
@@ -31,35 +32,41 @@ repositories {
     mavenCentral()
 }
 
-
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src/main/groovy','src/main/java']
+        }
+        java {
+            srcDirs = []
+        }
+    }
+}
 
 springBoot {
-    mainClass = "Tutorials.Tutorial_1.Application"
+    mainClass = "Billing.Application"
 }
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+bootRepackage      {
+    mainClass = "Billing.Application"
+}
 
 dependencies {
 
-    compile 'org.codehaus.groovy:groovy-all'
-    // tag::jetty[]
-    compile("org.springframework.boot:spring-boot-starter-web")
+    compile ('org.codehaus.groovy:groovy-all')
+    compile ('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
+    providedCompile("org.apache.tomcat.embed:tomcat-embed-websocket")
+    compile("org.springframework.cloud:spring-cloud-starter-feign:1.2.3.RELEASE")
+    compile("org.springframework.cloud:spring-cloud-starter-eureka:1.2.3.RELEASE")
     compile("org.springframework.boot:spring-boot")
+    compile("org.springframework.boot:spring-boot-starter-websocket")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-jetty")
     compile("org.springframework.boot:spring-boot-starter-logging")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    // end::jetty[]
-    // tag::actuator[]
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile ('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
-    // end::actuator[]
-    testCompile("junit:junit")
-    testCompile("org.springframework.boot:spring-boot-starter-test")
-    //compile("org.flywaydb:flyway-core")
+    compile ("org.springframework.boot:spring-boot-starter-tomcat")
     compile('org.postgresql:postgresql')
-    runtime("mysql:mysql-connector-java")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile project(':associations')
 
 }
 

@@ -2,8 +2,10 @@ spring:
   profiles.active: default
 ---
 server:
-    port: 8181
+        port: 8181
 spring:
+    application:
+        name: Billing
     jpa:
         database: POSTGRESQL
         hibernate:
