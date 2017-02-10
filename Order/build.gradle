@@ -111,5 +111,7 @@ task copyToDockerDeploy << {
 }
 
 build.finalizedBy(copyToDockerDeploy)
+//COMPOSE_CONVERT_WINDOWS_PATHS=1 docker-compose up -d
+
 
 
