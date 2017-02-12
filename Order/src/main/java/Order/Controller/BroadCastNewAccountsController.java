@@ -12,6 +12,8 @@ import java.util.*;
 /**
  * Created by Aismael on 31.01.2017.
  */
+
+
 @Controller
 public class BroadCastNewAccountsController {
     Queue<AccountBroadcastDto> accountBroadcastDtos = new LinkedList<>();

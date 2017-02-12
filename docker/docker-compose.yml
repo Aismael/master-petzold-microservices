@@ -44,6 +44,22 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/demo
       SPRING_DATASOURCE_USERNAME: demo_user
       SPRING_DATASOURCE_PASSWORD: demo_pass
+  web2:
+    container_name: Billing
+    build: ./../Billing/src/main/docker/
+    ports:
+      - 8181:8181
+    depends_on:
+      - some-postgres
+      - eureka
+    links:
+      - some-postgres
+      - eureka
+    command: ["./wait-for-it.sh", "eureka:8761"]
 
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://some-postgres:5432/demo
+      SPRING_DATASOURCE_USERNAME: demo_user
+      SPRING_DATASOURCE_PASSWORD: demo_pass
 
 

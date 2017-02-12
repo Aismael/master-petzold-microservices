@@ -13,7 +13,7 @@ spring:
             ddl-auto: create-drop
         show-sql: true
     datasource:
-        url: jdbc:mysql://192.168.1.16:3306/demo
+        url: jdbc:mysql://192.168.99.100:3306/demo
         username: demo_user
         password: demo_pass
         driver-class-name: com.mysql.jdbc.Driver
@@ -22,7 +22,7 @@ eureka:
     password: password
     client:
         serviceUrl:
-            defaultZone: http://user:${eureka.password}@192.168.1.16:8761/eureka/
+            defaultZone: http://user:${eureka.password}@192.168.99.100:8761/eureka/
     instance:
         leaseRenewalIntervalInSeconds: 10
         metadataMap:
@@ -70,6 +70,8 @@ RESTConfiguration:
                 path: "/all"
                 account:
                     path: "/Account"
+
+
 ---
 spring.profiles: docker
 spring.datasource:

@@ -50,7 +50,7 @@ public class Application {
         return "Hello Docker World iam The Order Service";
     }
 
-    @RequestMapping("/dg")
+    @RequestMapping("/infoGreeting")
     public String eureka() {
         ServiceInstance localInstance = client.getLocalServiceInstance();
         return "Hello Docker World over nameservice eureka: "+ localInstance.getServiceId()+":"+localInstance.getHost()+":"+localInstance.getPort();

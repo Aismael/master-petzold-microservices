@@ -14,16 +14,59 @@ spring:
 
 
     datasource:
-        url: jdbc:postgresql://192.168.1.16:5432/demo
+        url: jdbc:postgresql://192.168.99.100:5432/demo
         username: postgres
         password: mysecretpassword
         driver-class-name: org.postgresql.Driver
+
+eureka:
+    password: password
+    client:
+        serviceUrl:
+            defaultZone: http://user:${eureka.password}@192.168.99.100:8761/eureka/
+    instance:
+        leaseRenewalIntervalInSeconds: 10
+        metadataMap:
+            instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
+
+
 RESTConfiguration:
     broadcast:
         account:
-            path: "/accountBr"
+            message: "/accountMsg"
+    view:
+        account:
+            path: "Account"
+            one:
+                path: "/one"
+            all:
+                path: "/all"
+        bankAccount:
+            path: "BankAccount"
+            one:
+                path: "/one"
+            all:
+                path: "/all"
+        bank:
+            path: "Bank"
+            one:
+                path: "/one"
+            all:
+                path: "/all"
+
+
 ---
 spring:
   profiles: docker
 spring.datasource:
-  url: jdbc:postgresql://192.168.1.16:5432/demo
+  url: jdbc:postgresql://some-postgres:5432/demo
+
+eureka:
+    password: password
+    client:
+        serviceUrl:
+            defaultZone: http://user:${eureka.password}@eureka:8761/eureka/
+    instance:
+        leaseRenewalIntervalInSeconds: 10
+        metadataMap:
+            instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}

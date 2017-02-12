@@ -1,14 +1,26 @@
 version: '2'
  
 services:
-  app:
-    image: /Order
+  some-postgres:
+    container_name: some-postgres
+    image: postgres:9.6.1
     ports:
-      - 8080
-    depends_on:
-      - db
- 
-  db:
-    container_name: demo-mysql
+      - 5432:5432
     environment:
-      - SERVICE_NAME=books-ms-db
+        POSTGRES_DB: demo
+        POSTGRES_PASSWORD: mysecretpassword
+        POSTGRES_USER: postgres
+
+  web2:
+    container_name: Billing
+    build: .
+    ports:
+      - 8181:8181
+    depends_on:
+      - some-postgres
+    links:
+      - some-postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://some-postgres:5432/demo
+      SPRING_DATASOURCE_USERNAME: demo_user
+      SPRING_DATASOURCE_PASSWORD: demo_pass

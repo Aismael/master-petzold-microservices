@@ -16,13 +16,13 @@ buildscript {
 //docker run -d -p 3306:3306 --name demo-mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=demo -e MYSQL_USER=demo_user -e MYSQL_PASSWORD=demo_pass -d mysql:5.6
 
 apply plugin: 'groovy'
-apply plugin: 'java'
-apply plugin: 'war'
+//apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'application'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'spring-boot'
+apply plugin: 'war'
 
 
 
@@ -34,6 +34,8 @@ jar {
     version =  '0.1.0'
 }
 
+
+
 repositories {
     mavenCentral()
 }
@@ -41,7 +43,7 @@ repositories {
 sourceSets {
     main {
         groovy {
-            srcDirs = ['src/main/groovy','src/main/java']
+            srcDirs = ['src/main/groovy', 'src/main/java']
         }
         java {
             srcDirs = []
@@ -59,25 +61,23 @@ springBoot {
 
 
 
+    dependencies {
+        compile('org.codehaus.groovy:groovy-all')
+        compile('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
+        compile("org.springframework.cloud:spring-cloud-starter-feign:1.2.3.RELEASE")
+        compile("org.springframework.cloud:spring-cloud-starter-eureka:1.2.3.RELEASE")
+        compile("org.springframework.boot:spring-boot")
+        compile("org.springframework.boot:spring-boot-starter-websocket")
+        compile("org.springframework.boot:spring-boot-starter-actuator")
+        compile("org.springframework.boot:spring-boot-starter-web")
+        //compile("org.springframework.boot:spring-boot-starter-jetty")
+        compile("org.springframework.boot:spring-boot-starter-logging")
+        compile("org.springframework.boot:spring-boot-starter-data-jpa")
+        compile("org.springframework.boot:spring-boot-starter-tomcat")
+        runtime("mysql:mysql-connector-java")
+        compile project(':associations')
+    }
 
-dependencies {
-
-    compile ('org.codehaus.groovy:groovy-all')
-    compile ('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
-    providedCompile("org.apache.tomcat.embed:tomcat-embed-websocket")
-    compile("org.springframework.cloud:spring-cloud-starter-feign:1.2.3.RELEASE")
-    compile("org.springframework.cloud:spring-cloud-starter-eureka:1.2.3.RELEASE")
-    compile("org.springframework.boot:spring-boot")
-    compile("org.springframework.boot:spring-boot-starter-websocket")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-jetty")
-    compile("org.springframework.boot:spring-boot-starter-logging")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile ("org.springframework.boot:spring-boot-starter-tomcat")
-    runtime("mysql:mysql-connector-java")
-    compile project(':associations')
-}
 
 
 
