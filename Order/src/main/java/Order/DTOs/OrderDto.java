@@ -32,6 +32,13 @@ public class OrderDto {
         this.itemSetStubDtos = itemSetStubDtos;
     }
 
+    public OrderDto(Long id, Long accountId, Boolean posted, Date date) {
+        this.id = id;
+        this.accountId = accountId;
+        this.posted = posted;
+        this.date = date;
+    }
+
     public Long getId() {
         return id;
     }

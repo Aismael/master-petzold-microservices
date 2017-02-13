@@ -89,8 +89,26 @@ orderApp.controller('accountPageCtrl', function ($scope, $http) {
             })
     }
 })
-orderApp.controller('orderChoosePageCtrl', function () {
-
+orderApp.controller('orderChoosePageCtrl', function ($scope) {
+if(!$scope.account.id){
+    $scope.path = $scope.data.account.path +
+        $scope.data.account.one.path
+    $scope.pathExt = $scope.data.account.one.mail.path + "/" +
+        $scope.account.mail;
+    $http.get($scope.path + $scope.pathExt).then(function () {
+        $scope.pathExt = $scope.data.account.one.name.path + "/" +
+            $scope.account.name;
+        $http.get($scope.path + $scope.pathExt).then(function (data) {
+            $scope.account.id=data.data.id;
+        }, function () {
+            $scope.url.data = "accountPage.html"
+            window.alert("login fail");
+        })
+    }, function () {
+        $scope.url.data = "accountPage.html"
+        window.alert("login fail");
+    })
+}
 })
 orderApp.controller('favoritePageCtrl', function ($scope, $http) {
     $scope.myItems;

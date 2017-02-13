@@ -22,5 +22,5 @@ services:
       - some-postgres
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://some-postgres:5432/demo
-      SPRING_DATASOURCE_USERNAME: demo_user
-      SPRING_DATASOURCE_PASSWORD: demo_pass
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: mysecretpassword

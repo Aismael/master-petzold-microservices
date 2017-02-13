@@ -44,6 +44,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/demo
       SPRING_DATASOURCE_USERNAME: demo_user
       SPRING_DATASOURCE_PASSWORD: demo_pass
+
   web2:
     container_name: Billing
     build: ./../Billing/src/main/docker/
