@@ -55,7 +55,7 @@ public class AccountController {
 
 
     @RequestMapping(value = "${RESTConfiguration.view.account.one.path}"
-            + "${RESTConfiguration.view.account.one.mail.path}" + "/{mail:.+}", method = RequestMethod.GET, produces = "application/json")
+            + "${RESTConfiguration.view.account.one.mail.path}" + "/{mail}", method = RequestMethod.GET)
     public Account getAccountByMail(@PathVariable String mail) {
         validateAccountByMail(mail);
         System.out.println(";;;;;;;;;;;;;;;;;;;;;;;;;;;");

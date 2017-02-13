@@ -55,7 +55,7 @@ orderApp.controller('accountPageCtrl', function ($scope, $http) {
         $scope.path = $scope.data.account.path +
             $scope.data.account.one.path
         $scope.pathExt = $scope.data.account.one.mail.path + "/" +
-            $scope.account.mail;
+            $scope.account.mail+"/";
         $http.get($scope.path + $scope.pathExt).then(function () {
             $scope.pathExt = $scope.data.account.one.name.path + "/" +
                 $scope.account.name;
@@ -94,7 +94,7 @@ if(!$scope.account.id){
     $scope.path = $scope.data.account.path +
         $scope.data.account.one.path
     $scope.pathExt = $scope.data.account.one.mail.path + "/" +
-        $scope.account.mail;
+        $scope.account.mail+"/";
     $http.get($scope.path + $scope.pathExt).then(function () {
         $scope.pathExt = $scope.data.account.one.name.path + "/" +
             $scope.account.name;
