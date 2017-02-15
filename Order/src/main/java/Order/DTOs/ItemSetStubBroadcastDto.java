@@ -7,6 +7,15 @@ public class ItemSetStubBroadcastDto {
     Integer count;
     Long itemID;
 
+    @Override
+    public String toString() {
+        return "ItemSetStubBroadcastDto{" +
+                "count=" + count +
+                ", itemID=" + itemID +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public String getName() {
         return name;
     }

@@ -10,6 +10,8 @@ import java.util.Date;
  */
 public class OrderDto {
     private Long id;
+
+
     private Long accountId;
     private Boolean posted = false;
     private Date date;

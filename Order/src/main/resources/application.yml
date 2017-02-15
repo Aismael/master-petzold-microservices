@@ -30,9 +30,16 @@ eureka:
 
 RESTConfiguration:
     broadcast:
-        account:
-            message: "/accountMsg"
-            sendPath: "/accountBr"
+        name: "/orderWebsocket"
+        out: "/data"
+        in: "/info"
+        endpoint:
+            account:
+                message: "/accountMsg"
+                sendPath: "/accountBr"
+            order:
+                message: "/orderMsg"
+                sendPath: "/orderBr"
     view:
         item:
             path: "/Item"

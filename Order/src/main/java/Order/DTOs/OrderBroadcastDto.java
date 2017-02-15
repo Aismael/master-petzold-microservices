@@ -7,7 +7,16 @@ import java.util.Date;
  * Created by aisma on 13.02.2017.
  */
 public class OrderBroadcastDto extends OrderDto {
-
+    @Override
+    public String toString() {
+        return "OrderBroadcastDto{" +
+                "id=" + getId() +
+                ", accountId=" + getAccountId() +
+                ", posted=" + getPosted() +
+                ", date=" + getDate() +
+                "itemSetStubBroadcastDto=" + itemSetStubBroadcastDto.toString() +
+                '}';
+    }
 
     public ArrayList<ItemSetStubBroadcastDto> getItemSetStubBroadcastDto() {
         return itemSetStubBroadcastDto;

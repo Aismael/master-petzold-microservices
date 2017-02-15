@@ -1,5 +1,6 @@
 package Billing.Controller;
 
+import Billing.Loader.WebSocketDataLoader;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -16,6 +17,8 @@ import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.Scanner;
 
 /**
@@ -27,13 +30,11 @@ import java.util.Scanner;
 public class HelloClientApplication {
 	@Autowired
 	private DiscoveryClient discoveryClient;
+	@Autowired
+	WebSocketDataLoader webSocketDataLoader;
 	@RequestMapping("/test")
 	public boolean init() {
-		discoveryClient.getInstances("Order").forEach((ServiceInstance s) -> {
-			System.out.println(ToStringBuilder.reflectionToString(s));
-			System.out.println(s.getUri().getPath());
 
-		});
 
 
 		return true;

@@ -89,7 +89,7 @@ orderApp.controller('accountPageCtrl', function ($scope, $http) {
             })
     }
 })
-orderApp.controller('orderChoosePageCtrl', function ($scope) {
+orderApp.controller('orderChoosePageCtrl', function ($scope, $http) {
 if(!$scope.account.id){
     $scope.path = $scope.data.account.path +
         $scope.data.account.one.path

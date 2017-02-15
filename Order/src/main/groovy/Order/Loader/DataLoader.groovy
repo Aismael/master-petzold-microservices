@@ -34,6 +34,8 @@ class DataLoader implements ApplicationRunner {
         //define
         Item i1=new Item(name: "Pizza Margherita",details: "Die standard Pizza",allergens: false,currency: new BigDecimal("1.20"))
         Item i2=new Item(name: "Hamburger",details: "Ein Burger ohne Käse",allergens: true,currency: new BigDecimal("2.01"))
+        Item i3=new Item(name: "Hamburger Big",details: "Ein Großer Burger mit Käse",allergens: true,currency: new BigDecimal("5.01"))
+
         Order o=new Order(date:new Date())
         Order o2=new Order(date:new Date().setYear(1968))
         Order o3=new Order(date:new Date().setYear(1954))

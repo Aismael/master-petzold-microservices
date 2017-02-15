@@ -31,6 +31,7 @@ services:
   web:
     container_name: Order
     build: ./../Order/src/main/docker/
+    command: dockerize -wait http://eureka:8761
     ports:
       - 8080:8080
     depends_on:
@@ -39,7 +40,6 @@ services:
     links:
       - mysql
       - eureka
-    command: ["./wait-for-it.sh", "eureka:8761"]
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/demo
       SPRING_DATASOURCE_USERNAME: demo_user
@@ -48,6 +48,7 @@ services:
   web2:
     container_name: Billing
     build: ./../Billing/src/main/docker/
+    command: dockerize -wait http://eureka:8761
     ports:
       - 8181:8181
     depends_on:
@@ -56,11 +57,9 @@ services:
     links:
       - some-postgres
       - eureka
-    command: ["./wait-for-it.sh", "eureka:8761"]
-
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://some-postgres:5432/demo
-      SPRING_DATASOURCE_USERNAME: demo_user
-      SPRING_DATASOURCE_PASSWORD: demo_pass
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: mysecretpassword
 
 
