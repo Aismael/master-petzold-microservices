@@ -3,6 +3,8 @@ spring:
 ---
 server:
         port: 8080
+feign.hystrix:
+        enabled: false
 spring:
     application:
         name: Order
@@ -17,7 +19,6 @@ spring:
         username: demo_user
         password: demo_pass
         driver-class-name: com.mysql.jdbc.Driver
-
 eureka:
     password: password
     client:
@@ -29,6 +30,10 @@ eureka:
             instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
 
 RESTConfiguration:
+    call:
+        path: "/call"
+        data:
+            path: "/data"
     broadcast:
         name: "/orderWebsocket"
         out: "/data"

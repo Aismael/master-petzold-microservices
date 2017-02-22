@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component
  * Created by Aismael on 15.02.2017.
  */
 @Component
-
 class WebSocketDataLoader {
     WebSocketConfigDto getFromJSONUrL(URL url ) {
         def input = new JsonSlurper().parse(url)

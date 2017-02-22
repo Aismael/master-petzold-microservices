@@ -1,6 +1,5 @@
 var orderApp = angular.module('orderApp', ['ui.bootstrap', "ngTable", 'trNgGrid']);
 
-
 orderApp.controller('configCtrl', function ($scope, $http, loadService) {
     $scope.loadService = loadService;
     $scope.$watch(
@@ -14,7 +13,7 @@ orderApp.controller('configCtrl', function ($scope, $http, loadService) {
         })
     $scope.url = {data: "accountPage.html"};
 
-});
+})
 
 orderApp.factory('loadService', [function () {
     var listPath = null;
@@ -36,6 +35,7 @@ orderApp.controller('dataService', function ($scope, $http) {
         mail: "aismaelinc@gmail.come"
     }
 
+    $scope.call = {orderId:"0",accountId:"0"}
     $scope.setHttpData = function (path) {
         $http.get(path).then(function (obj) {
             $scope.data = obj.data.config.view;
@@ -89,6 +89,7 @@ orderApp.controller('accountPageCtrl', function ($scope, $http) {
             })
     }
 })
+
 orderApp.controller('orderChoosePageCtrl', function ($scope, $http) {
 if(!$scope.account.id){
     $scope.path = $scope.data.account.path +
@@ -110,6 +111,7 @@ if(!$scope.account.id){
     })
 }
 })
+
 orderApp.controller('favoritePageCtrl', function ($scope, $http) {
     $scope.myItems;
     $http.get($scope.data.favorite.path+
@@ -133,14 +135,18 @@ orderApp.controller('favoritePageCtrl', function ($scope, $http) {
             $scope.mySelectedItems[0].id
         $http.post($scope.path).then(
             function () {
-                $scope.url.data = "orderChoosePage.html"
+                $scope.url.data = "extPage.html"
+                $scope.call.orderId=$scope.mySelectedItems[0].id;
+                $scope.call.accountId=$scope.account.id;
                 window.alert("order  success");
+
             }, function () {
 
                 window.alert("order  fail");
             })
     }
 })
+
 orderApp.controller('orderPageCtrl', function ($scope, $http) {
     $scope.myItems;
     $scope.mySelectedItems = [];
@@ -191,13 +197,18 @@ orderApp.controller('orderPageCtrl', function ($scope, $http) {
             $scope.data.order.one.path;
         console.log( $scope.order);
 
+
         $http.post($scope.path, $scope.order).then(
             function (data) {window.alert("order made  success");
-                $scope.url.data = "accountPage.html"
-                console.log(data);
+                console.log(data)
+                $scope.call.orderId=data.data;
+                $scope.call.accountId=$scope.account.id;
+                $scope.url.data = "extPage.html"
 
             },function () {window.alert("order made  error");})
     }
+
+
     $scope.$watchCollection("mySelectedItems", function (data) {
         console.log(data)
     });
@@ -210,4 +221,27 @@ orderApp.controller('orderPageCtrl', function ($scope, $http) {
         window.alert("no Items found");
     })
     $scope.input=1;
+})
+
+orderApp.filter('trustUrl', ['$sce', function ($sce) {
+    return function(url) {
+        return $sce.trustAsResourceUrl(url);
+    };
+}])
+
+orderApp.controller('extPageCtrl', function ($scope, $http,$sce) {
+    $scope.my={my: null}
+    $scope.jumpToBilling=function () {
+        console.log("tick")
+        $http.post("/call",$scope.call,{timeout: 30000}).then(function (data) {
+            console.log("****")
+            console.log(data)
+            return $scope.my.my=$sce.trustAsResourceUrl("http://"+self.location.hostname+":"+data.data);
+        },function (data) {
+            console.log(data)
+            console.log("error")
+            return "xyz"
+        })
+    }
+    $scope.jumpToBilling()
 })

@@ -28,6 +28,9 @@ public class ItemSet {
     private ToOne<ItemSet, Item> toItem = new ToOne<>(
             () -> item, (Item i) -> item = i,
             this, Item::getItemSets);
+    public IToAny<Item> getItem() {
+        return toItem;
+    }
 
     public ItemSet(Item item, Integer count) {
         this.setItem(item);
@@ -38,9 +41,6 @@ public class ItemSet {
 
     }
 
-    public IToAny<Item> getItem() {
-        return toItem;
-    }
 
     private Integer count = 1;
 

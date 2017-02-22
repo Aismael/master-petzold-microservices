@@ -11,8 +11,6 @@ spring:
         hibernate:
             ddl-auto: create-drop
         show-sql: true
-
-
     datasource:
         url: jdbc:postgresql://192.168.99.100:5432/demo
         username: postgres
@@ -31,24 +29,32 @@ eureka:
 
 
 RESTConfiguration:
-    broadcast:
-        account:
-            message: "/accountMsg"
+    call:
+        path: "/call"
+        data:
+            path: "/data"
     view:
+        order:
+            path: "/order"
+            one:
+                path: "/one"
+                idAndAccount:
+                    path: "/iaa"
         account:
-            path: "Account"
+            path: "/Account"
             one:
                 path: "/one"
-            all:
-                path: "/all"
+
         bankAccount:
-            path: "BankAccount"
+            path: "/BankAccount"
             one:
                 path: "/one"
             all:
                 path: "/all"
+                account:
+                    path: "/Account"
         bank:
-            path: "Bank"
+            path: "/Bank"
             one:
                 path: "/one"
             all:

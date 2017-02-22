@@ -1,0 +1,61 @@
+package Billing.Entities;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import de.geobe.util.association.IToAny;
+import de.geobe.util.association.ToMany;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * Created by Aismael on 16.02.2017.
+*/
+@Entity
+@JsonSerialize
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class Account {
+    @Id
+    private Long id;
+    @Column(unique = true)
+
+    private String mail;
+    @OneToMany(mappedBy = "account")
+    private Set<BankAccount> bankAccounts=new HashSet<>();
+    @Transient
+    private ToMany<Account, BankAccount> toBankAccounts =
+            new ToMany<>(() -> bankAccounts, this, BankAccount::getAccount);
+    @OneToMany(mappedBy = "account")
+    private Set<XOrder> xorders=new HashSet<>();;
+    @Transient
+    private ToMany<Account, XOrder> toXOrders =
+            new ToMany<>(() -> xorders, this, XOrder::getAccount);
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    @JsonIgnore
+    public IToAny<BankAccount> getBankAccounts() {
+        return toBankAccounts;
+    }
+
+    @JsonIgnore
+    public IToAny<XOrder> getXOrders() {
+        return toXOrders;
+    }
+}

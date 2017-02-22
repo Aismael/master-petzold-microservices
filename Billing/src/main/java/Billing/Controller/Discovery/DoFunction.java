@@ -6,5 +6,5 @@ package Billing.Controller.Discovery;
 
 public interface DoFunction
 {
-    public boolean handleObject(Object payload);
+    public Object handleObject(Object payload);
 }
