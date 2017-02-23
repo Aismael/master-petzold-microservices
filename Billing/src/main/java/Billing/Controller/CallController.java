@@ -48,6 +48,8 @@ public class CallController {
 
     @RequestMapping(value = "${RESTConfiguration.call.path}"+"${RESTConfiguration.call.data.path}",method = GET)
     public CallIdsDto getCallIdsDto() {
-        return this.callIdsDto;
+        CallIdsDto ret=this.callIdsDto;
+        this.callIdsDto=new CallIdsDto();
+        return ret;
     }
 }

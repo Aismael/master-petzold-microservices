@@ -6,7 +6,12 @@
 </head>
 <body>
 <div ng-controller="mainPageCtrl">
-    {{call}}
+    <table tr-ng-grid="" items="order.positions.all" selected-items="mySelectedItems" selection-mode="MultiRow">
+    </table>
+    <table tr-ng-grid="" items="bankAccounts" selected-items="mySelectedItems" selection-mode="MultiRow" fields="['id','ammount','bank.one.name']">
+    </table>
+    <table tr-ng-grid="" items="banks" selected-items="mySelectedItems" selection-mode="MultiRow" fields="['id','name']">
+    </table>
 </div>
 </body>
 </html>

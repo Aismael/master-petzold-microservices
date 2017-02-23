@@ -172,9 +172,12 @@ orderApp.controller('orderPageCtrl', function ($scope, $http) {
     $scope.makeFavorite=function () {
         $scope.favorite.accountId=$scope.account.id
         $scope.mySelectedItems.forEach(function (item) {
-            $scope.itemSetStubDto.count=item.count;
-            $scope.itemSetStubDto.itemID=item.id;
-            $scope.favorite.itemSetStubDtos.push($scope.itemSetStubDto);
+            console.log(item);
+            var itemSetStubDto={
+                count:item.count,
+                itemID:item.id
+            };
+            $scope.favorite.itemSetStubDtos.push(itemSetStubDto);
         })
         $scope.path = $scope.data.favorite.path +
             $scope.data.favorite.one.path;
@@ -189,9 +192,11 @@ orderApp.controller('orderPageCtrl', function ($scope, $http) {
         $scope.order.accountId=$scope.account.id
         $scope.order.date=new Date();
         $scope.mySelectedItems.forEach(function (item) {
-            $scope.itemSetStubDto.data=item.count;
-            $scope.itemSetStubDto.itemID=item.id;
-            $scope.order.itemSetStubDtos.push($scope.itemSetStubDto);
+            var itemSetStubDto={
+                count:item.count,
+                itemID:item.id
+            };
+            $scope.order.itemSetStubDtos.push(itemSetStubDto);
         })
         $scope.path = $scope.data.order.path +
             $scope.data.order.one.path;

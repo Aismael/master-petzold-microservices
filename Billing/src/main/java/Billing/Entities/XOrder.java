@@ -56,7 +56,6 @@ public class XOrder {
     public IToAny<Account> getAccount() {
         return toAccount;
     }
-    @JsonIgnore
     public IToAny<Position> getPositions() {
         return toPositions;
     }

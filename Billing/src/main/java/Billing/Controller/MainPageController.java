@@ -32,16 +32,19 @@ public class MainPageController {
 	BankRepository bankRepository;
 	@RequestMapping(value="${RESTConfiguration.view.order.path}"+
 			"${RESTConfiguration.view.order.one.path}"+
-			"${RESTConfiguration.view.order.one.idAndAccount.path}"
+			"${RESTConfiguration.view.order.one.idAndAccount.path}"+
+            "/{id}/{accountId}"
 	)
-	public XOrder orderByAccount(@PathVariable Long id,@PathVariable Long accountId){
+	public XOrder orderByAccount(@PathVariable("id") Long id,
+								 @PathVariable("accountId") Long accountId){
+		System.out.println("oba");
 		return orderRepository.findByIdAndAccountId(id,accountId);
 	}
 	@RequestMapping(value="${RESTConfiguration.view.bankAccount.path}"+
 			"${RESTConfiguration.view.bankAccount.all.path}"+
-			"${RESTConfiguration.view.bankAccount.all.account.path}"
+			"${RESTConfiguration.view.bankAccount.all.account.path}"+"/{accountId}"
 	)
-	public List<BankAccount> bankAccountsByAccountId(@PathVariable Long accountId){
+	public List<BankAccount> bankAccountsByAccountId(@PathVariable("accountId") Long accountId){
 		return bankAccountRepository.findAllByAccountId(accountId);
 	}
 

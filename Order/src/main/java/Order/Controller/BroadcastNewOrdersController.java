@@ -39,7 +39,7 @@ public class BroadcastNewOrdersController {
     @MessageMapping("${RESTConfiguration.broadcast.endpoint.order.message}")
     public void getBroadcast(OrderBroadcastDto in)  {
         System.out.println("~~~~~~~~~~~~~~~~~~~");
-        System.out.println(in);
+//        System.out.println(in);
         System.out.println("~~~~~~~~~~~~~~~~~~~");
         this.template.convertAndSend(out+sendPath, in);
     }

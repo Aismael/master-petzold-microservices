@@ -32,14 +32,15 @@ public class SaveOrderAspect {
         if(returnValue instanceof Order){
             ArrayList<ItemSetStubBroadcastDto> itemSetStubDtos=new ArrayList<>();
             for (ItemSet is :((Order) returnValue).getItemSets().getAll()) {
-                ItemSetStubBroadcastDto i=new ItemSetStubBroadcastDto(is.getCount(),is.getId(),is.getItem().getOne().getName());
+                ItemSetStubBroadcastDto i=new ItemSetStubBroadcastDto(is.getCount(),is.getId(),is.getItem().getOne().getName(),is.getItem().getOne().getCurrency());
                 itemSetStubDtos.add(i);
             }
             broadcastNewOrdersController.broadcastOrder(
                     new OrderBroadcastDto(
                             ((Order) returnValue).getId(),
                             ((Order) returnValue).getAccount().getOne().getId(),
-                            true,((Order) returnValue).getDate(),
+                            true,
+                            ((Order) returnValue).getDate(),
                             itemSetStubDtos
                     ));
         }

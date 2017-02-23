@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.geobe.util.association.IToAny;
 import de.geobe.util.association.ToMany;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -16,6 +17,8 @@ import java.util.Set;
 */
 @Entity
 @JsonSerialize
+@Proxy(lazy = false)
+
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Bank {
     @Id
@@ -24,7 +27,7 @@ public class Bank {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "bank")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "bank",cascade = CascadeType.ALL)
     private Set<BankAccount> bankAccounts=new HashSet<>();
 
      @Transient

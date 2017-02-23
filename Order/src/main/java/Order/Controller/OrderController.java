@@ -53,7 +53,8 @@ public class OrderController {
 
     @RequestMapping(value = "${RESTConfiguration.view.order.one.path}", method = RequestMethod.POST)
     public Long orderFavorite(@RequestBody OrderDto orderDto) {
-
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        System.out.println(orderDto);
         Order order = new Order(accountRepository.findOne(orderDto.getAccountId()), new Date());
         for (ItemSetStubDto itemSetStub : orderDto.getitemSetStubDtos()) {
             ItemSet i=new ItemSet();

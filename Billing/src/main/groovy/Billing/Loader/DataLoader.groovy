@@ -1,9 +1,11 @@
 package Billing.Loader
 
 import Billing.Entities.Account
+import Billing.Entities.Bank
 import Billing.Entities.Position
 import Billing.Entities.XOrder
 import Billing.Repositories.AccountRepository
+import Billing.Repositories.BankRepository
 import Billing.Repositories.PositionRepository
 import Billing.Repositories.XOrderRepository
 import groovy.json.JsonSlurper
@@ -26,6 +28,8 @@ class DataLoader implements ApplicationRunner {
     XOrderRepository xorderRepository
     @Autowired
     PositionRepository positionRepository
+    @Autowired
+    BankRepository bankRepository
 
     @Autowired
     DataLoader() {
@@ -33,10 +37,26 @@ class DataLoader implements ApplicationRunner {
 
     @Override
     void run(ApplicationArguments args) throws Exception {
+        Bank b=new Bank(answertime: 200,name: "AmericanStandard")
+        Bank b2=new Bank(answertime: 250,name: "OrderFastBank")
+        Bank b3=new Bank(answertime: 150,name: "Payfal")
+        Bank b4=new Bank(answertime: 100,name: "Standard")
+        bankRepository.saveAndFlush(b)
+        bankRepository.saveAndFlush(b2)
+        bankRepository.saveAndFlush(b3)
+        bankRepository.saveAndFlush(b4)
+
+
     }
 
-    void getFromJSONUrL(URL url,URL raw) {
-        def input = new JsonSlurper().parse(url)
+    void getFromJSONUrL(URL url,URL raw) throws Exception {
+        def input=null
+        try {
+             input = new JsonSlurper().parse(url)
+        }catch (Exception e){
+
+        }
+        if(input){
         def view = input.config.view
         def accountsJson = new JsonSlurper().parse(new URL(raw.toString()+view.account.path+
                 view.account.all.path))
@@ -52,16 +72,19 @@ class DataLoader implements ApplicationRunner {
         }
         //orderRepository.saveAndFlush(new Order())
 
+
         orderJson.each {
             XOrder o=xorderRepository.getOne(new Long(it.id))
             it.itemSets.all.each{it2->
                 o.getPositions().add(makePosition(it2))
-                o.setSendDate(it2.date)
             }
+            println "##############"
+            println it
+            println "##############"
             xorderRepository.saveAndFlush(o)
         }
 
-
+        }
     }
 
     @Transactional
@@ -78,19 +101,31 @@ class DataLoader implements ApplicationRunner {
      Account makeAccount(it){
         println it
         Account a=new Account()
+        XOrder o;
         a.setId(it.id)
         a.setMail(it.mail)
         it.orders.all.each {it2->
-            a.getXOrders().add(makeOrder(it2))
+            o=makeOrder(it2)
+            a.getXOrders().add(o)
+            o.getAccount().add(a)
+            xorderRepository.saveAndFlush(o)
         }
+
+
         return accountRepository.saveAndFlush(a)
+
     }
 
     @Transactional
      XOrder makeOrder(it2){
-        println it2
+
+
         XOrder o = new XOrder()
         o.setId(it2.id)
+        if(it2.date) {
+            o.setSendDate(new Date((Long) it2.date))
+        }
+
         return xorderRepository.saveAndFlush(o)
     }
 }

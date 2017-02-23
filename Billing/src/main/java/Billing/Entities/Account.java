@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.geobe.util.association.IToAny;
 import de.geobe.util.association.ToMany;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -14,20 +15,20 @@ import java.util.Set;
  * Created by Aismael on 16.02.2017.
 */
 @Entity
+@Proxy(lazy = false)
 @JsonSerialize
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Account {
     @Id
     private Long id;
     @Column(unique = true)
-
     private String mail;
-    @OneToMany(mappedBy = "account")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "account")
     private Set<BankAccount> bankAccounts=new HashSet<>();
     @Transient
     private ToMany<Account, BankAccount> toBankAccounts =
             new ToMany<>(() -> bankAccounts, this, BankAccount::getAccount);
-    @OneToMany(mappedBy = "account")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "account")
     private Set<XOrder> xorders=new HashSet<>();;
     @Transient
     private ToMany<Account, XOrder> toXOrders =

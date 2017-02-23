@@ -8,6 +8,7 @@ import Order.Entities.OrderConcepts.Order
 import Order.Repositories.AccountRepository
 import Order.Repositories.ItemRepository
 import Order.Repositories.OrderConcepts.OrderRepository
+import org.apache.commons.lang.time.DateUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
@@ -37,8 +38,8 @@ class DataLoader implements ApplicationRunner {
         Item i3=new Item(name: "Hamburger Big",details: "Ein Großer Burger mit Käse",allergens: true,currency: new BigDecimal("5.01"))
 
         Order o=new Order(date:new Date())
-        Order o2=new Order(date:new Date().setYear(1968))
-        Order o3=new Order(date:new Date().setYear(1954))
+        Order o2=new Order(date:DateUtils.addHours(new Date(),-1))
+        Order o3=new Order(date:DateUtils.addHours(new Date(),-2))
 
         Favorite f=new Favorite(count: 5,name: "Monday")
         Favorite f2=new Favorite(count: 5,name: "Friday")

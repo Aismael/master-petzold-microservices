@@ -1,4 +1,4 @@
-version: '2'
+version: '2.1'
 services:
   some-postgres:
     container_name: some-postgres
@@ -28,10 +28,9 @@ services:
       ports:
           - 8761:8761
 
-  web:
+  order:
     container_name: Order
     build: ./../Order/src/main/docker/
-    command: dockerize -wait http://eureka:8761
     ports:
       - 8080:8080
     depends_on:
@@ -45,21 +44,20 @@ services:
       SPRING_DATASOURCE_USERNAME: demo_user
       SPRING_DATASOURCE_PASSWORD: demo_pass
 
-  web2:
+  billing:
     container_name: Billing
     build: ./../Billing/src/main/docker/
-    command: dockerize -wait http://eureka:8761
     ports:
       - 8181:8181
     depends_on:
       - some-postgres
       - eureka
+      - order
     links:
       - some-postgres
       - eureka
+      - order
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://some-postgres:5432/demo
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: mysecretpassword
-
-

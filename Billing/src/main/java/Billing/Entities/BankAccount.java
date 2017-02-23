@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.geobe.util.association.IToAny;
 import de.geobe.util.association.ToOne;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,6 +15,8 @@ import java.math.BigDecimal;
 */
 @Entity
 @JsonSerialize
+@Proxy(lazy = false)
+
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class BankAccount {
     @Id

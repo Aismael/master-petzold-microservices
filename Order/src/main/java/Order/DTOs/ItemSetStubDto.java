@@ -7,6 +7,14 @@ public class ItemSetStubDto {
     Integer count;
     Long itemID;
 
+    @Override
+    public String toString() {
+        return "ItemSetStubDto{" +
+                "count=" + count +
+                ", itemID=" + itemID +
+                '}';
+    }
+
     public ItemSetStubDto() {
     }
 

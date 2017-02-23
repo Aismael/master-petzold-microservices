@@ -11,6 +11,16 @@ import java.util.Date;
 public class OrderDto {
     private Long id;
 
+    @Override
+    public String toString() {
+        return "OrderDto{" +
+                "id=" + id +
+                ", accountId=" + accountId +
+                ", posted=" + posted +
+                ", date=" + date +
+                ", itemSetStubDtos=" + itemSetStubDtos +
+                '}';
+    }
 
     private Long accountId;
     private Boolean posted = false;

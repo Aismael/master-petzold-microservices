@@ -18,6 +18,9 @@ public class OrderBroadcastDto extends OrderDto {
                 '}';
     }
 
+    public OrderBroadcastDto() {
+    }
+
     public ArrayList<ItemSetStubBroadcastDto> getItemSetStubBroadcastDto() {
         return itemSetStubBroadcastDto;
     }
