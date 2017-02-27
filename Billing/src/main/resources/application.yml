@@ -44,11 +44,14 @@ RESTConfiguration:
             path: "/Account"
             one:
                 path: "/one"
-
         bankAccount:
             path: "/BankAccount"
             one:
                 path: "/one"
+                account:
+                    path: "/Account"
+                pay:
+                    path: "/pay"
             all:
                 path: "/all"
                 account:

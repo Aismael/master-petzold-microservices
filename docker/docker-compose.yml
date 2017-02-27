@@ -61,3 +61,20 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://some-postgres:5432/demo
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: mysecretpassword
+
+  db:
+    container_name: db
+    image: mongo:3.0
+    ports:
+      - 27017:27017
+    command: --smallfiles
+
+  rocketchat:
+    container_name: rocketchat
+    build: ./../rocket.chat
+    ports:
+        - 3000:3000
+    depends_on:
+        - db
+    links:
+        - db:db

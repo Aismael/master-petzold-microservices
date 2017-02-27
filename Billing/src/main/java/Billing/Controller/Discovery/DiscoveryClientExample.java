@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 //TODO commit in
 @Component
 public class DiscoveryClientExample implements CommandLineRunner{
@@ -50,23 +52,47 @@ public class DiscoveryClientExample implements CommandLineRunner{
     //TODO own Exception for not Reachable Eureka Service
     @Override
     public void run(String... strings) throws Exception {
+        while(discoveryClient.getInstances("Order").isEmpty()){
+            System.err.println("WaitFor:ORDER");
+            TimeUnit.SECONDS.sleep(10);
+        }
         discoveryClient.getInstances("Order").forEach((ServiceInstance s) -> {
-            WebSocketConfigDto webSocketConfigDto = new WebSocketConfigDto();
-            try {
-                webSocketConfigDto = webSocketDataLoader.getFromJSONUrL(new URL(s.getUri() + "/config/json"));
-                System.out.println(webSocketConfigDto);
-            } catch (Exception e) {
-                System.err.println(s.getUri() + "/config/json" + ":" + "NotReachable");
-                e.printStackTrace();
-            }
-            try {
-                dataLoader.getFromJSONUrL(new URL(s.getUri() + "/config/json"), new URL(s.getUri() + ""));
-                System.out.println(webSocketConfigDto);
-            } catch (Exception e) {
-                System.err.println(s.getUri() + "/config/json" + ":" + "NotReachable");
-                e.printStackTrace();
-            }
-            if (webSocketConfigDto != null) {
+           loadDataFromOrder(s);
+        });
+    }
+    public WebSocketClient getInitiatedWebSocketClient(){
+        List<Transport> transports = new ArrayList<>(2);
+        transports.add(new WebSocketTransport(new StandardWebSocketClient()));
+        transports.add(new RestTemplateXhrTransport());
+        SockJsClient sockJsClient = new SockJsClient(transports);
+        WebSocketClient webSocketClient = sockJsClient;
+        return webSocketClient;
+    }
+
+    public void generateStompClientFromWebSocketClient(ServiceInstance s, StompSessionHandler sessionHandler, String websocketname){
+        WebSocketStompClient stompClient = new WebSocketStompClient(getInitiatedWebSocketClient());
+        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+        stompClient.setTaskScheduler(new ConcurrentTaskScheduler());
+        stompClient.connect(s.getUri()+websocketname, sessionHandler);
+    }
+
+    public void loadDataFromOrder(ServiceInstance s){
+        WebSocketConfigDto webSocketConfigDto = new WebSocketConfigDto();
+        try {
+            webSocketConfigDto = webSocketDataLoader.getFromJSONUrL(new URL(s.getUri() + "/config/json"));
+            System.out.println(webSocketConfigDto);
+        } catch (Exception e) {
+            System.err.println(s.getUri() + "/config/json" + ":" + "NotReachable");
+            e.printStackTrace();
+        }
+        try {
+            dataLoader.getFromJSONUrL(new URL(s.getUri() + "/config/json"), new URL(s.getUri() + ""));
+            System.out.println(webSocketConfigDto);
+        } catch (Exception e) {
+            System.err.println(s.getUri() + "/config/json" + ":" + "NotReachable");
+            e.printStackTrace();
+        }
+        if (webSocketConfigDto != null) {
 
             WebSocketConfigDto finalWebSocketConfigDto = webSocketConfigDto;
             webSocketConfigDto.getEndpointDtoMap().forEach(
@@ -123,21 +149,5 @@ public class DiscoveryClientExample implements CommandLineRunner{
                     })
             );
         }
-        });
-    }
-    public WebSocketClient getInitiatedWebSocketClient(){
-        List<Transport> transports = new ArrayList<>(2);
-        transports.add(new WebSocketTransport(new StandardWebSocketClient()));
-        transports.add(new RestTemplateXhrTransport());
-        SockJsClient sockJsClient = new SockJsClient(transports);
-        WebSocketClient webSocketClient = sockJsClient;
-        return webSocketClient;
-    }
-
-    public void generateStompClientFromWebSocketClient(ServiceInstance s, StompSessionHandler sessionHandler, String websocketname){
-        WebSocketStompClient stompClient = new WebSocketStompClient(getInitiatedWebSocketClient());
-        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-        stompClient.setTaskScheduler(new ConcurrentTaskScheduler());
-        stompClient.connect(s.getUri()+websocketname, sessionHandler);
     }
 }

@@ -65,13 +65,16 @@ orderApp.controller('mainPageCtrl', function ($scope, $http) {
         })
 
         $scope.bankAccounts="";
-        $scope.path=$scope.data.bankAccount.path+$scope.data.bankAccount.all.path+$scope.data.bankAccount.all.account.path
-        $http.get($scope.path+"/"+$scope.call.accountId).then(function (data) {
-            console.log(data)
-            $scope.bankAccounts=data.data;
-        }, function () {
-            window.alert("bankAccount fail");
-        })
+        $scope.initBankAccounts=function () {
+            $scope.path=$scope.data.bankAccount.path+$scope.data.bankAccount.all.path+$scope.data.bankAccount.all.account.path
+            $http.get($scope.path+"/"+$scope.call.accountId).then(function (data) {
+                console.log(data)
+                $scope.bankAccounts=data.data;
+            }, function () {
+                window.alert("bankAccount fail");
+            })
+        }
+        $scope.initBankAccounts();
         $scope.banks="";
         $scope.path=$scope.data.bank.path+$scope.data.bank.all.path;
         $http.get($scope.path).then(function (data) {
@@ -81,6 +84,37 @@ orderApp.controller('mainPageCtrl', function ($scope, $http) {
             window.alert("banks fail");
         })
     });
+
+    $scope.makeBankAccount=function(bankid){
+        $scope.path=$scope.data.bankAccount.path+$scope.data.bankAccount.one.path+$scope.data.bankAccount.one.account.path;
+        var nba={   accountId: $scope.call.accountId,
+                    bankId: bankid}
+        console.log($scope.call.accountId);
+        console.log(bankid);
+        console.log(nba)
+        $http.post($scope.path,nba).then(function (data) {
+            console.log(data)
+            $scope.initBankAccounts()
+
+        }, function () {
+            window.alert("bankAccount make fail");
+        })
+    }
+    $scope.pay=function(bankaccid){
+        $scope.path=$scope.data.bankAccount.path+$scope.data.bankAccount.one.path+$scope.data.bankAccount.one.pay.path;
+        var pay={
+            bankAccountId: bankaccid,
+            orderId: $scope.call.orderId
+        }
+        $http.post($scope.path,pay).then(function (data) {
+            console.log(data)
+            $scope.url.data="successPage.html";
+        }, function () {
+            window.alert("pay fail");
+        })
+        console.log($scope.call.accountId);
+        console.log(bankaccid);
+    }
 
 
 })

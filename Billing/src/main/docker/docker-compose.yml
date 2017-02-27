@@ -11,7 +11,7 @@ services:
             POSTGRES_PASSWORD: mysecretpassword
             POSTGRES_USER: postgres
 
-    web2:
+    billing:
         container_name: Billing
         build: .
         ports:

@@ -6,11 +6,49 @@
 </head>
 <body>
 <div ng-controller="mainPageCtrl">
-    <table tr-ng-grid="" items="order.positions.all" selected-items="mySelectedItems" selection-mode="MultiRow">
+    <table tr-ng-grid="" items="order.positions.all" >
     </table>
-    <table tr-ng-grid="" items="bankAccounts" selected-items="mySelectedItems" selection-mode="MultiRow" fields="['id','ammount','bank.one.name']">
+    <table tr-ng-grid="" items="bankAccounts" selected-items="mySelectedAccount" selection-mode="SingleRow" fields="['id','ammount','bank.one.name']">
     </table>
-    <table tr-ng-grid="" items="banks" selected-items="mySelectedItems" selection-mode="MultiRow" fields="['id','name']">
+    <table tr-ng-grid="" items="banks"  fields="['id','name']">
+        <thead>
+        <tr>
+            <th>
+                <div class="tr-ng-title">
+                        make Bank Account
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <button type="button" class="btn btn-primary" ng-click="makeBankAccount(gridItem.id)">
+                    make
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table tr-ng-grid="" items="mySelectedAccount" fields="['id','ammount','bank.one.name']">
+        <thead>
+        <tr>
+            <th>
+                <div class="tr-ng-title">
+                    Pay Order
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <button type="button" class="btn btn-primary" ng-click="pay(gridItem.id)">
+                    Pay
+                </button>
+            </td>
+        </tr>
+        </tbody>
     </table>
 </div>
 </body>

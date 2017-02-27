@@ -9,6 +9,7 @@ import de.geobe.util.association.ToOne;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -58,5 +59,13 @@ public class XOrder {
     }
     public IToAny<Position> getPositions() {
         return toPositions;
+    }
+
+    public BigDecimal getSum() {
+        final BigDecimal[] bigDecimal = {new BigDecimal("0")};
+        getPositions().getAll().forEach(
+                (Position p)-> bigDecimal[0] = bigDecimal[0].add(p.getAmmount().multiply(new BigDecimal(p.getCount())))
+        );
+        return bigDecimal[0];
     }
 }
