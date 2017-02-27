@@ -5,3 +5,5 @@ include 'feign-server'
 include 'associations'
 include 'complete'
 include 'testclient'
+include 'slimEurekaClient'
+

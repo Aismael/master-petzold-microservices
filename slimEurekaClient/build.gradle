@@ -1,0 +1,83 @@
+group 'How-To-Microservice-Spring-Boot'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.1.RELEASE")
+
+    }
+}
+
+//postgres on Docker
+//docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+
+apply plugin: 'groovy'
+//apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'application'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'gs-spring-boot-docker'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src/main/groovy','src/main/java']
+        }
+        java {
+            srcDirs = []
+        }
+    }
+}
+
+springBoot {
+    mainClass = "Billing.Application"
+}
+bootRepackage      {
+    mainClass = "Billing.Application"
+}
+
+dependencies {
+
+    compile ('org.codehaus.groovy:groovy-all')
+    //compile ('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.cloud:spring-cloud-starter-feign:1.2.3.RELEASE")
+    compile("org.springframework.cloud:spring-cloud-starter-eureka:1.2.3.RELEASE")
+}
+
+
+
+/**
+ * Method to Copy built jar file and Rename it for easy
+ * Docker-Deployment independent from Versioning
+ * at build-process
+ */
+task copyToDockerDeploy << {
+    task copyJarToBin {
+        copy {
+            from jar.getArchivePath()
+            into 'src/main/docker'
+            rename {String fileName ->
+                fileName.replace(jar.getArchivePath().getName(), "SpringBootDocker.jar")
+            }
+        }
+
+    }
+}
+
+build.finalizedBy(copyToDockerDeploy)

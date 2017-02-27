@@ -1,0 +1,8 @@
+version: '2'
+ 
+services:
+    xy:
+        container_name: xy
+        build: .
+        ports:
+          - 9090:9090
