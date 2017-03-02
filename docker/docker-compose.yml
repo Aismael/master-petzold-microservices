@@ -74,6 +74,7 @@ services:
     build: ./../rocket.chat
     ports:
         - 3000:3000
+        - 9090:9090
     depends_on:
         - db
     links:

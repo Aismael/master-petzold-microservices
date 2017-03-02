@@ -44,10 +44,10 @@ sourceSets {
 }
 
 springBoot {
-    mainClass = "Billing.Application"
+    mainClass = "ESL.Application"
 }
 bootRepackage      {
-    mainClass = "Billing.Application"
+    mainClass = "ESL.Application"
 }
 
 dependencies {

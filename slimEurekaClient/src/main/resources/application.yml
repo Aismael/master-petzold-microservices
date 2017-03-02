@@ -5,7 +5,7 @@ server:
         port: 9090
 spring:
     application:
-        name: xy
+        name: ESL
 eureka:
     password: password
     client:

@@ -1,4 +1,41 @@
-FROM node:4-slim
+#for supervisor
+FROM ubuntu:16.04
+EXPOSE 9090 3000
+
+#FROM node:4-slim
+#FROM java:8
+RUN apt-get update && apt-get install -y software-properties-common curl nodejs build-essential npm gnupg2  supervisor
+# Install Java.
+RUN \
+  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+  add-apt-repository -y ppa:webupd8team/java && \
+  apt-get update && \
+  apt-get install -y oracle-java8-installer && \
+  rm -rf /var/lib/apt/lists/* && \
+  rm -rf /var/cache/oracle-jdk8-installer
+# Define commonly used JAVA_HOME variable
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+
+###
+RUN ln -s /usr/bin/nodejs /usr/local/bin/node
+#RUN apt-get update && apt-get install -y default-jre supervisor
+RUN mkdir -p /var/log/supervisor
+RUN chmod 777  /var/log/supervisor
+
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+#slimeureka enviroment
+#FROM java:8
+ENV GROOVY_VERSION 2.3.9
+# load slimeureka
+ADD SpringBootDocker.jar app.jar
+RUN sh -c 'touch /app.jar'
+#ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+ENV JAVA_OPTS=""
+#ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar -Dspring.profiles.active=docker /app.jar" ]
+
+
+#FROM node:4-slim
 
 # crafted and tuned by pierre@ozoux.net and sing.li@rocket.chat
 MAINTAINER buildmaster@rocket.chat
@@ -37,6 +74,8 @@ ENV MONGO_URL=mongodb://db:27017/meteor \
     ADMIN_PASS=supersecret\
     ADMIN_EMAIL=admin@example.com
 
-EXPOSE 3000
 
-CMD ["node", "main.js"]
+#CMD ["node", "main.js"]
+
+CMD ["/usr/bin/supervisord"]
+
