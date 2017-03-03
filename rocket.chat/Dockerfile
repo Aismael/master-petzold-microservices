@@ -70,7 +70,7 @@ ENV MONGO_URL=mongodb://db:27017/meteor \
     PORT=3000 \
     ROOT_URL=http://localhost:3000 \
     Accounts_AvatarStorePath=/app/uploads\
-    ADMIN_USERNAME=admin\
+    ADMIN_USERNAME=admin.example.com\
     ADMIN_PASS=supersecret\
     ADMIN_EMAIL=admin@example.com
 

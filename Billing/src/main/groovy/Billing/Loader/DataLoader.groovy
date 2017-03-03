@@ -62,10 +62,10 @@ class DataLoader implements ApplicationRunner {
                 view.account.all.path))
         def orderJson= new JsonSlurper().parse(new URL(raw.toString()+view.order.path+
                 view.order.all.path))
-        println"*************************************************"
+       /** println"*************************************************"
         println accountsJson
         println orderJson
-        println"*************************************************"
+        println"*************************************************"*/
 
         accountsJson.each {
             makeAccount(it)
@@ -78,9 +78,10 @@ class DataLoader implements ApplicationRunner {
             it.itemSets.all.each{it2->
                 o.getPositions().add(makePosition(it2))
             }
+            /**
             println "##############"
             println it
-            println "##############"
+            println "##############"*/
             xorderRepository.saveAndFlush(o)
         }
 

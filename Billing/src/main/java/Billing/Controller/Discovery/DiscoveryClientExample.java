@@ -1,5 +1,6 @@
 package Billing.Controller.Discovery;
 
+import Billing.Controller.ChatController;
 import Billing.DTOs.AccountBroadcastDto;
 import Billing.DTOs.WebSocketConfigDto;
 import Billing.DTOs.WebSocketEndpointDto;
@@ -26,8 +27,6 @@ import org.springframework.web.socket.sockjs.client.SockJsClient;
 import org.springframework.web.socket.sockjs.client.Transport;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
@@ -49,6 +48,8 @@ public class DiscoveryClientExample implements CommandLineRunner{
     AccountRepository accountRepository;
     @Autowired
     XOrderRepository orderRepository;
+    @Autowired
+    ChatController chatController;
     //TODO own Exception for not Reachable Eureka Service
     @Override
     public void run(String... strings) throws Exception {
@@ -59,6 +60,10 @@ public class DiscoveryClientExample implements CommandLineRunner{
         discoveryClient.getInstances("Order").forEach((ServiceInstance s) -> {
            loadDataFromOrder(s);
         });
+        System.out.println("******************************");
+
+
+        System.out.println("******************************");
     }
     public WebSocketClient getInitiatedWebSocketClient(){
         List<Transport> transports = new ArrayList<>(2);

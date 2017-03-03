@@ -1,6 +1,7 @@
 package Billing;
 
 import Billing.Loader.MyConfig;
+import com.netflix.discovery.EurekaNamespace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -11,6 +12,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -35,7 +37,7 @@ import java.io.IOException;
 @EnableConfigurationProperties
 @EnableDiscoveryClient
 @EnableFeignClients
-
+@EnableEurekaClient
 public class Application {
     @Autowired
     DiscoveryClient client;
