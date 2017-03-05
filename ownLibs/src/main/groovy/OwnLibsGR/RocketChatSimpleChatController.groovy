@@ -1,4 +1,4 @@
-package Ownlibs
+package OwnLibsGR
 
 import groovy.json.JsonBuilder
 import groovyx.net.http.HTTPBuilder

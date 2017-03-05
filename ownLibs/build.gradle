@@ -44,10 +44,10 @@ sourceSets {
 }
 
 springBoot {
-    mainClass = "Ownlibs.Application"
+    mainClass = "OwnLibsGR.Application"
 }
 bootRepackage      {
-    mainClass = "Ownlibs.Application"
+    mainClass = "OwnLibsGR.Application"
 }
 
 dependencies {

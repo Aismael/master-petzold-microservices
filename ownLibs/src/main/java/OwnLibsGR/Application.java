@@ -1,10 +1,9 @@
-package Ownlibs;
+package OwnLibsGR;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.ServiceInstance;
@@ -24,7 +23,7 @@ import java.io.IOException;
 @Configuration
 @SpringBootApplication
 @RestController
-@ComponentScan({"Ownlibs"})
+@ComponentScan({"OwnLibsGR"})
 @EnableScheduling
 @EnableAutoConfiguration
 @ConfigurationProperties
@@ -36,9 +35,11 @@ import java.io.IOException;
 public class Application {
     @Autowired
     DiscoveryClient client;
+    @Autowired
+    RocketChatSimpleChatController r;
     @RequestMapping("/greeting")
     public String home() {
-        //r.sendMsg("a@b.de","test");
+        r.sendMsg("a@b.de","test");
         return "Hello Docker World Iam The ESL Service";
 
     }

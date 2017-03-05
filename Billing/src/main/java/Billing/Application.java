@@ -27,7 +27,7 @@ import java.io.IOException;
 @Configuration
 @SpringBootApplication
 @RestController
-@ComponentScan({"Billing","Billing.Aspects","Billing.Loader", "Ownlibs"})
+@ComponentScan({"Billing","Billing.Aspects","Billing.Loader", "OwnLibsGR"})
 @EnableJpaRepositories(basePackages = {"Billing.Repositories"})
 @EntityScan(basePackages = {"Billing.Entities", "Billing.Beans"})
 @EnableScheduling
