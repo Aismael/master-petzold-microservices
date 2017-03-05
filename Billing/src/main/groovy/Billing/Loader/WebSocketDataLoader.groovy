@@ -7,10 +7,19 @@ import groovy.json.JsonSlurper
 import org.springframework.stereotype.Component
 
 /**
+ * Lädt die Daten der beim Order Service vorhandenen Websockets
+ * aus der Rest Configuration
  * Created by Aismael on 15.02.2017.
  */
 @Component
 class WebSocketDataLoader {
+    /**
+     * Laden unParsen der Websocketdaten von der RestConfiguration
+     * @param url des Anderen Services
+     * @return Ein DTO der Websocketconfiguration
+     * @throws Exception
+     * @throws JsonException
+     */
     WebSocketConfigDto getFromJSONUrL(URL url ) throws Exception, JsonException{
         def input=null
         try {
@@ -18,7 +27,6 @@ class WebSocketDataLoader {
         }catch (Exception e){
 
         }
-        //def input = new JsonSlurper().parse(url)
         if(input) {
             def broadCastWebSocketData = input.config.broadcast
 

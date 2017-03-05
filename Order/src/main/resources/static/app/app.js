@@ -134,9 +134,11 @@ orderApp.controller('favoritePageCtrl', function ($scope, $http) {
             $scope.data.favorite.one.path+$scope.data.favorite.one.order.path+"/"+
             $scope.mySelectedItems[0].id
         $http.post($scope.path).then(
-            function () {
+            function (data) {
                 $scope.url.data = "extPage.html"
-                $scope.call.orderId=$scope.mySelectedItems[0].id;
+                console.log("pppppppppppppppppppppppp");
+                console.log(data);
+                $scope.call.orderId=data.data.id;
                 $scope.call.accountId=$scope.account.id;
                 window.alert("order  success");
 
