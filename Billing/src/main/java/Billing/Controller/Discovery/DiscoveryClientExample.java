@@ -57,10 +57,6 @@ public class DiscoveryClientExample implements CommandLineRunner{
         discoveryClient.getInstances("Order").forEach((ServiceInstance s) -> {
            loadDataFromOrder(s);
         });
-        System.out.println("******************************");
-
-
-        System.out.println("******************************");
     }
     public WebSocketClient getInitiatedWebSocketClient(){
         List<Transport> transports = new ArrayList<>(2);
@@ -114,7 +110,7 @@ public class DiscoveryClientExample implements CommandLineRunner{
                                     accountRepository.saveAndFlush(account);
                                 } catch (Exception e) {
                                     System.err.println("Account:" + "Incomplete");
-                                    //e.printStackTrace();
+                                    e.printStackTrace();
                                 }
                                 return true;
                             }, payload -> new AccountBroadcastDto());
@@ -141,7 +137,7 @@ public class DiscoveryClientExample implements CommandLineRunner{
                                     orderRepository.saveAndFlush(order);
                                 } catch (Exception e) {
                                     System.err.println("order:" + "Incomplete");
-                                    //e.printStackTrace();
+                                    e.printStackTrace();
                                 }
 
                                 return true;

@@ -1,6 +1,6 @@
 package Billing;
 
-import Billing.Loader.MyConfig;
+import OwnLibsGR.MyConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
