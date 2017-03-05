@@ -6,4 +6,5 @@ include 'associations'
 include 'complete'
 include 'testclient'
 include 'slimEurekaClient'
+include 'ownLibs'
 

@@ -1,6 +1,5 @@
 package Billing.Controller.Discovery;
 
-import Billing.Controller.ChatController;
 import Billing.DTOs.AccountBroadcastDto;
 import Billing.DTOs.WebSocketConfigDto;
 import Billing.DTOs.WebSocketEndpointDto;
@@ -48,8 +47,6 @@ public class DiscoveryClientExample implements CommandLineRunner{
     AccountRepository accountRepository;
     @Autowired
     XOrderRepository orderRepository;
-    @Autowired
-    ChatController chatController;
     //TODO own Exception for not Reachable Eureka Service
     @Override
     public void run(String... strings) throws Exception {

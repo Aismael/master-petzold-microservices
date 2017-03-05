@@ -33,6 +33,18 @@ public class XOrder {
         this.sendDate = sendDate;
     }
 
+    @Override
+    public String toString() {
+        return "XOrder{" +
+                "id=" + id +
+                ", sendDate=" + sendDate +
+                ", account=" + account +
+                ", toAccount=" + toAccount +
+                ", positions=" + positions +
+                ", toPositions=" + toPositions.getAll() +
+                '}';
+    }
+
     private Date sendDate;
 
     @ManyToOne(cascade = CascadeType.ALL)

@@ -82,7 +82,6 @@ public class MainPageController {
 		}else{
 			throw new payException(bankAccount.toString());
 		}
-
 		return bankAccountRepository.saveAndFlush(bankAccount);
 	}
 

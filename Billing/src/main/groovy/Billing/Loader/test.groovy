@@ -1,15 +1,18 @@
 package Billing.Loader
 
 import com.google.common.base.Charsets
+import groovy.json.JsonBuilder
 import groovyx.net.http.EncoderRegistry
 import groovyx.net.http.HTTPBuilder
+import groovyx.net.http.HttpResponseDecorator
 import groovyx.net.http.HttpResponseException
 import org.apache.commons.codec.net.URLCodec
 
 
+
 testx =new Test()
 println ("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
-println(testx.sendMsg("admin@example.com","Hi"))
+//println(testx.sendMsg("admin@example.com","Hi"))
 println ("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
 println(testx.sendMsg("admin@error.com","Hi"))
 println ("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
@@ -26,27 +29,37 @@ class Test {
         return http
     }
 
-    def getFromESL(path, Map headers) throws HttpResponseException {
+    def getFromESL(path, Map headers)  {
         return getFromESL(path, headers, new HashMap())
     }
 
-    def getFromESL(path, Map headers, Map param) throws HttpResponseException {
+    def getFromESL(path, Map headers, Map param)  {
         if(!http) http = connectToESL()
         http.setHeaders(headers)
-        return http.get(path: path, query: param)
+        try{
+        return http.get(path: path, query: param){ HttpResponseDecorator resp,  reader->
+                return reader
+        }}catch (HttpResponseException e){
+            return  ["success":e.getMessage()]
+        }
     }
 
     def getFromESL(path) {
         return getFromESL(path, new HashMap())
     }
 
-    def postToESL(body, path, Map headers, Map param) throws HttpResponseException {
+    def postToESL(body, path, Map headers, Map param)  {
         if(!http) http = connectToESL()
         http.setHeaders(headers)
-        return http.post(path: path, body: body, query: param)
+        try{
+         http.post(path: path, body: body, query: param){ HttpResponseDecorator resp,  reader->
+                 return reader
+        }}catch (HttpResponseException e){
+            return ["success":e.getMessage()]
+        }
     }
 
-    def postToESL(body, path, Map headers) throws HttpResponseException {
+    def postToESL(body, path, Map headers)  {
         return postToESL(body, path, headers, new HashMap())
     }
 
@@ -70,7 +83,8 @@ class Test {
         while (true) {
             try {
                 aS = aS.stateRun()
-            } catch (HttpResponseException e) {
+            } catch (Exception e) {
+                e.printStackTrace()
                 aS = eS
                 break
             }
@@ -85,13 +99,18 @@ class Test {
         Closure funct
         def msg,data, mail, name
 
-        def stateRun() throws HttpResponseException{
+        def stateRun() {
             funct()
         }
     }
 
-    MyState login() throws HttpResponseException {
-        def result = postToESL('{ "user": "admin", "password": "supersecret" }', "/api/v1/login", cT)
+    MyState login()  {
+        def json = new JsonBuilder()
+        def root=json{
+            user "admin.example.com"
+            password  "supersecret"
+        }
+        def result = postToESL(json.toString(), "/api/v1/login", cT)
         if (result.status=="success") {
             cT.putAll(["X-Auth-Token": result.data.authToken, "X-User-Id": result.data.userId])
             return new MyState(funct: {return doUserExist()}, msg: aS.msg, mail: aS.mail,name: aS.name)
@@ -100,9 +119,9 @@ class Test {
         }
     }
 
-    MyState doUserExist() throws HttpResponseException {
+    MyState doUserExist()  {
         def result = getFromESL("/api/v1/users.info", cT, ["username": aS.name])
-        if (result.success=="true") {
+        if (result.success==true) {
             return new MyState(funct: {return doChannelExists()}, msg: aS.msg, mail: aS.mail,name: aS.name)
         } else {
             return new MyState(funct: {return makeUser()}, msg: aS.msg, mail: aS.mail,name: aS.name)
@@ -111,16 +130,74 @@ class Test {
 
     }
 
-    MyState makeUser() {
-        return false
+    MyState makeUser()  {
+        def json = new JsonBuilder()
+        def root=json{
+            name aS.name
+            email  aS.mail
+            password aS.name
+            username aS.name
+        }
+        def result = postToESL(json.toString(),"/api/v1/users.create", cT)
+        if (result.success==true) {
+            return new MyState(funct: {return doChannelExists()}, msg: aS.msg, mail: aS.mail,name: aS.name)
+        } else {
+            return eS
+
+        }
     }
 
-    MyState doChannelExists() {
-        return false
+
+    //TODO make
+    MyState doChannelExists()  {
+        def result = getFromESL("/api/v1/channels.list", cT)
+        def cexits=false
+         result.channels.each{
+            if(it.name==aS.name){
+                cexits= true
+            }
+        }
+println cexits
+
+
+        if (result.success==true&&cexits) {
+            return new MyState(funct: {return sendMsgToServer()}, msg: aS.msg, mail: aS.mail,name: aS.name)
+        } else {
+            return new MyState(funct: {return makeChannel()}, msg: aS.msg, mail: aS.mail,name: aS.name)
+
+        }
     }
 
-    MyState makeChannel() {
-        return false
+    //TODO make
+    MyState sendMsgToServer()  {
+        def json = new JsonBuilder()
+        def root=json{
+            channel "#"+aS.name.toString()
+            text aS.msg
+        }
+        def result = postToESL(json.toString(),"/api/v1/chat.postMessage", cT)
+        if (result.success==true) {
+            return fS
+        } else {
+            return eS
+
+        }
+    }
+
+    //TODO make
+    MyState makeChannel()  {
+        def json = new JsonBuilder()
+        def root=json{
+            name aS.name
+            members "admin.example.com", aS.name
+        }
+        def result = postToESL(json.toString(),"/api/v1/channels.create", cT)
+        if (result.success==true) {
+            return new MyState(funct: {return sendMsgToServer()}, msg: aS.msg, mail: aS.mail,name: aS.name)
+        } else {
+            return eS
+
+        }
     }
 }
 

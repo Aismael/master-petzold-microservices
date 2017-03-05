@@ -76,6 +76,7 @@ springBoot {
         compile("org.springframework.boot:spring-boot-starter-tomcat")
         runtime("mysql:mysql-connector-java")
         compile project(':associations')
+        compile project(':ownLibs')
     }
 
 

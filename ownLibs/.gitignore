@@ -1,4 +1,4 @@
-ownLibs/build/*
+build/*
 .gradle/*
 .settings/*
 .idea/*
@@ -6,4 +6,4 @@ src/main/docker/SpringBootDocker.jar
 
 .gradle/
 .idea/
-/build/
+/ownLibs/build/

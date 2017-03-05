@@ -10,7 +10,8 @@ services:
         MYSQL_DATABASE: demo
         MYSQL_USER: demo_user
         MYSQL_PASSWORD: demo_pass
-  web:
+
+  order:
     container_name: Order
     build: .
     ports:

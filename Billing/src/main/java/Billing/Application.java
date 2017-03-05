@@ -1,7 +1,6 @@
 package Billing;
 
 import Billing.Loader.MyConfig;
-import com.netflix.discovery.EurekaNamespace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -28,7 +27,7 @@ import java.io.IOException;
 @Configuration
 @SpringBootApplication
 @RestController
-@ComponentScan({"Billing","Billing.Aspects","Billing.Loader"})
+@ComponentScan({"Billing","Billing.Aspects","Billing.Loader", "Ownlibs"})
 @EnableJpaRepositories(basePackages = {"Billing.Repositories"})
 @EntityScan(basePackages = {"Billing.Entities", "Billing.Beans"})
 @EnableScheduling
