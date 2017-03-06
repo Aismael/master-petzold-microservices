@@ -21,7 +21,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * @author Spencer Gibb
+ * Rest Controller für die Abfragen der Angular JS UI für den Bezahl Use Case
+ * @author Martin Petzold
  */
 @EnableDiscoveryClient
 @RestController
@@ -35,6 +36,13 @@ public class MainPageController {
 	BankRepository bankRepository;
 	@Autowired
 	AccountRepository accountRepository;
+
+	/**
+	 *
+	 * @param id
+	 * @param accountId
+	 * @return
+	 */
 	@RequestMapping(value="${RESTConfiguration.view.order.path}"+
 			"${RESTConfiguration.view.order.one.path}"+
 			"${RESTConfiguration.view.order.one.idAndAccount.path}"+
@@ -45,6 +53,12 @@ public class MainPageController {
 		System.out.println("oba");
 		return orderRepository.findByIdAndAccountId(id,accountId);
 	}
+
+	/**
+	 *
+	 * @param accountId
+	 * @return
+	 */
 	@RequestMapping(value="${RESTConfiguration.view.bankAccount.path}"+
 			"${RESTConfiguration.view.bankAccount.all.path}"+
 			"${RESTConfiguration.view.bankAccount.all.account.path}"+"/{accountId}"
@@ -53,6 +67,11 @@ public class MainPageController {
 		return bankAccountRepository.findAllByAccountId(accountId);
 	}
 
+	/**
+	 *
+	 * @param makeNewAccountDTO
+	 * @return
+	 */
 	@RequestMapping(value="${RESTConfiguration.view.bankAccount.path}"+
 			"${RESTConfiguration.view.bankAccount.one.path}"+
 			"${RESTConfiguration.view.bankAccount.one.account.path}"
@@ -67,6 +86,11 @@ public class MainPageController {
 		return bankAccountRepository.saveAndFlush(bankAccount);
 	}
 
+	/**
+	 *
+	 * @param payDTO
+	 * @return
+	 */
 	@RequestMapping(value="${RESTConfiguration.view.bankAccount.path}"+
 			"${RESTConfiguration.view.bankAccount.one.path}"+
 			"${RESTConfiguration.view.bankAccount.one.pay.path}"
@@ -85,6 +109,10 @@ public class MainPageController {
 		return bankAccountRepository.saveAndFlush(bankAccount);
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@RequestMapping(value = "${RESTConfiguration.view.bank.path}"+
 			"${RESTConfiguration.view.bank.all.path}")
 	public List<Bank> getAllBanks(){

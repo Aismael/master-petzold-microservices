@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 
 /**
+ * Aspect der Einem Account nach der Speicherung ein Startkapital hinzufügt
  * Created by Aismael on 31.01.2017.
  */
 @Component
@@ -29,6 +30,11 @@ public class SaveAccountAspect {
     public void accountHasSaved(){
     }
 
+    /**
+     * fügt dem Account ein Startkapital hinzu
+     * @param joinPoint
+     * @param returnValue
+     */
     @AfterReturning(pointcut = "accountHasSaved()",returning = "returnValue")
     public void broadcast(JoinPoint joinPoint,Object returnValue) {
         if(returnValue instanceof Account){

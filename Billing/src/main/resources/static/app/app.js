@@ -41,23 +41,27 @@ orderApp.controller('dataService', function ($scope, $http) {
 
 })
 
-orderApp.controller('mainPageCtrl', function ($scope, $http) {
-    if(!$scope.call){
-    $scope.call = {orderId:"0",accountId:"0"}
-    $http.get("/call/data").then(function (data) {
-        console.log(data)
-        $scope.call.orderId=data.data.orderId;
-        $scope.call.accountId=data.data.accountId;
-    }, function () {
+orderApp.config(function ($locationProvider) {
+    $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: false
+    });
+});
+orderApp.controller('mainPageCtrl', function ($scope, $http,$location) {
+
+    $scope.call = $location.search();
+    console.log($scope.call)
+
+    if(!$scope.call.orderId&&!$scope.call){
         window.alert("login fail");
-    })
     }
 
-    $scope.$watchCollection("call", function () {
+    $scope.load= function () {
         $scope.order="";
         $scope.path=$scope.data.order.path+$scope.data.order.one.path+$scope.data.order.one.idAndAccount.path;
         console.log($scope.path+"/"+$scope.call.orderId+"/"+$scope.call.accountId+"/")
         $http.get($scope.path+"/"+$scope.call.orderId+"/"+$scope.call.accountId+"/").then(function (data) {
+            console.log("ssssssssssssssssss")
             console.log(data)
             $scope.order=data.data;
         }, function () {
@@ -83,7 +87,8 @@ orderApp.controller('mainPageCtrl', function ($scope, $http) {
         }, function () {
             window.alert("banks fail");
         })
-    });
+    }
+    $scope.load();
 
     $scope.makeBankAccount=function(bankid){
         $scope.path=$scope.data.bankAccount.path+$scope.data.bankAccount.one.path+$scope.data.bankAccount.one.account.path;

@@ -240,10 +240,10 @@ orderApp.controller('extPageCtrl', function ($scope, $http,$sce) {
     $scope.my={my: null}
     $scope.jumpToBilling=function () {
         console.log("tick")
-        $http.post("/call",$scope.call,{timeout: 30000}).then(function (data) {
+        $http.get("/call",{timeout: 30000}).then(function (data) {
             console.log("****")
             console.log(data)
-            return $scope.my.my=$sce.trustAsResourceUrl("http://"+self.location.hostname+":"+data.data);
+            return $scope.my.my=$sce.trustAsResourceUrl("http://"+self.location.hostname+":"+data.data+"/?orderId="+$scope.call.orderId+"&&accountId="+$scope.call.accountId);
         },function (data) {
             console.log(data)
             console.log("error")

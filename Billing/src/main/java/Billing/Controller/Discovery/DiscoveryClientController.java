@@ -34,9 +34,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-//TODO commit in
+/**
+ * Sucht die Vorhandenen Instanzen des Order Services und Meldet sich bei dessen Websockets an
+ */
 @Component
-public class DiscoveryClientExample implements CommandLineRunner{
+public class DiscoveryClientController implements CommandLineRunner{
     @Autowired
     private DiscoveryClient discoveryClient;
     @Autowired
@@ -48,6 +50,12 @@ public class DiscoveryClientExample implements CommandLineRunner{
     @Autowired
     XOrderRepository orderRepository;
     //TODO own Exception for not Reachable Eureka Service
+
+    /**
+     * Sucht die Instanzen des Order Services nach dem Eigenen Servicestart bis min einer gefunden wurde
+     * @param strings
+     * @throws Exception
+     */
     @Override
     public void run(String... strings) throws Exception {
         while(discoveryClient.getInstances("Order").isEmpty()){
@@ -58,6 +66,11 @@ public class DiscoveryClientExample implements CommandLineRunner{
            loadDataFromOrder(s);
         });
     }
+
+    /**
+     * Erzeugt einen Neuen Initierten SockJS Websocket Client
+     * @return SockJs Websocket Client
+     */
     public WebSocketClient getInitiatedWebSocketClient(){
         List<Transport> transports = new ArrayList<>(2);
         transports.add(new WebSocketTransport(new StandardWebSocketClient()));
@@ -67,6 +80,12 @@ public class DiscoveryClientExample implements CommandLineRunner{
         return webSocketClient;
     }
 
+    /**
+     * Generiert einen Stomp sockjs websocketclient und verbindet diesen zu einem Server,der Service Instanz
+     * @param s Service Instanz
+     * @param sessionHandler Session Handler
+     * @param websocketname Name des Websockets
+     */
     public void generateStompClientFromWebSocketClient(ServiceInstance s, StompSessionHandler sessionHandler, String websocketname){
         WebSocketStompClient stompClient = new WebSocketStompClient(getInitiatedWebSocketClient());
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
@@ -74,6 +93,12 @@ public class DiscoveryClientExample implements CommandLineRunner{
         stompClient.connect(s.getUri()+websocketname, sessionHandler);
     }
 
+    /**
+     * Lädt die Websocketdaten eines Service
+     * Und Verbindet sich mit den Websockets
+     * und definiert die Methoden die auf den Broadcast des Websockets Reagieren
+     * @param s Service Instanz
+     */
     public void loadDataFromOrder(ServiceInstance s){
         WebSocketConfigDto webSocketConfigDto = new WebSocketConfigDto();
         try {
@@ -98,11 +123,11 @@ public class DiscoveryClientExample implements CommandLineRunner{
                         String send = finalWebSocketConfigDto.getIn() + it.getMessage();
                         String subscribe = finalWebSocketConfigDto.getOut() + it.getSendPath();
                         //TODO make code more generic
+                        /**
+                         *
+                         */
                         if (it.getName().equals("account")) {
                             StompSessionHandler sessionHandler = new DtoOutOfJsonSessionHandler(send, subscribe, AccountBroadcastDto.class, payload -> {
-                                //TODO make to obj
-                                System.out.println("####account####");
-                                System.out.println(payload);
                                 Account account = new Account();
                                 try {
                                     account.setId(((AccountBroadcastDto) payload).getId());
@@ -116,11 +141,11 @@ public class DiscoveryClientExample implements CommandLineRunner{
                             }, payload -> new AccountBroadcastDto());
                             generateStompClientFromWebSocketClient(s, sessionHandler, finalWebSocketConfigDto.getName());
                         }
+                        /**
+                         *
+                         */
                         if (it.getName().equals("order")) {
                             StompSessionHandler sessionHandler = new DtoOutOfJsonSessionHandler(send, subscribe, LinkedHashMap.class, payload -> {
-                                //TODO  make to obj
-                                System.out.println("####order####");
-                                System.out.println(payload);
                                 XOrder order = new XOrder();
                                 try {
                                     order.setId(((Integer) ((LinkedHashMap) payload).get("id")).longValue());
@@ -139,7 +164,6 @@ public class DiscoveryClientExample implements CommandLineRunner{
                                     System.err.println("order:" + "Incomplete");
                                     e.printStackTrace();
                                 }
-
                                 return true;
                             }, payload -> new LinkedHashMap<>());
                             generateStompClientFromWebSocketClient(s, sessionHandler, finalWebSocketConfigDto.getName());

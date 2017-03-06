@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Created by Aismael on 31.01.2017.
+ * Aspect zur Sendung einer Nachricht bei Ageschlossener Bezahlung
  */
 @Component
 @Aspect
@@ -42,6 +43,11 @@ public class MsgAspect {
         this.payDTO=payDTO;
     }
 
+    /**
+     * Sendet die Nachricht zum Rockatchat
+     * @param joinPoint
+     * @param returnValue
+     */
     @AfterReturning(pointcut = "orderIsMade()",returning = "returnValue")
     public void broadcast(JoinPoint joinPoint,Object returnValue) {
         System.out.println("postchat");
@@ -52,6 +58,11 @@ public class MsgAspect {
         }
     }
 
+    /**
+     * wandelt die Order in einen String
+     * @param order
+     * @return
+     */
     private String makeOrderToMsg(XOrder order){
         ObjectMapper mapper = new ObjectMapper();
         try {
