@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 /**
  * Lädt die Daten der beim Order Service vorhandenen Websockets
  * aus der Rest Configuration
- * Created by Aismael on 15.02.2017.
+ * Created by Martin Petzold on 15.02.2017.
  */
 @Component
 class WebSocketDataLoader {

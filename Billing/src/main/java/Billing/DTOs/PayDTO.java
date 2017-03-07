@@ -1,16 +1,19 @@
 package Billing.DTOs;
 
-import Billing.Entities.BankAccount;
-
 /**
- * Created by Aismael on 24.02.2017.
+ * DTO mit dem Daten um eine Order zu bezahlen
+ * Created by Martin Petzold on 24.02.2017.
  */
 public class PayDTO {
-    Long bankAccountId,orderId;
+    Long bankAccountId, orderId;
 
     public PayDTO() {
     }
 
+    /**
+     * @param bankAccountId
+     * @param orderId
+     */
     public PayDTO(Long bankAccountId, Long orderId) {
         bankAccountId = bankAccountId;
         orderId = orderId;

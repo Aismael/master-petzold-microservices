@@ -1,7 +1,8 @@
 package Order.DTOs;
 
 /**
- * Created by Aismael on 31.01.2017.
+ * DTO des Accounts welches über den Websocket geposted wird
+ * Created by Martin Petzold on 31.01.2017.
  */
 public class AccountBroadcastDto {
     Long id=null;

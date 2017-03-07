@@ -7,7 +7,7 @@ import Order.Repositories.OrderConceptRepository;
 import java.util.List;
 
 /**
- * Created by Aismael on 04.12.2016.
+ * Created by Martin Petzold on 04.12.2016.
  */
 public interface OrderRepository extends OrderConceptRepository<Order> {
     List<Order> findAllByAccountId(Long accountId);

@@ -9,7 +9,7 @@ import de.geobe.util.association.ToOne;
 import javax.persistence.*;
 
 /**
- * Created by Aismael on 13.12.2016.
+ * Created by Martin Petzold on 13.12.2016.
  */
 @JsonSerialize
 @Entity

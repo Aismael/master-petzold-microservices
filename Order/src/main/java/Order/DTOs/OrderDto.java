@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by Aismael on 31.01.2017.
+ * DTO einer Bestellung
+ * Created by Martin Petzold on 31.01.2017.
  */
 public class OrderDto {
     private Long id;

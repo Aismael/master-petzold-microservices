@@ -11,6 +11,7 @@ public class DtoOutOfJsonSessionHandler extends StompSessionHandlerAdapter {
     String send, subscribe;
     Type type;
     DoFunction subscribeFunction, sendFunction;
+
     public DtoOutOfJsonSessionHandler(String send, String subscribe, Type type, DoFunction subscribeFunction, DoFunction sendFunction) {
         this.send = send;//"/info/accountMsg"
         this.subscribe = subscribe;//"/data/accountBr"
@@ -22,6 +23,7 @@ public class DtoOutOfJsonSessionHandler extends StompSessionHandlerAdapter {
 
     /**
      * Registriert den Handler nach erfolgreicher websocket connection
+     *
      * @param session
      * @param connectedHeaders
      */

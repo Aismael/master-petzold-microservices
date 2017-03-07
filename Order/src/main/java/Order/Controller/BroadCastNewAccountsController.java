@@ -9,10 +9,13 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
- * Created by Aismael on 31.01.2017.
+ * Controller um Accounts an den Webocket zu senden und Nachrichten
+ * von diesem zu Empfangen
+ * Created by Martin Petzold on 31.01.2017.
  */
 
 
@@ -28,39 +31,38 @@ public class BroadCastNewAccountsController {
     private String message;
     @Value("${RESTConfiguration.broadcast.endpoint.account.sendPath}")
     private String sendPath;
-
-    Queue<AccountBroadcastDto> accountBroadcastDtos = new LinkedList<>();
     @Autowired
     private SimpMessagingTemplate template;
     @Autowired
     private AccountRepository accountRepository;
 
-   @SendTo("${RESTConfiguration.broadcast.out}"+"${RESTConfiguration.broadcast.endpoint.account.sendPath}")
-   public AccountBroadcastDto broadcast(AccountBroadcastDto in)  {
+    /**
+     * Methode die den Sendepunkt des Websockets
+     * definiert
+     * @param in
+     * @return
+     */
+    @SendTo("${RESTConfiguration.broadcast.out}" + "${RESTConfiguration.broadcast.endpoint.account.sendPath}")
+    public AccountBroadcastDto broadcast(AccountBroadcastDto in) {
         return in;
     }
 
+    /**
+     * methode die den Empfangspunkt des Websockets
+     * definiert
+     * @param in
+     */
     @MessageMapping("${RESTConfiguration.broadcast.endpoint.account.message}")
-    public void getBroadcast(AccountBroadcastDto in)  {
-        System.out.println("~~~~~~~~~~~~~~~~~~~");
-        System.out.println(in);
-        System.out.println("~~~~~~~~~~~~~~~~~~~");
-        this.template.convertAndSend(out+sendPath, in);
+    public void getBroadcast(AccountBroadcastDto in) {
+        this.template.convertAndSend(out + sendPath, in);
     }
 
-    public boolean set(AccountBroadcastDto abd) {
-        return accountBroadcastDtos.add(abd);
-    }
 
-    public AccountBroadcastDto get() {
-        return accountBroadcastDtos.poll();
-    }
-
-    public boolean look() {
-        return accountBroadcastDtos.isEmpty();
-    }
-
-    public void  broadcastAccount(AccountBroadcastDto in) {
+    /**
+     * Sendet das den Account an den Websocket
+     * @param in
+     */
+    public void broadcastAccount(AccountBroadcastDto in) {
         System.out.println("Fire");
         getBroadcast(in);
     }

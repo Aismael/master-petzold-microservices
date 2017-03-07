@@ -1,7 +1,7 @@
 package Tutorials.Tutorial_5.bookmarks;
 
 /**
- * Created by Aismael on 04.12.2016.
+ * Created by Martin Petzold on 04.12.2016.
  */
 
 import org.springframework.boot.CommandLineRunner;

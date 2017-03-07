@@ -38,9 +38,7 @@ import java.util.concurrent.TimeUnit;
  * Sucht die Vorhandenen Instanzen des Order Services und Meldet sich bei dessen Websockets an
  */
 @Component
-public class DiscoveryClientController implements CommandLineRunner{
-    @Autowired
-    private DiscoveryClient discoveryClient;
+public class DiscoveryClientController implements CommandLineRunner {
     @Autowired
     WebSocketDataLoader webSocketDataLoader;
     @Autowired
@@ -49,29 +47,33 @@ public class DiscoveryClientController implements CommandLineRunner{
     AccountRepository accountRepository;
     @Autowired
     XOrderRepository orderRepository;
+    @Autowired
+    private DiscoveryClient discoveryClient;
     //TODO own Exception for not Reachable Eureka Service
 
     /**
      * Sucht die Instanzen des Order Services nach dem Eigenen Servicestart bis min einer gefunden wurde
+     *
      * @param strings
      * @throws Exception
      */
     @Override
     public void run(String... strings) throws Exception {
-        while(discoveryClient.getInstances("Order").isEmpty()){
+        while (discoveryClient.getInstances("Order").isEmpty()) {
             System.err.println("WaitFor:ORDER");
             TimeUnit.SECONDS.sleep(10);
         }
         discoveryClient.getInstances("Order").forEach((ServiceInstance s) -> {
-           loadDataFromOrder(s);
+            loadDataFromOrder(s);
         });
     }
 
     /**
      * Erzeugt einen Neuen Initierten SockJS Websocket Client
+     *
      * @return SockJs Websocket Client
      */
-    public WebSocketClient getInitiatedWebSocketClient(){
+    public WebSocketClient getInitiatedWebSocketClient() {
         List<Transport> transports = new ArrayList<>(2);
         transports.add(new WebSocketTransport(new StandardWebSocketClient()));
         transports.add(new RestTemplateXhrTransport());
@@ -82,24 +84,26 @@ public class DiscoveryClientController implements CommandLineRunner{
 
     /**
      * Generiert einen Stomp sockjs websocketclient und verbindet diesen zu einem Server,der Service Instanz
-     * @param s Service Instanz
+     *
+     * @param s              Service Instanz
      * @param sessionHandler Session Handler
-     * @param websocketname Name des Websockets
+     * @param websocketname  Name des Websockets
      */
-    public void generateStompClientFromWebSocketClient(ServiceInstance s, StompSessionHandler sessionHandler, String websocketname){
+    public void generateStompClientFromWebSocketClient(ServiceInstance s, StompSessionHandler sessionHandler, String websocketname) {
         WebSocketStompClient stompClient = new WebSocketStompClient(getInitiatedWebSocketClient());
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
         stompClient.setTaskScheduler(new ConcurrentTaskScheduler());
-        stompClient.connect(s.getUri()+websocketname, sessionHandler);
+        stompClient.connect(s.getUri() + websocketname, sessionHandler);
     }
 
     /**
      * Lädt die Websocketdaten eines Service
      * Und Verbindet sich mit den Websockets
      * und definiert die Methoden die auf den Broadcast des Websockets Reagieren
+     *
      * @param s Service Instanz
      */
-    public void loadDataFromOrder(ServiceInstance s){
+    public void loadDataFromOrder(ServiceInstance s) {
         WebSocketConfigDto webSocketConfigDto = new WebSocketConfigDto();
         try {
             webSocketConfigDto = webSocketDataLoader.getFromJSONUrL(new URL(s.getUri() + "/config/json"));

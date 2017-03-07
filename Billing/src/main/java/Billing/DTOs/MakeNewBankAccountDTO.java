@@ -1,15 +1,23 @@
 package Billing.DTOs;
 
 /**
- * Created by Aismael on 24.02.2017.
+ * DTO zum erstellen eines neuen BankAccounts
+ * Created by Martin Petzold on 24.02.2017.
  */
-public class MakeNewAccountDTO {
-    Long accountId,bankId;
+public class MakeNewBankAccountDTO {
+    Long accountId, bankId;
 
-    public MakeNewAccountDTO() {
+    /**
+     * leerer Konstruktor
+     */
+    public MakeNewBankAccountDTO() {
     }
 
-    public MakeNewAccountDTO(Long accountId, Long bankId) {
+    /**
+     * @param accountId
+     * @param bankId
+     */
+    public MakeNewBankAccountDTO(Long accountId, Long bankId) {
         this.accountId = accountId;
         this.bankId = bankId;
     }

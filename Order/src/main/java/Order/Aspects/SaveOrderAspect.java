@@ -16,7 +16,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by Aismael on 31.01.2017.
+ * Aspect der nach dem Speichern einer Bestellung
+ * diesen an die dafür vorgesehene vorgesehene
+ * Websocketschnittstelle sendet
+ * Created by Martin Petzold on 31.01.2017.
  */
 @Component
 @Aspect
@@ -27,6 +30,12 @@ public class SaveOrderAspect {
     public void orderHasSaved(){
     }
 
+    /**
+     * wandelt die Bestellung in ein DTO um und
+     * Sendet dises an den Websocket
+     * @param joinPoint
+     * @param returnValue
+     */
     @AfterReturning(pointcut = "orderHasSaved()",returning = "returnValue")
     public void broadcast(JoinPoint joinPoint, Object returnValue) {
         if(returnValue instanceof Order){

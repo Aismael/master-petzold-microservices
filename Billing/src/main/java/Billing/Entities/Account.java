@@ -12,24 +12,26 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Aismael on 16.02.2017.
-*/
+ * Ein User Account
+ * Created by Martin Petzold on 16.02.2017.
+ */
 @Entity
 @Proxy(lazy = false)
 @JsonSerialize
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Account {
     @Id
     private Long id;
     @Column(unique = true)
     private String mail;
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "account")
-    private Set<BankAccount> bankAccounts=new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
+    private Set<BankAccount> bankAccounts = new HashSet<>();
     @Transient
     private ToMany<Account, BankAccount> toBankAccounts =
             new ToMany<>(() -> bankAccounts, this, BankAccount::getAccount);
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "account")
-    private Set<XOrder> xorders=new HashSet<>();;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
+    private Set<XOrder> xorders = new HashSet<>();
+    ;
     @Transient
     private ToMany<Account, XOrder> toXOrders =
             new ToMany<>(() -> xorders, this, XOrder::getAccount);

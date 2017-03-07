@@ -19,7 +19,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Aismael on 30.01.2017.
+ * Kontroller für die Favoriten
+ * Created by Martin Petzold on 30.01.2017.
  */
 @RestController
 @RequestMapping(path = "${RESTConfiguration.view.favorite.path}")
@@ -40,18 +41,31 @@ public class FavoriteController {
         System.out.println("_________________");
     }
 
-
+    /**
+     * gibt eine Liste aller Favoriten zurück
+     * @return Liste der Favoriten
+     */
     @RequestMapping(value = "${RESTConfiguration.view.favorite.all.path}")
     public List<Favorite> findFavorites() {
         return favoriteRepository.findAll();
     }
 
+    /**
+     * Gibt die Liste aller Favoriten eines Accounts zurück
+     * @param accountId Id des Accounts
+     * @return Liste der zugehörigen Favoriten
+     */
     @RequestMapping(value = "${RESTConfiguration.view.favorite.all.path}" +
             "${RESTConfiguration.view.favorite.all.account.path}" + "/{accountId}")
     public List<Favorite> findFavoritesByAccountId(@PathVariable Long accountId) {
         return favoriteRepository.findAllByAccountId(accountId);
     }
 
+    /**
+     * Erstellt aus einem Favoriten eine Bestellung
+     * @param favoriteId Id des Favoriten
+     * @return die erstellte Bestellung
+     */
     @RequestMapping(value = "${RESTConfiguration.view.favorite.one.path}" +
             "${RESTConfiguration.view.favorite.one.order.path}" + "/{favoriteId}", method = RequestMethod.POST)
     public Order orderFavorite(@PathVariable Long favoriteId) {
@@ -69,6 +83,11 @@ public class FavoriteController {
         return order;
     }
 
+    /**
+     * Speichert einen Favoriten
+     * @param favoriteDto das DTO asu dem ein Favorit gemacht wird
+     * @return der Gespeicherte Favorit
+     */
     @RequestMapping(value = "${RESTConfiguration.view.favorite.one.path}", method = RequestMethod.POST)
     public Long orderFavorite(@RequestBody FavoriteDto favoriteDto) {
         Favorite favorite = new Favorite(accountRepository.findOne(favoriteDto.getAccountId()),favoriteDto.getName(),favoriteDto.getCount());

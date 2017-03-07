@@ -19,7 +19,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Aismael on 30.01.2017.
+ * Controller der Bestellungen
+ * Created by Martin Petzold on 30.01.2017.
  */
 @RestController
 @RequestMapping(path = "${RESTConfiguration.view.order.path}")
@@ -39,11 +40,20 @@ public class OrderController {
     }
 
 
+    /**
+     * Liste aller Bestellungen
+     * @return Liste der Bestellungen
+     */
     @RequestMapping(value = "${RESTConfiguration.view.order.all.path}")
     public List<Order> findFavorites() {
         return orderRepository.findAll();
     }
 
+    /**
+     * Alle Bestellungen eines Accounts
+     * @param accountId
+     * @return Liste der Bestellungen
+     */
     @RequestMapping(value = "${RESTConfiguration.view.order.all.path}" +
             "${RESTConfiguration.view.order.all.account.path}" + "/{accountId}")
     public List<Order> findFavoritesByAccountId(@PathVariable Long accountId) {
@@ -51,10 +61,13 @@ public class OrderController {
     }
 
 
+    /**
+     *  Speichert eine Bestellung aus einem DTO
+     * @param orderDto
+     * @return gespeicherte Bestellung
+     */
     @RequestMapping(value = "${RESTConfiguration.view.order.one.path}", method = RequestMethod.POST)
     public Long orderFavorite(@RequestBody OrderDto orderDto) {
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-        System.out.println(orderDto);
         Order order = new Order(accountRepository.findOne(orderDto.getAccountId()), new Date());
         for (ItemSetStubDto itemSetStub : orderDto.getitemSetStubDtos()) {
             ItemSet i=new ItemSet();

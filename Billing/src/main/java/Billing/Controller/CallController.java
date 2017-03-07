@@ -14,7 +14,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /**
  * controller für die Übergabe der UI von einem Anderen Service an diesen Service
- * Created by Aismael on 21.02.2017.
+ * Created by Martin Petzold on 21.02.2017.
  * TODO rework UI Call von Einem Anderen Service
  */
 @RestController
@@ -27,9 +27,10 @@ public class CallController {
 
     /**
      * Ausgabe der Eigenen URI
+     *
      * @return
      */
-    @RequestMapping(value = "${RESTConfiguration.call.path}",method = GET)
+    @RequestMapping(value = "${RESTConfiguration.call.path}", method = GET)
     public String getURI() {
         URI localInstance = client.getLocalServiceInstance().getUri();
         return localInstance.toString();

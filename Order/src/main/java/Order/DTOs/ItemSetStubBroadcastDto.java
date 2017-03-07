@@ -3,7 +3,8 @@ package Order.DTOs;
 import java.math.BigDecimal;
 
 /**
- * Created by Aismael on 31.01.2017.
+ * Dto der Einzelnen Bestellzeilen als DTO fasst itemset und items zusammen, zum senden zum Websocket
+ * Created by Martin Petzold on 31.01.2017.
  */
 public class ItemSetStubBroadcastDto {
     Integer count;

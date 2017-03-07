@@ -13,11 +13,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Created by Aismael on 31.01.2017.
+ * Controller um Bestellungen an den Webocket zu senden und Nachrichten
+ * von diesem zu Empfangen
+ * Created by Martin Petzold on 31.01.2017.
  */
 @Controller
 public class BroadcastNewOrdersController {
-    Queue<OrderBroadcastDto> orderBroadcastDto = new LinkedList<>();
     @Value("${RESTConfiguration.broadcast.out}")
     private String out;
     @Value("${RESTConfiguration.broadcast.in}")
@@ -31,31 +32,31 @@ public class BroadcastNewOrdersController {
     @Autowired
     private SimpMessagingTemplate template;
 
+    /**
+     * Methode die den Sendepunkt des Websockets
+     * definiert
+     * @param in
+     * @return
+     */
     @SendTo("${RESTConfiguration.broadcast.out}"+"${RESTConfiguration.broadcast.endpoint.order.sendPath}")
     public OrderBroadcastDto broadcast(OrderBroadcastDto in)  {
         return in;
     }
 
+    /**
+     * methode die den Empfangspunkt des Websockets
+     * definiert
+     * @param in
+     */
     @MessageMapping("${RESTConfiguration.broadcast.endpoint.order.message}")
     public void getBroadcast(OrderBroadcastDto in)  {
-        System.out.println("~~~~~~~~~~~~~~~~~~~");
-//        System.out.println(in);
-        System.out.println("~~~~~~~~~~~~~~~~~~~");
         this.template.convertAndSend(out+sendPath, in);
     }
 
-    public boolean set(OrderBroadcastDto abd) {
-        return orderBroadcastDto.add(abd);
-    }
-
-    public OrderBroadcastDto get() {
-        return orderBroadcastDto.poll();
-    }
-
-    public boolean look() {
-        return orderBroadcastDto.isEmpty();
-    }
-
+    /**
+     * Sendet das die Bestellung an den Websocket
+     * @param in
+     */
     public void  broadcastOrder(OrderBroadcastDto in) {
         System.out.println("Fire");
         getBroadcast(in);

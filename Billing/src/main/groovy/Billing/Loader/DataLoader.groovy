@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 
 
 /**
- * Created by Aismael on 04.12.2016.
+ * Created by Martin Petzold on 04.12.2016.
  * DataLoader Initialisiert die Daten des Billing-Services anhand der Daten,
  * die es per Rest Anfragen vom Order Service bekommt,
  * und Erstellt zusätzlich eigene Initialdaten

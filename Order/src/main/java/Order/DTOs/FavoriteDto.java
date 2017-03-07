@@ -3,7 +3,8 @@ package Order.DTOs;
 import java.util.ArrayList;
 
 /**
- * Created by Aismael on 31.01.2017.
+ * Dto einer Favoriten Liste
+ * Created by Martin Petzold on 31.01.2017.
  */
 public class FavoriteDto {
 

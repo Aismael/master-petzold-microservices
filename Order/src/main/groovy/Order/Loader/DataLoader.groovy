@@ -15,7 +15,8 @@ import org.springframework.boot.ApplicationRunner
 import org.springframework.stereotype.Component
 
 /**
- * Created by Aismael on 04.12.2016.
+ * Klasse welche, die Initialen Daten des Order Services Initialisiert
+ * Created by Martin Petzold on 04.12.2016.
  */
 @Component
 class DataLoader implements ApplicationRunner {

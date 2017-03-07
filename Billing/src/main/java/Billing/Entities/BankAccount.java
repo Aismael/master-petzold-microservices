@@ -11,13 +11,13 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 /**
- * Created by Aismael on 16.02.2017.
-*/
+ * Ein Bankaccount eines Users
+ * Created by Martin Petzold on 16.02.2017.
+ */
 @Entity
 @JsonSerialize
 @Proxy(lazy = false)
-
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BankAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,25 +32,24 @@ public class BankAccount {
     private ToOne<BankAccount, Account> toAccount = new ToOne<>(
             () -> account, (Account i) -> account = i,
             this, Account::getBankAccounts);
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bank_id")
+    private Bank bank;
+    @Transient
+    private ToOne<BankAccount, Bank> toBank = new ToOne<>(
+            () -> bank, (Bank i) -> bank = i,
+            this, Bank::getBankAccounts);
+
     @JsonIgnore
     public IToAny<Account> getAccount() {
         return toAccount;
 
     }
+
     public void setAccount(Account account) {
         this.account = account;
     }
 
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "bank_id")
-    private Bank bank;
-
-
-     @Transient
-    private ToOne<BankAccount, Bank> toBank = new ToOne<>(
-            () -> bank, (Bank i) -> bank = i,
-            this, Bank::getBankAccounts);
     public IToAny<Bank> getBank() {
         return toBank;
     }
@@ -70,10 +69,6 @@ public class BankAccount {
     public void setAmmount(BigDecimal ammount) {
         this.ammount = ammount;
     }
-
-
-
-
 
 
 }

@@ -9,17 +9,17 @@ import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 /**
- * Created by Aismael on 16.02.2017.
-*/
+ * Ein Bank
+ * Created by Martin Petzold on 16.02.2017.
+ */
 @Entity
 @JsonSerialize
 @Proxy(lazy = false)
 
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Bank {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,19 +27,18 @@ public class Bank {
     private Long id;
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "bank",cascade = CascadeType.ALL)
-    private Set<BankAccount> bankAccounts=new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "bank", cascade = CascadeType.ALL)
+    private Set<BankAccount> bankAccounts = new HashSet<>();
 
-     @Transient
+    @Transient
     private ToMany<Bank, BankAccount> toBankAccounts =
             new ToMany<>(() -> bankAccounts, this, BankAccount::getBank);
+    private int answertime;//new Random().nextInt();
+
     @JsonIgnore
     public IToAny<BankAccount> getBankAccounts() {
         return toBankAccounts;
     }
-
-
-    private int answertime;//new Random().nextInt();
 
     public Long getId() {
         return id;

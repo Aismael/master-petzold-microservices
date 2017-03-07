@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by Aismael on 31.01.2017.
+ * Aspect der nach dem Speichern einer Bestellung eine Nachricht
+ * an den Rocketchat sendet
+ * Created by Martin Petzold on 31.01.2017.
  */
 @Component
 @Aspect
@@ -27,10 +29,21 @@ public class MsgAspect {
     AccountRepository accountRepository;
     @Autowired
     OrderRepository orderRepository;
+
+    /**
+     * Pointcut für die Save und Flush Methode
+     * einer Bestellung
+     */
     @Pointcut("execution(* Order.Repositories.OrderConcepts.OrderRepository.saveAndFlush(..))")
     public void orderHasSaved(){
     }
 
+    /**
+     * Methode zum senden der rocketchat Nachricht nach der
+     * Speicherung einer Bestellung
+     * @param joinPoint
+     * @param returnValue
+     */
     @AfterReturning(pointcut = "orderHasSaved()",returning = "returnValue")
     public void broadcast(JoinPoint joinPoint, Object returnValue) {
         if(returnValue instanceof Order){
@@ -41,6 +54,11 @@ public class MsgAspect {
     }
 
 
+    /**
+     * Wandelt Bestellung in einen JSON String um
+     * @param order
+     * @return fertiger String
+     */
     private String makeOrderToMsg(Order order){
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);

@@ -15,7 +15,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Aismael on 16.02.2017.
+ * eine Bestellung
+ * Created by Martin Petzold on 16.02.2017.
  */
 @Entity
 @Proxy(lazy = false)
@@ -24,6 +25,19 @@ import java.util.Set;
 public class XOrder {
     @Id
     private Long id;
+    private Date sendDate;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private Account account;
+    @Transient
+    private ToOne<XOrder, Account> toAccount = new ToOne<>(
+            () -> account, (Account i) -> account = i,
+            this, Account::getXOrders);
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "xorder", cascade = CascadeType.ALL)
+    private Set<Position> positions = new HashSet<>();
+    @Transient
+    private ToMany<XOrder, Position> toPositions =
+            new ToMany<>(() -> positions, this, Position::getXOrder);
 
     public Date getSendDate() {
         return sendDate;
@@ -45,30 +59,19 @@ public class XOrder {
                 '}';
     }
 
-    private Date sendDate;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id")
-    private Account account;
-    @Transient
-    private ToOne<XOrder, Account> toAccount = new ToOne<>(
-            () -> account, (Account i) -> account = i,
-            this, Account::getXOrders);
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "xorder",cascade = CascadeType.ALL)
-    private Set<Position> positions = new HashSet<>();
-    @Transient
-    private ToMany<XOrder, Position> toPositions =
-            new ToMany<>(() -> positions, this, Position::getXOrder);
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     @JsonIgnore
     public IToAny<Account> getAccount() {
         return toAccount;
     }
+
     public IToAny<Position> getPositions() {
         return toPositions;
     }
@@ -76,7 +79,7 @@ public class XOrder {
     public BigDecimal getSum() {
         final BigDecimal[] bigDecimal = {new BigDecimal("0")};
         getPositions().getAll().forEach(
-                (Position p)-> bigDecimal[0] = bigDecimal[0].add(p.getAmmount().multiply(new BigDecimal(p.getCount())))
+                (Position p) -> bigDecimal[0] = bigDecimal[0].add(p.getAmmount().multiply(new BigDecimal(p.getCount())))
         );
         return bigDecimal[0];
     }

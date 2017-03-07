@@ -12,7 +12,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by Aismael on 31.01.2017.
+ * Aspect der nach dem Speichern eines Accounts
+ * diesen an die dafür vorgesehene vorgesehene
+ * Websocketschnittstelle sendet
+ * Created by Martin Petzold on 31.01.2017.
  */
 @Component
 @Aspect
@@ -24,6 +27,11 @@ public class SaveAccountAspect {
     public void accountHasSaved(){
     }
 
+    /**
+     * Sendet den Account an den Websocket
+     * @param joinPoint
+     * @param returnValue
+     */
     @AfterReturning(pointcut = "accountHasSaved()",returning = "returnValue")
     public void broadcast(JoinPoint joinPoint,Object returnValue) {
         if(returnValue instanceof Account){

@@ -8,9 +8,8 @@ import java.nio.file.Files
 import java.nio.file.Paths;
 
 /**
- * Created by Aismael on 17.01.2017.
-
- * @author Arpit Mandliya
+ * lädt die Rest Konfiguration aus einer yaml Datei anhand des Dateinamens
+ * Created by Martin Petzold on 17.01.2017.
  */
 class RestConfigLoader {
 

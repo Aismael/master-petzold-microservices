@@ -1,6 +1,7 @@
 package OwnLibsGR
 /**
- * Created by Aismael on 17.01.2017.
+ * Object das genutzt wird um die Restkonfiguration zu laden
+ * Created by Martin Petzold on 17.01.2017.
  */
 class MyConfig {
     RestConfigLoader rp

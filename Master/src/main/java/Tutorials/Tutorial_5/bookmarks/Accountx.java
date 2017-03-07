@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Aismael on 04.12.2016.
+ * Created by Martin Petzold on 04.12.2016.
  */
 @Entity
 public class Accountx {

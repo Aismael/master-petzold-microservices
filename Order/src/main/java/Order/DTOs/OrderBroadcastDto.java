@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
+ *  * DTO der Bestellung welches über den Websocket geposted wird
+
  * Created by aisma on 13.02.2017.
  */
 public class OrderBroadcastDto extends OrderDto {

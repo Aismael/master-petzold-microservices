@@ -11,7 +11,8 @@ import java.net.URISyntaxException;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /**
- * Created by Aismael on 21.02.2017.
+ * Controller um den den Billing Service zu Lokalisieren
+ * Created by Martin Petzold on 21.02.2017.
  */
 @RestController
 @EnableFeignClients
@@ -21,6 +22,11 @@ public class CallController {
 
     private static URI callURI;
 
+    /**
+     * Methode die den Port des Billingservice Ausgibt
+     * @return Port
+     * @throws URISyntaxException
+     */
     @RequestMapping(path = "${RESTConfiguration.call.path}",method = RequestMethod.GET)
     public int getIds() throws URISyntaxException {
         System.out.println("get");
@@ -29,6 +35,10 @@ public class CallController {
     }
 
 
+    /**
+     * Methode welche die Rest Methoden des Billing Service Verbindet
+     * und durch Feigne direkt im Sprincode Nutzbar macht
+     */
     @FeignClient("Billing")
     interface BillingCall {
         @RequestMapping(value = "${RESTConfiguration.call.path}", method = GET)

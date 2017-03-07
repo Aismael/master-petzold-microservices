@@ -1,7 +1,8 @@
 package Order.DTOs;
 
 /**
- * Created by Aismael on 31.01.2017.
+ *  * Dto der Einzelnen Bestellzeilen als DTO fasst itemset und items zusammen
+ * Created by Martin Petzold on 31.01.2017.
  */
 public class ItemSetStubDto {
     Integer count;

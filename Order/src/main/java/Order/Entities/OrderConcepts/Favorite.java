@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+/**
+ * Favorite für vorkonfigurierte Bestellungen
+ */
 @Entity
 public class Favorite extends OrderConcept {
     @JsonIgnore

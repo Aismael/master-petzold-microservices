@@ -15,34 +15,36 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 
 /**
- * Aspect der Einem Account nach der Speicherung ein Startkapital hinzufügt
- * Created by Aismael on 31.01.2017.
+ * Aspect der Einem BankAccount nach der Speicherung ein Startkapital hinzufügt
+ * Created by Martin Petzold on 31.01.2017.
  */
 @Component
 @Aspect
-public class SaveAccountAspect {
+public class SaveBankAccountAspect {
     @Autowired
     BankRepository bankRepository;
     @Autowired
     BankAccountRepository bankAccountRepository;
+
     @Autowired
     @Pointcut("execution(* Billing.Repositories.AccountRepository.saveAndFlush(..))")
-    public void accountHasSaved(){
+    public void accountHasSaved() {
     }
 
     /**
      * fügt dem Account ein Startkapital hinzu
+     *
      * @param joinPoint
      * @param returnValue
      */
-    @AfterReturning(pointcut = "accountHasSaved()",returning = "returnValue")
-    public void broadcast(JoinPoint joinPoint,Object returnValue) {
-        if(returnValue instanceof Account){
-            if(bankRepository.findByName("Standard")!=null){
-                BankAccount bankAccount=new BankAccount();
+    @AfterReturning(pointcut = "accountHasSaved()", returning = "returnValue")
+    public void broadcast(JoinPoint joinPoint, Object returnValue) {
+        if (returnValue instanceof Account) {
+            if (bankRepository.findByName("Standard") != null) {
+                BankAccount bankAccount = new BankAccount();
                 bankAccount.setAmmount(new BigDecimal("100"));
-                bankAccount.getAccount().add((Account)returnValue);
-                Bank bank =bankRepository.findByName("Standard");
+                bankAccount.getAccount().add((Account) returnValue);
+                Bank bank = bankRepository.findByName("Standard");
                 bank.getBankAccounts().add(bankAccount);
                 //bankAccountRepository.saveAndFlush(bankAccount);
                 bankRepository.saveAndFlush(bank);

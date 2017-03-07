@@ -27,7 +27,7 @@ import java.io.IOException;
 @Configuration
 @SpringBootApplication
 @RestController
-@ComponentScan({"Billing","Billing.Aspects","Billing.Loader", "OwnLibsGR"})
+@ComponentScan({"Billing", "Billing.Aspects", "Billing.Loader", "OwnLibsGR"})
 @EnableJpaRepositories(basePackages = {"Billing.Repositories"})
 @EntityScan(basePackages = {"Billing.Entities", "Billing.Beans"})
 @EnableScheduling
@@ -41,6 +41,11 @@ public class Application {
     @Autowired
     DiscoveryClient client;
 
+    public static void main(String[] args) throws IOException {
+        SpringApplication.run(Application.class, args);
+
+    }
+
     @RequestMapping("/greeting")
     public String home() {
         return "Hello Docker World Iam The Billing Service";
@@ -49,12 +54,7 @@ public class Application {
     @RequestMapping("/infoGreeting")
     public String eureka() {
         ServiceInstance localInstance = client.getLocalServiceInstance();
-        return "Hello Docker World over nameservice eureka: "+ localInstance.getServiceId()+":"+localInstance.getHost()+":"+localInstance.getPort();
-    }
-
-    public static void main(String[] args) throws IOException {
-        SpringApplication.run(Application.class, args);
-
+        return "Hello Docker World over nameservice eureka: " + localInstance.getServiceId() + ":" + localInstance.getHost() + ":" + localInstance.getPort();
     }
 
     @Bean

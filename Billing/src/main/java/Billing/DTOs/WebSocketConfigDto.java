@@ -1,17 +1,37 @@
 package Billing.DTOs;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
- * Created by Aismael on 14.02.2017.
+ * DTO um die Eingelesenen Daten des Order Websockets zu parsen
+ * Created by Martin Petzold on 14.02.2017.
  */
 public class WebSocketConfigDto {
-    public WebSocketConfigDto(String name, String out, String in,  ArrayList<WebSocketEndpointDto> endpointDtoMap) {
+    String name, out, in;
+    ArrayList<WebSocketEndpointDto> endpointDtoMap = new ArrayList<>();
+
+    /**
+     * Konstruktor mit allen Daten
+     *
+     * @param name           name/pfad des Websockets
+     * @param out            pfad der vom Websocket ausgehenden Nachrichten
+     * @param in             pfad der um Nachrichten an den Websocket zu senden
+     * @param endpointDtoMap Endpunkte des Websockets für die verschiedenen Nachrichten
+     */
+    public WebSocketConfigDto(String name, String out, String in, ArrayList<WebSocketEndpointDto> endpointDtoMap) {
         this.name = name;
         this.out = out;
         this.in = in;
         this.endpointDtoMap = endpointDtoMap;
     }
+
+    /**
+     * Konstruktor für einen Websocket ohne Endpunkte z.b. um die allgemeine Erreichbarkeit des Services zu testen
+     *
+     * @param name name/pfad des Websockets
+     * @param out  pfad der vom Websocket ausgehenden Nachrichten
+     * @param in   pfad der um Nachrichten an den Websocket zu senden
+     */
     public WebSocketConfigDto(String name, String out, String in) {
         this.name = name;
         this.out = out;
@@ -20,8 +40,10 @@ public class WebSocketConfigDto {
     }
 
     public WebSocketConfigDto() {
-        this.endpointDtoMap = new ArrayList<>();;
+        this.endpointDtoMap = new ArrayList<>();
+        ;
     }
+
     public String getName() {
         return name;
     }
@@ -46,10 +68,6 @@ public class WebSocketConfigDto {
         this.in = in;
     }
 
-
-
-    String name, out ,in;
-
     public ArrayList<WebSocketEndpointDto> getEndpointDtoMap() {
         return endpointDtoMap;
     }
@@ -58,15 +76,14 @@ public class WebSocketConfigDto {
         this.endpointDtoMap = endpointDtoMap;
     }
 
-    ArrayList<WebSocketEndpointDto> endpointDtoMap= new ArrayList<>();
-
-    public String makeMapstring(){
+    public String makeMapstring() {
         final String[] s = {""};
         endpointDtoMap.forEach((WebSocketEndpointDto e) -> {
-            s[0] +=e.toString();
+            s[0] += e.toString();
         });
-                return s[0];
+        return s[0];
     }
+
     @Override
     public String toString() {
         return "WebSocketConfigDto{" +
