@@ -18,7 +18,7 @@ import javax.persistence.Transient;
 public class Favorite extends OrderConcept {
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "itemFavorite_id")
+    @JoinColumn(name = "favoriteAccount_id")
     private Account account;
     @Transient
     private ToOne<Favorite, Account> toAccount = new ToOne<>(

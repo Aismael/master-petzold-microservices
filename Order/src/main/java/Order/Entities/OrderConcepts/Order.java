@@ -20,7 +20,7 @@ public class Order extends OrderConcept {
 
     @ManyToOne
 
-    @JoinColumn(name = "itemOrder_id")
+    @JoinColumn(name = "orderAccount_id")
     private Account account;
     @Transient
     private ToOne<Order, Account> toAccount = new ToOne<>(
