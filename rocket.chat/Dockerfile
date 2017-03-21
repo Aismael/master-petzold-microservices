@@ -82,3 +82,4 @@ ENV MONGO_URL=mongodb://db:27017/meteor \
 
 CMD ["/usr/bin/supervisord"]
 
+#need docker-machine create -d virtualbox --virtualbox-memory 4096 default
