@@ -4,7 +4,8 @@ EXPOSE 9090 3000
 
 #FROM node:4-slim
 #FROM java:8
-RUN apt-get update && apt-get install -y software-properties-common curl nodejs build-essential npm gnupg2  supervisor
+RUN apt-get install software-properties-common
+RUN apt-get update && apt-get install -y curl nodejs build-essential npm gnupg2  supervisor
 # Install Java.
 RUN \
   echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
@@ -13,6 +14,9 @@ RUN \
   apt-get install -y oracle-java8-installer && \
   rm -rf /var/lib/apt/lists/* && \
   rm -rf /var/cache/oracle-jdk8-installer
+
+# Define working directory.
+WORKDIR /data
 # Define commonly used JAVA_HOME variable
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 
@@ -30,7 +34,7 @@ ENV GROOVY_VERSION 2.3.9
 # load slimeureka
 ADD SpringBootDocker.jar app.jar
 RUN sh -c 'touch /app.jar'
-#ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 ENV JAVA_OPTS=""
 #ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar -Dspring.profiles.active=docker /app.jar" ]
 
