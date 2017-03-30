@@ -18,8 +18,9 @@ services:
             container_name: some-postgres
             image: postgres:9.6.1
             ports:
-              - 8701:5432
+              - 8701:8701
             environment:
                 POSTGRES_DB: demo
                 POSTGRES_PASSWORD: mysecretpassword
                 POSTGRES_USER: postgres
+                PGPORT: 8701
