@@ -1,0 +1,7 @@
+version: '2'
+services:
+    cookbook:
+        container_name: CookBook
+        build: .
+        ports:
+          - 8700:8700
