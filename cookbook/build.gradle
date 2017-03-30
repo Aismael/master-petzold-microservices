@@ -13,6 +13,11 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'war'
+apply plugin: 'idea'
+apply plugin: 'application'
+apply plugin: 'io.spring.dependency-management'
+
 
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
@@ -24,5 +29,25 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter')
+	compile("org.springframework.boot:spring-boot")
+	compile("org.springframework.boot:spring-boot-starter-actuator")
+	compile("org.springframework.boot:spring-boot-starter-web")
+	compile("org.springframework.cloud:spring-cloud-starter-feign:1.2.3.RELEASE")
+	compile("org.springframework.cloud:spring-cloud-starter-eureka:1.2.3.RELEASE")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+
+task copyToDockerDeployFolder << {
+	task copyJarToBin {
+		copy {
+			from jar.getArchivePath()
+			into 'src/main/docker'
+			rename {String fileName ->
+				fileName.replace(jar.getArchivePath().getName(), "SpringBootDocker.jar")
+			}
+		}
+
+	}
+}
+
+build.finalizedBy(copyToDockerDeployFolder)
