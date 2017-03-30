@@ -5,3 +5,21 @@ services:
         build: .
         ports:
           - 8700:8700
+        depends_on:
+          - some-postgres
+        links:
+          - some-postgres
+        environment:
+            SPRING_DATASOURCE_URL: jdbc:postgresql://some-postgres:8701/demo
+            SPRING_DATASOURCE_USERNAME: postgres
+            SPRING_DATASOURCE_PASSWORD: mysecretpassword
+
+    some-postgres:
+            container_name: some-postgres
+            image: postgres:9.6.1
+            ports:
+              - 8701:5432
+            environment:
+                POSTGRES_DB: demo
+                POSTGRES_PASSWORD: mysecretpassword
+                POSTGRES_USER: postgres

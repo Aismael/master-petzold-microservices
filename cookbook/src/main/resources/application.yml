@@ -1,2 +1,23 @@
+spring:
+  profiles.active: default
+---
 server:
     port: 8700
+spring:
+    application:
+        name: Billing
+    jpa:
+        database: POSTGRESQL
+        hibernate:
+            ddl-auto: create-drop
+        show-sql: true
+    datasource:
+        url: jdbc:postgresql://192.168.99.100:8701/demo
+        username: postgres
+        password: mysecretpassword
+        driver-class-name: org.postgresql.Driver
+---
+spring:
+  profiles: docker
+spring.datasource:
+  url: jdbc:postgresql://some-postgres:8701/demo
