@@ -5,7 +5,7 @@ server:
     port: 8700
 spring:
     application:
-        name: Billing
+        name: CookBook
     jpa:
         database: POSTGRESQL
         hibernate:
@@ -16,8 +16,27 @@ spring:
         username: postgres
         password: mysecretpassword
         driver-class-name: org.postgresql.Driver
+eureka:
+    password: password
+    client:
+        serviceUrl:
+            defaultZone: http://user:${eureka.password}@192.168.99.100:8761/eureka/
+    instance:
+        leaseRenewalIntervalInSeconds: 10
+        metadataMap:
+            instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
+
 ---
 spring:
   profiles: docker
 spring.datasource:
   url: jdbc:postgresql://some-postgres:8701/demo
+eureka:
+    password: password
+    client:
+        serviceUrl:
+            defaultZone: http://user:${eureka.password}@eureka:8761/eureka/
+    instance:
+        leaseRenewalIntervalInSeconds: 10
+        metadataMap:
+            instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}

@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Created by Aismael on 03.04.2017.
  */
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 @RestController
-//@EnableFeignClients
+@EnableFeignClients
 @RequestMapping(value = "account")
 public class AccountController {
     @Autowired

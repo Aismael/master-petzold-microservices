@@ -7,8 +7,10 @@ services:
           - 8700:8700
         depends_on:
           - some-postgres
+          - eureka-server
         links:
           - some-postgres
+          - eureka-server
         environment:
             SPRING_DATASOURCE_URL: jdbc:postgresql://some-postgres:8701/demo
             SPRING_DATASOURCE_USERNAME: postgres
@@ -24,3 +26,9 @@ services:
                 POSTGRES_PASSWORD: mysecretpassword
                 POSTGRES_USER: postgres
                 PGPORT: 8701
+
+    eureka-server:
+            container_name: eureka-server
+            build: ./../../../../Eureka/src/main/docker/
+            ports:
+              - 8761:8761
