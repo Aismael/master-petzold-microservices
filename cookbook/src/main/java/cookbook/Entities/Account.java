@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Entity
 public class Account {
     @Id
+    @GeneratedValue
     private Long id;
     @Column(unique = true)
     private String mail;
@@ -22,6 +23,16 @@ public class Account {
 
     public String getMail() {
         return mail;
+    }
+
+    public Account() {
+    }
+
+    public Account(String mail, String name, String surename, Integer age) {
+        this.mail = mail;
+        this.name = name;
+        this.surename = surename;
+        this.age = age;
     }
 
     public void setMail(String mail) {
