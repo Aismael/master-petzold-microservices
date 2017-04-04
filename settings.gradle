@@ -8,4 +8,6 @@ include 'testclient'
 include 'slimEurekaClient'
 include 'ownLibs'
 include 'CookBook'
+include 'CookBookConsumer'
+
 
