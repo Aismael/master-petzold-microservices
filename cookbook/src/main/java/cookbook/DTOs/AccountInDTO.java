@@ -7,11 +7,12 @@ import javax.persistence.Id;
  * Created by Aismael on 03.04.2017.
  */
 public class AccountInDTO {
-    @Column(unique = true)
     private String mail;
-    @Column
+
+    public AccountInDTO() {
+    }
+
     private String name;
-    @Column
     private String surename;
 
     public AccountInDTO(String mail, String name, String surename){
