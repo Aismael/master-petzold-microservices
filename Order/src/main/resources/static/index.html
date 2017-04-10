@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Angular QuickStart</title>
     <base href="/">
     <meta charset="UTF-8">
@@ -15,7 +15,9 @@
 
     <script src="systemjs.config.js"></script>
     <script>
-      System.import('main.ts').catch(function(err){ console.error(err); });
+        System.import('main.ts').catch(function (err) {
+            console.error(err);
+        });
     </script>
     <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
     <script
@@ -23,9 +25,76 @@
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
     <script src="semantic/dist/semantic.min.js"></script>
-  </head>
+</head>
 
-  <body>
-    <my-app>Loading AppComponent content here ...</my-app>
-  </body>
+<body>
+<script>
+    $('.ui.sticky')
+        .sticky({
+            context: '#wire1',
+            pushing: true
+        })
+    ;
+</script>
+<div class="ui segment" id="wire1">
+    <div class="ui sticky top attached menu fixed top" style="margin-top: 3vh; width:96vw">
+        <div class="ui dropdown icon item">
+            <i class="wrench icon"></i>
+            <div class="menu">
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    <span class="text">New</span>
+                    <div class="menu">
+                        <div class="item">Document</div>
+                        <div class="item">Image</div>
+                    </div>
+                </div>
+                <div class="item">
+                    Open...
+                </div>
+                <div class="item">
+                    Save...
+                </div>
+                <div class="item">Edit Permissions</div>
+                <div class="divider"></div>
+                <div class="header">
+                    Export
+                </div>
+                <div class="item">
+                    Share...
+                </div>
+            </div>
+        </div>
+        <div class="right menu">
+            <div class="ui right aligned category search item">
+                <div class="ui transparent icon input">
+                    <input class="prompt" type="text" placeholder="Search animals...">
+                    <i class="search link icon"></i>
+                </div>
+                <div class="results"></div>
+            </div>
+        </div>
+    </div>
+    <div class="ui bottom attached segment">
+        <div class="ui internally celled grid">
+            <div class="row">
+                <div class="three wide column">
+                    <div class="ui sticky fixed top" style="margin-top: 10vh;width: 15%">
+                    <h4 class="ui header">Activity</h4>
+                    <side-step> some side</side-step>
+                    </div>
+                </div>
+                <div class="ten wide column" id="wire1" style="margin-top: 6vh">
+                    <my-app>Loading AppComponent content here ...</my-app>
+                    <contentx>repeat some ...</contentx>
+                </div>
+                <div class="three wide column">
+                    <img>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
 </html>
