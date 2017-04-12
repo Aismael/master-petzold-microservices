@@ -7,18 +7,15 @@ import "rxjs/add/operator/map";
 @Component({
     selector: 'inlay',
     template: `
-        <iframe onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"000px";}(this));' style="height:200px;width:100%;border:none;overflow:hidden;"
-                [src]="sanitizer.bypassSecurityTrustResourceUrl(inlayUrl)"
-        >
-        </iframe>`
+        <my-app></my-app>
+        <contentx></contentx>
+    `
 })
 export class Inlay {
-    inlayUrl: string;
+    inlayUrl: string="inlay.html";
     public sanitizer: DomSanitizer;
 
     constructor(private sanitizerArg: DomSanitizer) {
-        this.inlayUrl = "http://localhost:8080" + "/inlay.html";
-        console.log(this.inlayUrl.toString());
         this.sanitizer = sanitizerArg;
     }
 }
