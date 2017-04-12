@@ -1,10 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    <title>Angular QuickStart</title>
+    <base href="../">
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="iframebig.css">
+
+    <!-- Polyfill(s) for older browsers -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js?main=browser"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+
+    <script src="systemjs.config.js"></script>
+    <script>
+        System.import('inlay.ts').catch(function (err) {
+            console.error(err);
+        });
+    </script>
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+    <script
+            src="/code/jquery/com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="semantic/dist/semantic.min.js"></script>
 </head>
 <body>
-$END$
+<my-app><div class="ui segment" style="min-height: 200px">
+    <div class="ui active inverted dimmer">
+        <div class="ui text loader">Loading</div>
+    </div>
+    <p></p>
+</div></my-app>
+<contentx><div class="ui segment" style="min-height: 200px">
+    <div class="ui active inverted dimmer">
+        <div class="ui text loader">Loading</div>
+    </div>
+    <p></p>
+</div></contentx>
 </body>
 </html>

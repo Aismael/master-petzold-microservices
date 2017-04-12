@@ -31,70 +31,51 @@
 <script>
     $('.ui.sticky')
         .sticky({
-            context: '#wire1',
+            context: '#wireOne',
             pushing: true
         })
     ;
 </script>
-<div class="ui segment" id="wire1">
-    <div class="ui sticky top attached menu fixed top" style="margin-top: 3vh; width:96vw">
-        <div class="ui dropdown icon item">
-            <i class="wrench icon"></i>
-            <div class="menu">
-                <div class="item">
-                    <i class="dropdown icon"></i>
-                    <span class="text">New</span>
-                    <div class="menu">
-                        <div class="item">Document</div>
-                        <div class="item">Image</div>
-                    </div>
-                </div>
-                <div class="item">
-                    Open...
-                </div>
-                <div class="item">
-                    Save...
-                </div>
-                <div class="item">Edit Permissions</div>
-                <div class="divider"></div>
-                <div class="header">
-                    Export
-                </div>
-                <div class="item">
-                    Share...
-                </div>
-            </div>
-        </div>
-        <div class="right menu">
-            <div class="ui right aligned category search item">
-                <div class="ui transparent icon input">
-                    <input class="prompt" type="text" placeholder="Search animals...">
-                    <i class="search link icon"></i>
-                </div>
-                <div class="results"></div>
-            </div>
-        </div>
+<div class="ui grey sticky top attached inverted menu fixed top" style="margin-top: 2vh;margin-right: 3vw">
+    <div class="right menu" style="margin-right: 3vw">
+        <a class="ui item">
+            Logout
+        </a>
     </div>
-    <div class="ui bottom attached segment">
-        <div class="ui internally celled grid">
-            <div class="row">
-                <div class="three wide column">
-                    <div class="ui sticky fixed top" style="margin-top: 10vh;width: 15%">
+</div>
+<div class="ui bottom attached segment">
+    <div class="ui internally celled grid">
+        <div class="row">
+            <div class="three wide column">
+                <div class="ui sticky fixed top" style="margin-top: 10vh;width: 15%">
                     <h4 class="ui header">Activity</h4>
-                    <side-step> some side</side-step>
-                    </div>
+                    <side-step>
+                        <div class="ui segment" style="min-height: 200px">
+                            <div class="ui active inverted dimmer">
+                                <div class="ui text loader">Loading</div>
+                            </div>
+                            <p></p>
+                        </div>
+                    </side-step>
                 </div>
-                <div class="ten wide column" id="wire1" style="margin-top: 6vh">
-                    <my-app>Loading AppComponent content here ...</my-app>
-                    <contentx>repeat some ...</contentx>
-                </div>
-                <div class="three wide column">
+            </div>
+            <div class="ten wide column" id="" style="margin-top: 6vh">
+                <inlay></inlay>
+            </div>
+            <div class="three wide column">
+                <div class="ui sticky fixed top" style="margin-top: 10vh;width: 15%">
                     <img>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<div class="ui grey sticky bottom attached inverted menu fixed bottom" style="margin-bottom: 3vh">
+    <div class="right menu" style="margin-right: 1vw">
+        <a class="ui item">
+            STH
+        </a>
+    </div>
+</div>
 </body>
 </html>
