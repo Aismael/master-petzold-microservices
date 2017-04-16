@@ -2,22 +2,51 @@ import {Component, Injectable} from "@angular/core";
 import {DomSanitizer} from "@angular/platform-browser";
 import {Http} from "@angular/http";
 import "rxjs/add/operator/map";
+import {NavigationEnd, Router} from "@angular/router";
 
-
+@Component({
+    selector: 'home-button',
+    template: ` <a class="ui item" [routerLink]="['/home']">Home</a>`
+})
+export class HomeButton {
+}
 @Component({
     selector: 'inlay',
     template: `
-        <my-app></my-app>
-        <contentx></contentx>
+        <div class="ui breadcrumb">
+            <a [routerLink]="['/']" >Home</a>
+            <i class="right angle icon divider" *ngIf="choose"></i>
+            <a [routerLink]="['/choose']" *ngIf="choose">Choose</a>
+            <i class="right angle icon divider" *ngIf="order"></i>
+            <a [routerLink]="['/choose/order']" *ngIf="order">Order</a>
+            <i class="right angle icon divider" *ngIf="favorite"></i>
+            <a [routerLink]="['/choose/favorite']" *ngIf="favorite">Favorite</a>
+        </div>
+        <router-outlet></router-outlet>
     `
 })
 export class Inlay {
-    inlayUrl: string="inlay.html";
+    inlayUrl: string = "inlay.html";
     public sanitizer: DomSanitizer;
+    public choose = false;
+    public order = false;
+    public favorite = false;
 
-    constructor(private sanitizerArg: DomSanitizer) {
+    constructor(private sanitizerArg: DomSanitizer, private router: Router) {
         this.sanitizer = sanitizerArg;
+        this.router.events.subscribe((event) => {
+                if (event instanceof NavigationEnd) {
+                    this.choose = event.urlAfterRedirects.includes("choose");
+                    this.order = event.urlAfterRedirects.includes("order");
+                    this.favorite = event.urlAfterRedirects.includes("favorite");
+                }
+            }
+        );
+
+
     }
+
+
 }
 
 @Injectable()

@@ -4,6 +4,8 @@ import Exeptions.AccountWithThisMailNotFoundException;
 import Exeptions.AccountWithThisNameNotFoundException;
 import Exeptions.MailAllreadyInUseException;
 import Exeptions.NameAllreadyInUseException;
+import Order.DTOs.AccountDTO;
+import Order.DTOs.AccountDTOList;
 import Order.Entities.Account;
 import Order.Repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +39,8 @@ public class AccountController {
      * @return die Liste aller Accounts
      */
     @RequestMapping(value = "${RESTConfiguration.view.account.all.path}")
-    public List<Account> findAccounts() {
-        return accountRepository.findAll();
+    public AccountDTOList findAccounts() {
+        return new AccountDTOList(accountRepository.findAll());
     }
 
     /**
@@ -47,10 +49,10 @@ public class AccountController {
      * @return ein Account
      */
     @RequestMapping(value = "${RESTConfiguration.view.account.one.path}", method = RequestMethod.POST)
-    public Account makeAccount(@RequestBody Account account) {
+    public AccountDTO makeAccount(@RequestBody Account account) {
         validateMailNotInUse(account.getMail());
         validateNameNotInUse(account.getName());
-        return accountRepository.saveAndFlush(account);
+        return new AccountDTO(accountRepository.saveAndFlush(account));
     }
 
 
@@ -61,9 +63,9 @@ public class AccountController {
      */
     @RequestMapping(value = "${RESTConfiguration.view.account.one.path}"
             + "${RESTConfiguration.view.account.one.mail.path}" + "/{mail}", method = RequestMethod.GET)
-    public Account getAccountByMail(@PathVariable String mail) {
+    public AccountDTO getAccountByMail(@PathVariable String mail) {
         validateAccountByMail(mail);
-        return accountRepository.findByMail(mail);
+        return new AccountDTO(accountRepository.findByMail(mail));
     }
 
     /**
@@ -73,9 +75,9 @@ public class AccountController {
      */
     @RequestMapping(value = "${RESTConfiguration.view.account.one.path}"
             + "${RESTConfiguration.view.account.one.name.path}" + "/{name:.*}", method = RequestMethod.GET)
-    public Account getAccountByName(@PathVariable String name) {
+    public AccountDTO getAccountByName(@PathVariable String name) {
         validateAccountByName(name);
-        return accountRepository.findByName(name);
+        return new AccountDTO(accountRepository.findByName(name));
     }
 
     /**

@@ -6,13 +6,13 @@ import java.math.BigDecimal;
  * Dto der Einzelnen Bestellzeilen als DTO fasst itemset und items zusammen, zum senden zum Websocket
  * Created by Martin Petzold on 31.01.2017.
  */
-public class ItemSetStubBroadcastDto {
+public class ItemSetStubBroadcastDTO {
     Integer count;
     Long itemID;
 
     @Override
     public String toString() {
-        return "ItemSetStubBroadcastDto{" +
+        return "ItemSetStubBroadcastDTO{" +
                 "ammount=" + ammount +
                 "count=" + count +
                 ", itemID=" + itemID +
@@ -40,10 +40,10 @@ public class ItemSetStubBroadcastDto {
 
     BigDecimal ammount;
 
-    public ItemSetStubBroadcastDto() {
+    public ItemSetStubBroadcastDTO() {
     }
 
-    public ItemSetStubBroadcastDto(Integer count, Long itemID,String name,BigDecimal ammount) {
+    public ItemSetStubBroadcastDTO(Integer count, Long itemID, String name, BigDecimal ammount) {
         this.count = count;
         this.itemID = itemID;
         this.name= name;

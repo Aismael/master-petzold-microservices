@@ -4,22 +4,22 @@ package Order.DTOs;
  *  * Dto der Einzelnen Bestellzeilen als DTO fasst itemset und items zusammen
  * Created by Martin Petzold on 31.01.2017.
  */
-public class ItemSetStubDto {
+public class ItemSetStubDTO {
     Integer count;
     Long itemID;
 
     @Override
     public String toString() {
-        return "ItemSetStubDto{" +
+        return "ItemSetStubDTO{" +
                 "count=" + count +
                 ", itemID=" + itemID +
                 '}';
     }
 
-    public ItemSetStubDto() {
+    public ItemSetStubDTO() {
     }
 
-    public ItemSetStubDto(Integer count, Long itemID) {
+    public ItemSetStubDTO(Integer count, Long itemID) {
         this.count = count;
         this.itemID = itemID;
     }

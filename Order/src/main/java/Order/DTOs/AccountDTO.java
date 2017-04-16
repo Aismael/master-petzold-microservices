@@ -1,21 +1,29 @@
 package Order.DTOs;
 
+import Order.Entities.Account;
+
 /**
  * DTO des Accounts welches über den Websocket geposted wird
  * Created by Martin Petzold on 31.01.2017.
  */
-public class AccountBroadcastDto {
+public class AccountDTO {
     Long id=null;
     String name="";
     String mail="";
 
-    public AccountBroadcastDto(Long id, String name, String mail) {
+    public AccountDTO(Long id, String name, String mail) {
         this.id = id;
         this.name = name;
         this.mail = mail;
     }
 
-    public AccountBroadcastDto() {
+    public AccountDTO() {
+    }
+
+    public AccountDTO(Account account) {
+        this.id = account.getId();
+        this.name = account.getName();
+        this.mail = account.getMail();
     }
 
     public Long getId() {
@@ -44,7 +52,7 @@ public class AccountBroadcastDto {
 
     @Override
     public String toString() {
-        return "AccountBroadcastDto{" +
+        return "AccountDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", mail='" + mail + '\'' +

@@ -1,8 +1,7 @@
 package Order.Controller;
 
-import Order.DTOs.FavoriteDto;
-import Order.DTOs.ItemSetStubDto;
-import Order.DTOs.OrderDto;
+import Order.DTOs.FavoriteDTO;
+import Order.DTOs.ItemSetStubDTO;
 import Order.Entities.ItemSet;
 import Order.Entities.OrderConcepts.Favorite;
 import Order.Entities.OrderConcepts.Order;
@@ -85,13 +84,13 @@ public class FavoriteController {
 
     /**
      * Speichert einen Favoriten
-     * @param favoriteDto das DTO asu dem ein Favorit gemacht wird
+     * @param favoriteDTO das DTO asu dem ein Favorit gemacht wird
      * @return der Gespeicherte Favorit
      */
     @RequestMapping(value = "${RESTConfiguration.view.favorite.one.path}", method = RequestMethod.POST)
-    public Long orderFavorite(@RequestBody FavoriteDto favoriteDto) {
-        Favorite favorite = new Favorite(accountRepository.findOne(favoriteDto.getAccountId()),favoriteDto.getName(),favoriteDto.getCount());
-        for (ItemSetStubDto itemSetStub : favoriteDto.getItemSetStubDtos()) {
+    public Long orderFavorite(@RequestBody FavoriteDTO favoriteDTO) {
+        Favorite favorite = new Favorite(accountRepository.findOne(favoriteDTO.getAccountId()), favoriteDTO.getName(), favoriteDTO.getCount());
+        for (ItemSetStubDTO itemSetStub : favoriteDTO.getItemSetStubDTOS()) {
             ItemSet i=new ItemSet();
             i.setItem(itemRepository.getOne(itemSetStub.getItemID()));
             i.setCount(itemSetStub.getCount());

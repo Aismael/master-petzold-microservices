@@ -1,29 +1,17 @@
-import {Component, Injectable} from "@angular/core";
-import {Http} from "@angular/http";
+import {Component} from "@angular/core";
 import "rxjs/add/operator/map";
+import {GetPathsService} from "./app.rest.paths";
 
 
-@Injectable()
-export class ViewRestService {
-    constructor(private http: Http) {
-    }
-
-    getConfig() {
-        return this.http.get('/config/json')
-            .map(response => response.json());
-    }
-}
 
 @Component({
     selector: 'my-app',
-    template: `<h1>Hello {{config}}</h1>
-    <h1>Hello {{config2}}</h1>`
+    template: `<h1>Hello {{config}}</h1>`
 })
 export class AppComponent {
-    config: any = null;
-    constructor(viewRestService: ViewRestService) {
-        viewRestService.getConfig()
-            .subscribe(config => this.config = JSON.stringify(config.config.view));
+    config:any=null;
+    constructor(getPathsService: GetPathsService) {
+       getPathsService.getPathsData().subscribe(config => this.config = config.config.view);
     }
 }
 
@@ -34,9 +22,9 @@ interface X {
 @Component({
     selector: 'contentx',
     template: `
-        <li *ngFor="let i of xs" >
+        <p *ngFor="let i of xs" >
             <img class="ui wireframe paragraph image" src="/images/wireframe/paragraph.png">
-        </li>
+        </p>
     `
 })
 

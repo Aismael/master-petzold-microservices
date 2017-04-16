@@ -1,16 +1,12 @@
 package Order.Controller;
 
-import Order.DTOs.AccountBroadcastDto;
-import Order.DTOs.OrderBroadcastDto;
+import Order.DTOs.OrderBroadcastDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * Controller um Bestellungen an den Webocket zu senden und Nachrichten
@@ -39,7 +35,7 @@ public class BroadcastNewOrdersController {
      * @return
      */
     @SendTo("${RESTConfiguration.broadcast.out}"+"${RESTConfiguration.broadcast.endpoint.order.sendPath}")
-    public OrderBroadcastDto broadcast(OrderBroadcastDto in)  {
+    public OrderBroadcastDTO broadcast(OrderBroadcastDTO in)  {
         return in;
     }
 
@@ -49,7 +45,7 @@ public class BroadcastNewOrdersController {
      * @param in
      */
     @MessageMapping("${RESTConfiguration.broadcast.endpoint.order.message}")
-    public void getBroadcast(OrderBroadcastDto in)  {
+    public void getBroadcast(OrderBroadcastDTO in)  {
         this.template.convertAndSend(out+sendPath, in);
     }
 
@@ -57,7 +53,7 @@ public class BroadcastNewOrdersController {
      * Sendet das die Bestellung an den Websocket
      * @param in
      */
-    public void  broadcastOrder(OrderBroadcastDto in) {
+    public void  broadcastOrder(OrderBroadcastDTO in) {
         System.out.println("Fire");
         getBroadcast(in);
     }

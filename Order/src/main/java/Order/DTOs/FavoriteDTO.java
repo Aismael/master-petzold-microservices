@@ -6,26 +6,26 @@ import java.util.ArrayList;
  * Dto einer Favoriten Liste
  * Created by Martin Petzold on 31.01.2017.
  */
-public class FavoriteDto {
+public class FavoriteDTO {
 
     private String name;
     private int count;
     private Long id;
     private Long accountId;
-    private ArrayList<ItemSetStubDto> itemSetStubDtos = new ArrayList<>();
+    private ArrayList<ItemSetStubDTO> itemSetStubDTOS = new ArrayList<>();
 
-    public FavoriteDto() {
+    public FavoriteDTO() {
     }
 
-    public FavoriteDto(String name, int count, Long id, Long accountId, ArrayList<ItemSetStubDto> itemSetStubDtos) {
+    public FavoriteDTO(String name, int count, Long id, Long accountId, ArrayList<ItemSetStubDTO> itemSetStubDTOS) {
         this.name = name;
         this.count = count;
         this.id = id;
         this.accountId = accountId;
-        this.itemSetStubDtos = itemSetStubDtos;
+        this.itemSetStubDTOS = itemSetStubDTOS;
     }
 
-    public FavoriteDto(String name, int count, Long accountId) {
+    public FavoriteDTO(String name, int count, Long accountId) {
         this.name = name;
         this.count = count;
         this.accountId = accountId;
@@ -48,12 +48,12 @@ public class FavoriteDto {
         this.count = count;
     }
 
-    public ArrayList<ItemSetStubDto> getItemSetStubDtos() {
-        return itemSetStubDtos;
+    public ArrayList<ItemSetStubDTO> getItemSetStubDTOS() {
+        return itemSetStubDTOS;
     }
 
-    public void setItemSetStubDtos(ArrayList<ItemSetStubDto> itemSetStubDtos) {
-        this.itemSetStubDtos = itemSetStubDtos;
+    public void setItemSetStubDTOS(ArrayList<ItemSetStubDTO> itemSetStubDTOS) {
+        this.itemSetStubDTOS = itemSetStubDTOS;
     }
 
     public Long getId() {

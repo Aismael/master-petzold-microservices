@@ -1,14 +1,13 @@
 package Order.Aspects;
 
 import Order.Controller.BroadCastNewAccountsController;
-import Order.DTOs.AccountBroadcastDto;
+import Order.DTOs.AccountDTO;
 import Order.Entities.Account;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
@@ -35,7 +34,7 @@ public class SaveAccountAspect {
     @AfterReturning(pointcut = "accountHasSaved()",returning = "returnValue")
     public void broadcast(JoinPoint joinPoint,Object returnValue) {
         if(returnValue instanceof Account){
-            broadCastNewAccountsController.broadcastAccount(new AccountBroadcastDto(((Account) returnValue).getId(),((Account) returnValue).getName(),((Account) returnValue).getMail()));
+            broadCastNewAccountsController.broadcastAccount(new AccountDTO(((Account) returnValue).getId(),((Account) returnValue).getName(),((Account) returnValue).getMail()));
         }
 
 

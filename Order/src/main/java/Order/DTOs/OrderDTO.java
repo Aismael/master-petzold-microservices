@@ -1,7 +1,5 @@
 package Order.DTOs;
 
-import Order.Entities.Account;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,43 +7,43 @@ import java.util.Date;
  * DTO einer Bestellung
  * Created by Martin Petzold on 31.01.2017.
  */
-public class OrderDto {
+public class OrderDTO {
     private Long id;
 
     @Override
     public String toString() {
-        return "OrderDto{" +
+        return "OrderDTO{" +
                 "id=" + id +
                 ", accountId=" + accountId +
                 ", posted=" + posted +
                 ", date=" + date +
-                ", itemSetStubDtos=" + itemSetStubDtos +
+                ", itemSetStubDTOS=" + itemSetStubDTOS +
                 '}';
     }
 
     private Long accountId;
     private Boolean posted = false;
     private Date date;
-    private ArrayList<ItemSetStubDto> itemSetStubDtos = new ArrayList<>();
+    private ArrayList<ItemSetStubDTO> itemSetStubDTOS = new ArrayList<>();
 
-    public OrderDto() {
+    public OrderDTO() {
     }
 
-    public OrderDto(Long accountId, Date date) {
+    public OrderDTO(Long accountId, Date date) {
         this.accountId = accountId;
         this.date = date;
     }
 
-    public OrderDto(Long id, Long accountId, Boolean posted, Date date, ArrayList<ItemSetStubDto> itemSetStubDtos) {
+    public OrderDTO(Long id, Long accountId, Boolean posted, Date date, ArrayList<ItemSetStubDTO> itemSetStubDTOS) {
         this.id = id;
         this.accountId = accountId;
         this.posted = posted;
         this.date = date;
 
-        this.itemSetStubDtos = itemSetStubDtos;
+        this.itemSetStubDTOS = itemSetStubDTOS;
     }
 
-    public OrderDto(Long id, Long accountId, Boolean posted, Date date) {
+    public OrderDTO(Long id, Long accountId, Boolean posted, Date date) {
         this.id = id;
         this.accountId = accountId;
         this.posted = posted;
@@ -84,12 +82,12 @@ public class OrderDto {
         this.date = date;
     }
 
-    public ArrayList<ItemSetStubDto> getitemSetStubDtos() {
-        return itemSetStubDtos;
+    public ArrayList<ItemSetStubDTO> getitemSetStubDtos() {
+        return itemSetStubDTOS;
     }
 
-    public void setitemSetStubDtos(ArrayList<ItemSetStubDto> itemSetStubDtos) {
-        this.itemSetStubDtos = itemSetStubDtos;
+    public void setitemSetStubDtos(ArrayList<ItemSetStubDTO> itemSetStubDTOS) {
+        this.itemSetStubDTOS = itemSetStubDTOS;
     }
 
 

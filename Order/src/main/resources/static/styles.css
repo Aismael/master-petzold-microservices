@@ -5,3 +5,7 @@ h1 {
 }
 
 
+.divider-column {
+  position: relative;
+  padding: 0 !important;
+}

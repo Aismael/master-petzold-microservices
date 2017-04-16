@@ -1,6 +1,6 @@
 package Order.Controller;
 
-import Order.DTOs.AccountBroadcastDto;
+import Order.DTOs.AccountDTO;
 import Order.Repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,9 +8,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * Controller um Accounts an den Webocket zu senden und Nachrichten
@@ -43,7 +40,7 @@ public class BroadCastNewAccountsController {
      * @return
      */
     @SendTo("${RESTConfiguration.broadcast.out}" + "${RESTConfiguration.broadcast.endpoint.account.sendPath}")
-    public AccountBroadcastDto broadcast(AccountBroadcastDto in) {
+    public AccountDTO broadcast(AccountDTO in) {
         return in;
     }
 
@@ -53,7 +50,7 @@ public class BroadCastNewAccountsController {
      * @param in
      */
     @MessageMapping("${RESTConfiguration.broadcast.endpoint.account.message}")
-    public void getBroadcast(AccountBroadcastDto in) {
+    public void getBroadcast(AccountDTO in) {
         this.template.convertAndSend(out + sendPath, in);
     }
 
@@ -62,7 +59,7 @@ public class BroadCastNewAccountsController {
      * Sendet das den Account an den Websocket
      * @param in
      */
-    public void broadcastAccount(AccountBroadcastDto in) {
+    public void broadcastAccount(AccountDTO in) {
         System.out.println("Fire");
         getBroadcast(in);
     }

@@ -1,16 +1,12 @@
 package Order.Controller;
 
-import Order.DTOs.ItemSetStubDto;
-import Order.DTOs.OrderDto;
-import Order.Entities.Account;
+import Order.DTOs.ItemSetStubDTO;
+import Order.DTOs.OrderDTO;
 import Order.Entities.ItemSet;
-import Order.Entities.OrderConcepts.Favorite;
 import Order.Entities.OrderConcepts.Order;
 import Order.Repositories.AccountRepository;
 import Order.Repositories.ItemRepository;
-import Order.Repositories.OrderConcepts.FavoriteRepository;
 import Order.Repositories.OrderConcepts.OrderRepository;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,13 +59,13 @@ public class OrderController {
 
     /**
      *  Speichert eine Bestellung aus einem DTO
-     * @param orderDto
+     * @param orderDTO
      * @return gespeicherte Bestellung
      */
     @RequestMapping(value = "${RESTConfiguration.view.order.one.path}", method = RequestMethod.POST)
-    public Long orderFavorite(@RequestBody OrderDto orderDto) {
-        Order order = new Order(accountRepository.findOne(orderDto.getAccountId()), new Date());
-        for (ItemSetStubDto itemSetStub : orderDto.getitemSetStubDtos()) {
+    public Long orderFavorite(@RequestBody OrderDTO orderDTO) {
+        Order order = new Order(accountRepository.findOne(orderDTO.getAccountId()), new Date());
+        for (ItemSetStubDTO itemSetStub : orderDTO.getitemSetStubDtos()) {
             ItemSet i=new ItemSet();
             i.setItem(itemRepository.getOne(itemSetStub.getItemID()));
             i.setCount(itemSetStub.getCount());
