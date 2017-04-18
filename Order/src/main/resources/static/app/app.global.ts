@@ -3,6 +3,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {Http} from "@angular/http";
 import "rxjs/add/operator/map";
 import {NavigationEnd, Router} from "@angular/router";
+import {GetServiceUrlService} from "./inlay.sites/services";
 
 @Component({
     selector: 'home-button',
@@ -49,23 +50,14 @@ export class Inlay {
 
 }
 
-@Injectable()
-export class GetServiceUrlService {
-    constructor(private http: Http) {
-    }
 
-    getUrl(name: String) {
-        return this.http.get('/call/' + name)
-            .map(response => response.json())
-    }
-}
 export enum InlayState{
     ACTIVE = <any> "active",
     COMPLETED = <any>"completed",
     New = <any> ""
 }
 interface DynamicURI {
-    uri: ''
+    uri: string
 }
 interface ServiceInlay {
     id: number,
@@ -84,10 +76,10 @@ interface ServiceInlay {
                 <div class="content">
                     <div class="title">{{si.name}}</div>
                     <div class="description">{{si.description}}
-                        <a [href]="sanitizer.bypassSecurityTrustUrl(makeIPExternal(si.URI.uri))">
-                            got to
-                        </a>
                     </div>
+                    <a [href]="sanitizer.bypassSecurityTrustUrl(makeIPExternal(si.URI.uri))">
+                        got to
+                    </a>
                 </div>
             </div>
         </div>`
@@ -130,29 +122,16 @@ export class SideSteps {
 
     }
 
-
-    getURIByName(name: string) {
-        var returnURI: DynamicURI = {uri: ''};
-        this.getServiceUrlService.getUrl(name).subscribe(uriJson => returnURI.uri = uriJson.uri)
-        return returnURI;
-    }
-
-    selectServiceInlayByName(name: string) {
-        return this.serviceInlays.find(serviceinlay => serviceinlay.name == name);
-    }
-
-    selectServiceInlayById(id: number) {
-        return this.serviceInlays.find(serviceinlay => serviceinlay.id == id);
+    getURIByName(name: string) :DynamicURI{
+        return this.getServiceUrlService.getURIByName(name)
     }
 
     selectServiceInlay(serviceInlay: ServiceInlay) {
         this.selectedServiceInlay = serviceInlay;
     }
 
-    makeIPExternal(uri: string) {
-        var aLink = document.createElement("a");
-        aLink.href = uri;
-        return self.location.protocol + "//" + self.location.hostname + ":" + aLink.port
+    makeIPExternal(uri: string) :string{
+      return this.getServiceUrlService.makeIPExternal(uri);
     }
 
 

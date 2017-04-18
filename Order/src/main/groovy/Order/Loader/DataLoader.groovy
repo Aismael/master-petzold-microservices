@@ -49,6 +49,7 @@ class DataLoader implements ApplicationRunner {
         ItemSet is2=new ItemSet(orderConcept: o,item: i2,count: 2)
         ItemSet is3=new ItemSet(orderConcept: f,item: i1,count: 2)
         ItemSet is4=new ItemSet(orderConcept: f,item: i2)
+
         Account a=new  Account(name: "First",mail: "aismaelinc@gmail.com")
         Account a2=new  Account(name: "Second",mail: "aismaelinc@web.de")
         Account a3=new  Account(name: "Third",mail: "test@west@gmail.com")
@@ -69,6 +70,7 @@ class DataLoader implements ApplicationRunner {
         f.getItemSets().add(is3)
         f.getItemSets().add(is4)
         //save
+        itemRepository.save(i3);
         accountRepository.save(a)
         accountRepository.save(a2)
         accountRepository.save(a3)

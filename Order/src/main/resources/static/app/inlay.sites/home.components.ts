@@ -190,7 +190,6 @@ export class HomeRightComponent {
 export class HomeErrorComponent implements  OnDestroy {
     ngOnDestroy(): void {
         $('.ui.basic.modal').remove();
-        console.log("removed")
     }
 
     text: string = '';
