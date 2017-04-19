@@ -215,7 +215,7 @@ export class OrderOrderComponent {
                         {{items[0].title}}
                     </div>
                     <div class="right aligned column">
-                        <input type="number" placeholder="favorite" [(ngModel)]="name" #ctrl="ngModel" style="max-width: 6vw">
+                        <input type="text" placeholder="favorite" [(ngModel)]="name" #ctrl="ngModel" style="max-width: 6vw">
                     </div>
                 </div>
             </a>
@@ -330,6 +330,7 @@ export class OrderPayComponent {
 
     jump() {
         var order=this.orderService.makeOrderfromBasket();
+        console.log(JSON.stringify(order));
         this.postDatasByPath.postPathsData(this.config.order.path +
             this.config.order.one.path,
             order)

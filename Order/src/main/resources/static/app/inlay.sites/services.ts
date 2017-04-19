@@ -56,7 +56,7 @@ class FavoriteObject {
     count: 0;
     id: null;
     accountId: number;
-    itemSetStubDtos: ItemSetStubDTO[];
+    itemSetStubDTOS: ItemSetStubDTO[];
 }
 @Injectable()
 export class FavoriteIdService {
@@ -102,9 +102,9 @@ export class FavoriteService {
     makeOrderfromBasket() {
         this.favorite = new FavoriteObject();
         var favorite = this.favorite;
-        favorite.itemSetStubDtos = [];
+        favorite.itemSetStubDTOS = [];
         this.basketService.getBasket().items.forEach(function (data: any) {
-            favorite.itemSetStubDtos.push(new ItemSetStubDTO(data.id, data.count))
+            favorite.itemSetStubDTOS.push(new ItemSetStubDTO( data.count,data.id))
         })
         this.favorite.accountId = this.loginService.getLast();
         console.log(JSON.stringify(this.favorite))
@@ -118,7 +118,7 @@ class OrderObject {
     posted: false;
     date: Date;
     accountId: number;
-    itemSetStubDtos: ItemSetStubDTO[];
+    itemSetStubDTOS: ItemSetStubDTO[];
 
     constructor() {
         this.date = new Date()
@@ -147,9 +147,9 @@ export class OrderService {
     makeOrderfromBasket(): OrderObject {
         this.order = new OrderObject();
         var order = this.order;
-        order.itemSetStubDtos = [];
+        order.itemSetStubDTOS = [];
         this.basketService.getBasket().items.forEach(function (data: any) {
-            order.itemSetStubDtos.push(new ItemSetStubDTO(data.id, data.count))
+            order.itemSetStubDTOS.push(new ItemSetStubDTO(data.count,data.id))
         })
         this.order.accountId = this.loginService.getLast();
         console.log(JSON.stringify(this.order))

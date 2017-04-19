@@ -19,8 +19,18 @@ import java.math.BigDecimal;
 @JsonSerialize
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Position {
+    public Position() {
+    }
+
+    public Position(BigDecimal ammount, int count, String name) {
+        this.ammount = ammount;
+        this.count = count;
+        this.name = name;
+    }
+
     @Id
     @GeneratedValue
+
 
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL)

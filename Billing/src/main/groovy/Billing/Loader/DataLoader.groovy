@@ -75,11 +75,9 @@ class DataLoader implements ApplicationRunner {
                     view.account.all.path))
             def orderJson = new JsonSlurper().parse(new URL(raw.toString() + view.order.path +
                     view.order.all.path))
-            println "LoadAccounts"+accountsJson
             accountsJson.list.each{
                 accountRepository.saveAndFlush(new Account((long)it.id,(String)it.mail))
             }
-            println "LoadOrders"+orderJson
             orderJson.list.each{
             XOrder o =new XOrder()
                 o.id= it.id

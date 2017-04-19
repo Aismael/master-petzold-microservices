@@ -6,7 +6,7 @@ import {RouterModule} from "@angular/router";
 import {routes} from "./app.routes";
 import {HomeComponent, HomeErrorComponent, HomeLeftComponent, HomeRightComponent} from "./inlay.sites/home.components";
 import {emptyComponent} from "./app.components.inlay.sites";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AppComponent, ContentX} from "./app.stuff";
 import {GetDatasByPath, GetPathsService, PostDatasByPath} from "./app.rest.paths";
 import {
@@ -31,7 +31,9 @@ import {SearchArrayPipe} from "./pipes/array";
         HttpModule,
         RouterModule.forRoot(routes),
         FormsModule,
-        NgSemanticModule
+        NgSemanticModule,
+        FormsModule,
+        ReactiveFormsModule
     ],
     declarations: [
         SideSteps,
@@ -53,7 +55,8 @@ import {SearchArrayPipe} from "./pipes/array";
         OrderPayComponent,
         SearchArrayPipe,
         FavoriteFavoriteComponent,
-        FavoritePayComponent],
+        FavoritePayComponent,
+        ],
     bootstrap: [
         SideSteps,
         Inlay,

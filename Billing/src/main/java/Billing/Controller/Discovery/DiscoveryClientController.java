@@ -1,9 +1,8 @@
 package Billing.Controller.Discovery;
 
-import Billing.DTOs.AccountDto;
-import Billing.DTOs.WebSocketConfigDto;
-import Billing.DTOs.WebSocketEndpointDto;
+import Billing.DTOs.*;
 import Billing.Entities.Account;
+import Billing.Entities.Position;
 import Billing.Entities.XOrder;
 import Billing.Loader.DataLoader;
 import Billing.Loader.WebSocketDataLoader;
@@ -128,12 +127,15 @@ public class DiscoveryClientController implements CommandLineRunner {
                          */
                         if (it.getName().equals("account")) {
                             StompSessionHandler sessionHandler = new DtoOutOfJsonSessionHandler(send, subscribe, AccountDto.class, payload -> {
-                                Account account = new Account();
-                                try {
-                                    System.out.println("ACCOUNT OVER SOCKET"+payload);
-                                } catch (Exception e) {
-                                    System.err.println("Account:" + "Incomplete");
-                                    e.printStackTrace();
+
+                                if (payload instanceof AccountDto) {
+                                    AccountDto accountDto = (AccountDto)payload;
+                                    try {
+                                        accountRepository.saveAndFlush(new Account(accountDto.getId(),accountDto.getMail()));
+                                    } catch (Exception e) {
+                                        System.err.println("Account:" + "Incomplete");
+                                        e.printStackTrace();
+                                    }
                                 }
                                 return true;
                             }, payload -> new AccountDto());
@@ -143,16 +145,24 @@ public class DiscoveryClientController implements CommandLineRunner {
                          *
                          */
                         if (it.getName().equals("order")) {
-                            StompSessionHandler sessionHandler = new DtoOutOfJsonSessionHandler(send, subscribe, LinkedHashMap.class, payload -> {
-                                XOrder order = new XOrder();
-                                try {
-                                    System.out.println("Order OVER SOCKET"+payload);
-                                } catch (Exception e) {
-                                    System.err.println("order:" + "Incomplete");
-                                    e.printStackTrace();
+                            StompSessionHandler sessionHandler = new DtoOutOfJsonSessionHandler(send, subscribe, OrderDTO.class, payload -> {
+                                if (payload instanceof OrderDTO) {
+                                    OrderDTO orderDTO = (OrderDTO) payload;
+                                    try {
+                                        XOrder o= new XOrder();
+                                        o.setId(orderDTO.getId());
+                                        o.setSendDate(orderDTO.getDate());
+                                        o.getAccount().add(accountRepository.getOne(orderDTO.getAccountId()));
+                                        orderDTO.getItemSetStubDTOS().forEach(it2->
+                                        o.getPositions().add(new Position(it2.getCurrency(),it2.getCount(),it2.getName())));
+                                        orderRepository.saveAndFlush(o);
+                                    } catch (Exception e) {
+                                        System.err.println("order:" + "Incomplete");
+                                        e.printStackTrace();
+                                    }
                                 }
                                 return true;
-                            }, payload -> new LinkedHashMap<>());
+                            }, payload -> new OrderDTO());
                             generateStompClientFromWebSocketClient(s, sessionHandler, finalWebSocketConfigDto.getName());
                         }
                     })
