@@ -1,7 +1,6 @@
 import {GetDatasByPath, GetPathsService, PostDatasByPath} from "../app.rest.paths";
 import {ErrorService, FavoriteService, GetServiceUrlService, LoginService, OrderService, ShopBasketService, ShopService} from "./services";
 import {Component, Input} from "@angular/core";
-import {Router} from "@angular/router";
 import {FormControl} from "@angular/forms";
 declare var $: any;
 
@@ -179,10 +178,12 @@ export class OrderOrderComponent {
         }else return true
     }
     constructor(private shopService: ShopService,private basket: ShopBasketService) {
+        basket.getBasket().items=[];
         this.indexE = {i: null};
         shopService.getMessage().subscribe(message => {
             if (message) {
-                console.log()
+                console.log(message)
+                console.log(this.basket.getBasket())
                 if (!this.isInArray(this.basket.getBasket().items, message, this.indexE)) {
                     message.count = 1;
                     this.basket.getBasket().items.push(message)
@@ -240,7 +241,6 @@ export class OrderFavoriteComponent {
     html: string;
     items: Array<any> = [];
     name: string;
-    orderId: any;
     userId: number;
 
     constructor(private getServiceUrlService: GetServiceUrlService,
@@ -266,10 +266,6 @@ export class OrderFavoriteComponent {
                 this.userId = message.id
             }
         });
-    }
-
-    makeIPExternal(uri: string): string {
-        return this.getServiceUrlService.makeIPExternal(uri);
     }
 
     jump() {

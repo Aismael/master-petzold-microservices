@@ -96,7 +96,6 @@ export class FavoriteFavoriteComponent {
     constructor(getPathsService: GetPathsService,
                 public getDatasByPath: GetDatasByPath,
                 private errorService: ErrorService,
-                private shopService: ShopService,
                 private loginService: LoginService,
                 private shopBasketService: ShopBasketService,
                 private favoriteIdService: FavoriteIdService
