@@ -1,6 +1,6 @@
 package Order.Controller;
 
-import Order.DTOs.OrderBroadcastDTO;
+import Order.DTOs.OrderDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -35,7 +35,7 @@ public class BroadcastNewOrdersController {
      * @return
      */
     @SendTo("${RESTConfiguration.broadcast.out}"+"${RESTConfiguration.broadcast.endpoint.order.sendPath}")
-    public OrderBroadcastDTO broadcast(OrderBroadcastDTO in)  {
+    public OrderDTO broadcast(OrderDTO in)  {
         return in;
     }
 
@@ -45,7 +45,7 @@ public class BroadcastNewOrdersController {
      * @param in
      */
     @MessageMapping("${RESTConfiguration.broadcast.endpoint.order.message}")
-    public void getBroadcast(OrderBroadcastDTO in)  {
+    public void getBroadcast(OrderDTO in)  {
         this.template.convertAndSend(out+sendPath, in);
     }
 
@@ -53,7 +53,7 @@ public class BroadcastNewOrdersController {
      * Sendet das die Bestellung an den Websocket
      * @param in
      */
-    public void  broadcastOrder(OrderBroadcastDTO in) {
+    public void  broadcastOrder(OrderDTO in) {
         System.out.println("Fire");
         getBroadcast(in);
     }

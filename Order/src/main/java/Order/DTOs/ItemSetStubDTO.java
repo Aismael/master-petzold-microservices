@@ -2,6 +2,8 @@ package Order.DTOs;
 
 import Order.Entities.ItemSet;
 
+import java.math.BigDecimal;
+
 /**
  * * Dto der Einzelnen Bestellzeilen als DTO fasst itemset und items zusammen
  * Created by Martin Petzold on 31.01.2017.
@@ -10,6 +12,7 @@ public class ItemSetStubDTO {
     Integer count;
     Long itemID;
     String name;
+     BigDecimal currency;
 
     public ItemSetStubDTO() {
     }
@@ -24,6 +27,13 @@ public class ItemSetStubDTO {
         this.count = itemSet.getCount();
         this.itemID = itemSet.getItem().getOne().getId();
         this.name = itemSet.getItem().getOne().getName();
+    }
+
+    public ItemSetStubDTO(Integer count, Long id, String name, BigDecimal currency) {
+        this.count = count;
+        this.itemID = id;
+        this.name = name;
+        this.currency=currency;
     }
 
     public String getName() {

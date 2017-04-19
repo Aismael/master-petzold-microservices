@@ -199,8 +199,8 @@ export class FavoritePayComponent {
                     var returnURI = {uri: ""};
                     this.getServiceUrlService.getUrl("BILLING").subscribe(uriJson => {
                         returnURI.uri = this.makeIPExternal(uriJson.uri) + "/?orderId=" + this.orderId + "&&accountId=" + this.userId;
-                        window.location.href = this.makeIPExternal(returnURI.uri)
-
+                        console.log(returnURI.uri)
+                        window.location.href = returnURI.uri
                     })
                 },
                 (err) => {

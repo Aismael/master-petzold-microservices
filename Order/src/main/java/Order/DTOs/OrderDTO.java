@@ -1,5 +1,9 @@
 package Order.DTOs;
 
+import Order.Entities.ItemSet;
+import Order.Entities.OrderConcepts.Favorite;
+import Order.Entities.OrderConcepts.Order;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -24,6 +28,15 @@ public class OrderDTO {
     private Long accountId;
     private Boolean posted = false;
     private Date date;
+
+    public ArrayList<ItemSetStubDTO> getItemSetStubDTOS() {
+        return itemSetStubDTOS;
+    }
+
+    public void setItemSetStubDTOS(ArrayList<ItemSetStubDTO> itemSetStubDTOS) {
+        this.itemSetStubDTOS = itemSetStubDTOS;
+    }
+
     private ArrayList<ItemSetStubDTO> itemSetStubDTOS = new ArrayList<>();
 
     public OrderDTO() {
@@ -39,7 +52,6 @@ public class OrderDTO {
         this.accountId = accountId;
         this.posted = posted;
         this.date = date;
-
         this.itemSetStubDTOS = itemSetStubDTOS;
     }
 
@@ -48,6 +60,17 @@ public class OrderDTO {
         this.accountId = accountId;
         this.posted = posted;
         this.date = date;
+    }
+
+    public OrderDTO(Order order) {
+        this.posted = order.getPosted();
+        this.date = order.getDate();
+        this.id = order.getId();
+        this.accountId = order.getAccount().getOne().getId();
+        for (ItemSet itemset : order.getItemSets().getAll()) {
+            this.getItemSetStubDTOS().add(new ItemSetStubDTO(itemset));
+        }
+
     }
 
     public Long getId() {

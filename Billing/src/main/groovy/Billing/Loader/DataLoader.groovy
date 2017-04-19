@@ -76,70 +76,10 @@ class DataLoader implements ApplicationRunner {
                     view.account.all.path))
             def orderJson = new JsonSlurper().parse(new URL(raw.toString() + view.order.path +
                     view.order.all.path))
-            accountsJson.each {
-                makeAccount(it)
-            }
-            orderJson.each {
-                XOrder o = xorderRepository.getOne(new Long(it.id))
-                it.itemSets.all.each { it2 ->
-                    o.getPositions().add(makePosition(it2))
-                }
-                xorderRepository.saveAndFlush(o)
-            }
+            println "LoadAccounts"+accountsJson
+            println "LoadOrders"+orderJson
         }
     }
 
-    /**
-     * speichert eine Orderposition
-     * @param it2 OrderPosition Rohdaten
-     * @return OrderPosition Entität
-     */
-    @Transactional
-    Position makePosition(it2) {
-        Position p = new Position()
-        p.setAmmount(new BigDecimal(it2.item.one.currency))
-        p.setCount(it2.count)
-        p.setName(it2.item.one.name)
-        return positionRepository.saveAndFlush(p)
-    }
 
-    /**
-     * Speichert einen Account
-     * @param it Account Rohdaten
-     * @return Account Entität
-     */
-    @Transactional
-    Account makeAccount(it) {
-        println it
-        Account a = new Account()
-        XOrder o;
-        a.setId(it.id)
-        a.setMail(it.mail)
-        it.orders.all.each { it2 ->
-            o = makeOrder(it2)
-            a.getXOrders().add(o)
-            o.getAccount().add(a)
-            xorderRepository.saveAndFlush(o)
-        }
-
-
-        return accountRepository.saveAndFlush(a)
-
-    }
-
-    /**
-     * Speichert eine Order
-     * @param it2 Order Rohdaten
-     * @return Order Entität
-     */
-    @Transactional
-    XOrder makeOrder(it2) {
-
-        XOrder o = new XOrder()
-        o.setId(it2.id)
-        if (it2.date) {
-            o.setSendDate(new Date((Long) it2.date))
-        }
-        return xorderRepository.saveAndFlush(o)
-    }
 }

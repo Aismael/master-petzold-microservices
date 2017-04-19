@@ -26,6 +26,11 @@ public class Order extends OrderConcept {
     private ToOne<Order, Account> toAccount = new ToOne<>(
             () -> account, (Account a) -> account = a,
             this, Account::getOrders);
+
+    public Boolean getPosted() {
+        return posted;
+    }
+
     private Boolean posted = false;
     private Date date;
     public Order(Account account, Date date) {

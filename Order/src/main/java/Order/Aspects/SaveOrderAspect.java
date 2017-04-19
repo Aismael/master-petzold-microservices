@@ -1,8 +1,8 @@
 package Order.Aspects;
 
 import Order.Controller.BroadcastNewOrdersController;
-import Order.DTOs.ItemSetStubBroadcastDTO;
-import Order.DTOs.OrderBroadcastDTO;
+import Order.DTOs.ItemSetStubDTO;
+import Order.DTOs.OrderDTO;
 import Order.Entities.ItemSet;
 import Order.Entities.OrderConcepts.Order;
 import org.aspectj.lang.JoinPoint;
@@ -38,13 +38,13 @@ public class SaveOrderAspect {
     @AfterReturning(pointcut = "orderHasSaved()",returning = "returnValue")
     public void broadcast(JoinPoint joinPoint, Object returnValue) {
         if(returnValue instanceof Order){
-            ArrayList<ItemSetStubBroadcastDTO> itemSetStubDtos=new ArrayList<>();
+            ArrayList<ItemSetStubDTO> itemSetStubDtos=new ArrayList<>();
             for (ItemSet is :((Order) returnValue).getItemSets().getAll()) {
-                ItemSetStubBroadcastDTO i=new ItemSetStubBroadcastDTO(is.getCount(),is.getId(),is.getItem().getOne().getName(),is.getItem().getOne().getCurrency());
+                ItemSetStubDTO i=new ItemSetStubDTO(is.getCount(),is.getId(),is.getItem().getOne().getName(),is.getItem().getOne().getCurrency());
                 itemSetStubDtos.add(i);
             }
             broadcastNewOrdersController.broadcastOrder(
-                    new OrderBroadcastDTO(
+                    new OrderDTO(
                             ((Order) returnValue).getId(),
                             ((Order) returnValue).getAccount().getOne().getId(),
                             true,

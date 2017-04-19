@@ -134,9 +134,7 @@ public class DiscoveryClientController implements CommandLineRunner {
                             StompSessionHandler sessionHandler = new DtoOutOfJsonSessionHandler(send, subscribe, AccountBroadcastDto.class, payload -> {
                                 Account account = new Account();
                                 try {
-                                    account.setId(((AccountBroadcastDto) payload).getId());
-                                    account.setMail(((AccountBroadcastDto) payload).getMail());
-                                    accountRepository.saveAndFlush(account);
+                                    System.out.println("ACCOUNT OVER SOCKET"+payload);
                                 } catch (Exception e) {
                                     System.err.println("Account:" + "Incomplete");
                                     e.printStackTrace();
@@ -152,18 +150,7 @@ public class DiscoveryClientController implements CommandLineRunner {
                             StompSessionHandler sessionHandler = new DtoOutOfJsonSessionHandler(send, subscribe, LinkedHashMap.class, payload -> {
                                 XOrder order = new XOrder();
                                 try {
-                                    order.setId(((Integer) ((LinkedHashMap) payload).get("id")).longValue());
-                                    order.setSendDate(new Date((Long) ((LinkedHashMap) payload).get("date")));
-                                    order.getAccount().add(accountRepository.getOne(((Integer) ((LinkedHashMap) payload).get("accountId")).longValue()));
-                                    ((List) ((LinkedHashMap) payload).get("itemSetStubBroadcastDto")).forEach((Object iter) -> {
-                                        Position position = new Position();
-                                        position.setName(((LinkedHashMap) iter).get("name").toString());
-                                        position.setAmmount(new BigDecimal(((LinkedHashMap) iter).get("ammount").toString()));
-                                        position.setCount((int) ((LinkedHashMap) iter).get("count"));
-                                        order.getPositions().add(position);
-                                    });
-                                    orderRepository.flush();
-                                    orderRepository.saveAndFlush(order);
+                                    System.out.println("Order OVER SOCKET"+payload);
                                 } catch (Exception e) {
                                     System.err.println("order:" + "Incomplete");
                                     e.printStackTrace();

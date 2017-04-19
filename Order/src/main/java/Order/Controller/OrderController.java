@@ -2,6 +2,7 @@ package Order.Controller;
 
 import Order.DTOs.ItemSetStubDTO;
 import Order.DTOs.OrderDTO;
+import Order.DTOs.OrderDTOList;
 import Order.Entities.ItemSet;
 import Order.Entities.OrderConcepts.Order;
 import Order.Repositories.AccountRepository;
@@ -41,8 +42,8 @@ public class OrderController {
      * @return Liste der Bestellungen
      */
     @RequestMapping(value = "${RESTConfiguration.view.order.all.path}")
-    public List<Order> findFavorites() {
-        return orderRepository.findAll();
+    public OrderDTOList findFavorites() {
+        return new OrderDTOList (orderRepository.findAll());
     }
 
     /**
@@ -52,8 +53,8 @@ public class OrderController {
      */
     @RequestMapping(value = "${RESTConfiguration.view.order.all.path}" +
             "${RESTConfiguration.view.order.all.account.path}" + "/{accountId}")
-    public List<Order> findFavoritesByAccountId(@PathVariable Long accountId) {
-        return orderRepository.findAllByAccountId(accountId);
+    public OrderDTOList findFavoritesByAccountId(@PathVariable Long accountId) {
+        return new OrderDTOList (orderRepository.findAllByAccountId(accountId));
     }
 
 
