@@ -15,7 +15,7 @@ public class DtoOutOfJsonSessionHandler extends StompSessionHandlerAdapter {
     public DtoOutOfJsonSessionHandler(String send, String subscribe, Type type, DoFunction subscribeFunction, DoFunction sendFunction) {
         this.send = send;//"/info/accountMsg"
         this.subscribe = subscribe;//"/data/accountBr"
-        this.type = type;//AccountBroadcastDto.class;
+        this.type = type;//AccountDto.class;
         this.subscribeFunction = subscribeFunction;
         this.sendFunction = sendFunction;
 

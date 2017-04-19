@@ -20,7 +20,16 @@ import java.util.Set;
 @JsonSerialize
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Account {
+    public Account() {
+    }
+
+    public Account(Long id, String mail) {
+        this.id = id;
+        this.mail = mail;
+    }
+
     @Id
+
     private Long id;
     @Column(unique = true)
     private String mail;

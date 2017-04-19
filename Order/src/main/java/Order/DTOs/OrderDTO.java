@@ -1,7 +1,6 @@
 package Order.DTOs;
 
 import Order.Entities.ItemSet;
-import Order.Entities.OrderConcepts.Favorite;
 import Order.Entities.OrderConcepts.Order;
 
 import java.util.ArrayList;
@@ -13,30 +12,9 @@ import java.util.Date;
  */
 public class OrderDTO {
     private Long id;
-
-    @Override
-    public String toString() {
-        return "OrderDTO{" +
-                "id=" + id +
-                ", accountId=" + accountId +
-                ", posted=" + posted +
-                ", date=" + date +
-                ", itemSetStubDTOS=" + itemSetStubDTOS +
-                '}';
-    }
-
     private Long accountId;
     private Boolean posted = false;
     private Date date;
-
-    public ArrayList<ItemSetStubDTO> getItemSetStubDTOS() {
-        return itemSetStubDTOS;
-    }
-
-    public void setItemSetStubDTOS(ArrayList<ItemSetStubDTO> itemSetStubDTOS) {
-        this.itemSetStubDTOS = itemSetStubDTOS;
-    }
-
     private ArrayList<ItemSetStubDTO> itemSetStubDTOS = new ArrayList<>();
 
     public OrderDTO() {
@@ -73,6 +51,25 @@ public class OrderDTO {
 
     }
 
+    @Override
+    public String toString() {
+        return "OrderDTO{" +
+                "id=" + id +
+                ", accountId=" + accountId +
+                ", posted=" + posted +
+                ", date=" + date +
+                ", itemSetStubDTOS=" + itemSetStubDTOS +
+                '}';
+    }
+
+    public ArrayList<ItemSetStubDTO> getItemSetStubDTOS() {
+        return itemSetStubDTOS;
+    }
+
+    public void setItemSetStubDTOS(ArrayList<ItemSetStubDTO> itemSetStubDTOS) {
+        this.itemSetStubDTOS = itemSetStubDTOS;
+    }
+
     public Long getId() {
         return id;
     }
@@ -105,13 +102,6 @@ public class OrderDTO {
         this.date = date;
     }
 
-    public ArrayList<ItemSetStubDTO> getitemSetStubDtos() {
-        return itemSetStubDTOS;
-    }
-
-    public void setitemSetStubDtos(ArrayList<ItemSetStubDTO> itemSetStubDTOS) {
-        this.itemSetStubDTOS = itemSetStubDTOS;
-    }
 
 
 }

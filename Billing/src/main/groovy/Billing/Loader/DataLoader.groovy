@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Transactional
 
 
 /**
@@ -77,7 +76,20 @@ class DataLoader implements ApplicationRunner {
             def orderJson = new JsonSlurper().parse(new URL(raw.toString() + view.order.path +
                     view.order.all.path))
             println "LoadAccounts"+accountsJson
+            accountsJson.list.each{
+                accountRepository.saveAndFlush(new Account((long)it.id,(String)it.mail))
+            }
             println "LoadOrders"+orderJson
+            orderJson.list.each{
+            XOrder o =new XOrder()
+                o.id= it.id
+                o.sendDate=new Date(it.date)
+                it.itemSetStubDTOS.each{it2->
+                    o.positions.add(new Position(id: it2.id,count: it2.count,name: it2.name,ammount: it2.currency))
+                }
+                o.getAccount().add(accountRepository.getOne((Long)it.accountId))
+                xorderRepository.saveAndFlush(o)
+            }
         }
     }
 

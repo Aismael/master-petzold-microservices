@@ -4,7 +4,7 @@ package Billing.DTOs;
  * DTO um die Accountdaten die vom Websocket des Order Services gesendet werden zu parsen
  * Created by Martin Petzold on 31.01.2017.
  */
-public class AccountBroadcastDto {
+public class AccountDto {
     Long id = null;
     String mail = "";
 
@@ -14,7 +14,7 @@ public class AccountBroadcastDto {
      * @param id   id des Accounts
      * @param mail mail adresse des Accounts
      */
-    public AccountBroadcastDto(Long id, String mail) {
+    public AccountDto(Long id, String mail) {
         this.id = id;
         this.mail = mail;
     }
@@ -22,7 +22,7 @@ public class AccountBroadcastDto {
     /**
      * leerer Konstruktor
      */
-    public AccountBroadcastDto() {
+    public AccountDto() {
     }
 
     public Long getId() {
@@ -44,7 +44,7 @@ public class AccountBroadcastDto {
 
     @Override
     public String toString() {
-        return "AccountBroadcastDto{" +
+        return "AccountDto{" +
                 "id=" + id +
                 ", mail='" + mail + '\'' +
                 '}';

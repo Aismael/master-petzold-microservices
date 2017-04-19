@@ -12,7 +12,16 @@ public class ItemSetStubDTO {
     Integer count;
     Long itemID;
     String name;
-     BigDecimal currency;
+
+    public BigDecimal getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(BigDecimal currency) {
+        this.currency = currency;
+    }
+
+    BigDecimal currency;
 
     public ItemSetStubDTO() {
     }
@@ -27,6 +36,7 @@ public class ItemSetStubDTO {
         this.count = itemSet.getCount();
         this.itemID = itemSet.getItem().getOne().getId();
         this.name = itemSet.getItem().getOne().getName();
+        this.currency = itemSet.getItem().getOne().getCurrency();
     }
 
     public ItemSetStubDTO(Integer count, Long id, String name, BigDecimal currency) {

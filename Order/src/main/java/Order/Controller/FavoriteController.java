@@ -96,7 +96,6 @@ public class FavoriteController {
             i.setItem(itemRepository.getOne(itemSetStub.getItemID()));
             i.setCount(itemSetStub.getCount());
             favorite.getItemSets().add(i);
-
         }
         favoriteRepository.saveAndFlush(favorite);
         return favoriteRepository.getOne(favorite.getId()).getId();

@@ -66,13 +66,12 @@ public class OrderController {
     @RequestMapping(value = "${RESTConfiguration.view.order.one.path}", method = RequestMethod.POST)
     public Long orderFavorite(@RequestBody OrderDTO orderDTO) {
         Order order = new Order(accountRepository.findOne(orderDTO.getAccountId()), new Date());
-        for (ItemSetStubDTO itemSetStub : orderDTO.getitemSetStubDtos()) {
+        for (ItemSetStubDTO itemSetStub : orderDTO.getItemSetStubDTOS()) {
             ItemSet i=new ItemSet();
             i.setItem(itemRepository.getOne(itemSetStub.getItemID()));
             i.setCount(itemSetStub.getCount());
             order.getItemSets().add(i);
         }
-
         orderRepository.saveAndFlush(order);
         return orderRepository.getOne(order.getId()).getId();
     }

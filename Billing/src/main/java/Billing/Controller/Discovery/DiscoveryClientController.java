@@ -1,10 +1,9 @@
 package Billing.Controller.Discovery;
 
-import Billing.DTOs.AccountBroadcastDto;
+import Billing.DTOs.AccountDto;
 import Billing.DTOs.WebSocketConfigDto;
 import Billing.DTOs.WebSocketEndpointDto;
 import Billing.Entities.Account;
-import Billing.Entities.Position;
 import Billing.Entities.XOrder;
 import Billing.Loader.DataLoader;
 import Billing.Loader.WebSocketDataLoader;
@@ -26,10 +25,8 @@ import org.springframework.web.socket.sockjs.client.SockJsClient;
 import org.springframework.web.socket.sockjs.client.Transport;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
-import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -120,7 +117,6 @@ public class DiscoveryClientController implements CommandLineRunner {
             e.printStackTrace();
         }
         if (webSocketConfigDto != null) {
-
             WebSocketConfigDto finalWebSocketConfigDto = webSocketConfigDto;
             webSocketConfigDto.getEndpointDtoMap().forEach(
                     ((WebSocketEndpointDto it) -> {
@@ -131,7 +127,7 @@ public class DiscoveryClientController implements CommandLineRunner {
                          *
                          */
                         if (it.getName().equals("account")) {
-                            StompSessionHandler sessionHandler = new DtoOutOfJsonSessionHandler(send, subscribe, AccountBroadcastDto.class, payload -> {
+                            StompSessionHandler sessionHandler = new DtoOutOfJsonSessionHandler(send, subscribe, AccountDto.class, payload -> {
                                 Account account = new Account();
                                 try {
                                     System.out.println("ACCOUNT OVER SOCKET"+payload);
@@ -140,7 +136,7 @@ public class DiscoveryClientController implements CommandLineRunner {
                                     e.printStackTrace();
                                 }
                                 return true;
-                            }, payload -> new AccountBroadcastDto());
+                            }, payload -> new AccountDto());
                             generateStompClientFromWebSocketClient(s, sessionHandler, finalWebSocketConfigDto.getName());
                         }
                         /**
