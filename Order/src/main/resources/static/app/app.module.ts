@@ -1,4 +1,4 @@
-import {NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from "@angular/core";
 import {BrowserModule} from "@angular/platform-browser";
 import {HttpModule} from "@angular/http";
 import {HomeButton, Inlay, SideSteps} from "./app.global";
@@ -9,18 +9,29 @@ import {emptyComponent} from "./app.components.inlay.sites";
 import {FormsModule} from "@angular/forms";
 import {AppComponent, ContentX} from "./app.stuff";
 import {GetDatasByPath, GetPathsService, PostDatasByPath} from "./app.rest.paths";
-import {ErrorService, GetServiceUrlService, LoginService, OrderService, ShopService} from "./inlay.sites/services";
+import {
+    ErrorService, FavoriteIdService, FavoriteService, GetServiceUrlService, LoginService, OrderService, ShopBasketService,
+    ShopService
+} from "./inlay.sites/services";
 import {ChooseComponent} from "./inlay.sites/choose.components";
 import {
-    OrderComponent, OrderFavoriteComponent, OrderitemsComponent,
-    OrderOrderComponent, OrderPayComponent,
+    OrderComponent,
+    OrderFavoriteComponent,
+    OrderitemsComponent,
+    OrderOrderComponent,
+    OrderPayComponent
 } from "./inlay.sites/order.component";
-import {FavoriteComponent} from "./inlay.sites/favorite.component";
+import {FavoriteComponent, FavoriteFavoriteComponent, FavoritePayComponent} from "./inlay.sites/favorite.component";
 import {NgSemanticModule} from "ng-semantic";
 import {SearchArrayPipe} from "./pipes/array";
 
 @NgModule({
-    imports: [BrowserModule, HttpModule, RouterModule.forRoot(routes), FormsModule,NgSemanticModule
+    imports: [
+        BrowserModule,
+        HttpModule,
+        RouterModule.forRoot(routes),
+        FormsModule,
+        NgSemanticModule
     ],
     declarations: [
         SideSteps,
@@ -34,20 +45,32 @@ import {SearchArrayPipe} from "./pipes/array";
         AppComponent,
         ContentX,
         ChooseComponent,
-    OrderComponent,
-    FavoriteComponent,
+        OrderComponent,
+        FavoriteComponent,
         OrderitemsComponent,
         OrderOrderComponent,
-        OrderFavoriteComponent,OrderPayComponent,SearchArrayPipe],
-    bootstrap: [SideSteps, Inlay, HomeButton],
-    providers: [GetServiceUrlService,
+        OrderFavoriteComponent,
+        OrderPayComponent,
+        SearchArrayPipe,
+        FavoriteFavoriteComponent,
+        FavoritePayComponent],
+    bootstrap: [
+        SideSteps,
+        Inlay,
+        HomeButton],
+    providers: [
+        GetServiceUrlService,
         GetPathsService,
         GetDatasByPath,
         ErrorService,
         PostDatasByPath,
         LoginService,
-        OrderService,ShopService], //<-- you should inject all providers here
-    schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+        OrderService,
+        ShopService,
+        FavoriteService,
+        ShopBasketService,
+        FavoriteIdService], //<-- you should inject all providers here
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 
 })

@@ -1,5 +1,5 @@
-import {GetDatasByPath, GetPathsService} from "../app.rest.paths";
-import {ErrorService, GetServiceUrlService, LoginService, OrderService, ShopService} from "./services";
+import {GetDatasByPath, GetPathsService, PostDatasByPath} from "../app.rest.paths";
+import {ErrorService, FavoriteService, GetServiceUrlService, LoginService, OrderService, ShopBasketService, ShopService} from "./services";
 import {Component, Input} from "@angular/core";
 import {Router} from "@angular/router";
 import {FormControl} from "@angular/forms";
@@ -24,7 +24,7 @@ declare var $: any;
             </div>
             <app-order-pay class="center aligned column"></app-order-pay>
         </div>
-    `
+         <app-home-error></app-home-error>`
 })
 
 export class OrderComponent {
@@ -77,8 +77,8 @@ export class OrderComponent {
                                         <sm-checkbox label=" " [control]="toggleControl"
                                                      type="toggle"></sm-checkbox>
                                     </div>
-                                    <div class=" column">
-                                        <h3>{{item.currency}}</h3>
+                                    <div class="right aligned column">
+                                        <h3 class="right aligned">{{item.currency}}</h3>
                                     </div>
                                     <div class="column">
                                         <i class="circular dollar icon"></i>
@@ -109,8 +109,8 @@ export class OrderitemsComponent {
 
     submit(item: any) {
         if (!item.on) {
-            item.on = true;
             this.shopService.sendMessage(item);
+            item.on = true;
         } else {
             item.on = false;
         }
@@ -139,16 +139,16 @@ export class OrderitemsComponent {
     selector: "app-order-order",
     template: `
         <sm-menu title="Shopping Card" class="fluid vertical menu">
-            <a sm-item  *ngFor="let item of holder.items" [icon]="item.name">
+            <a sm-item *ngFor="let item of basket.getBasket().items" [icon]="item.name">
                 <div class="ui three column grid">
-                    <div class=" column">
-                    {{item?.name}}
+                    <div  class=" column">
+                        <i *ngIf="item.on" (click)="submit(item)" class="large red remove circle icon"></i>
+                    </div>
+                    <div class="right aligned column">
+                        {{item?.name}}
                     </div>
                     <div class=" column">
-                    <input type="number" placeholder="count" [(ngModel)]="item.count" #ctrl="ngModel" style="max-width: 2vw">
-                    </div>
-                    <div class=" column">
-                    <i (click)="submit(item)" class="circular red delete calendar icon"></i>
+                        <input type="number" placeholder="count" [(ngModel)]="item.count" #ctrl="ngModel" style="max-width: 2vw">
                     </div>
                 </div>
             </a>
@@ -159,8 +159,6 @@ export class OrderOrderComponent {
     number: number;
     indexE: { i: null };
     html: string;
-    holder = {items: new Array()};
-
     isInArray(array: any, itemV: any, indexV: any): boolean {
         var i = false;
         var index = 0;
@@ -175,20 +173,26 @@ export class OrderOrderComponent {
 
     }
 
-    constructor(private shopService: ShopService) {
+    fromItemList(item: any){
+        if(item.on==null){
+            return false
+        }else return true
+    }
+    constructor(private shopService: ShopService,private basket: ShopBasketService) {
         this.indexE = {i: null};
         shopService.getMessage().subscribe(message => {
             if (message) {
-                if (!this.isInArray(this.holder.items, message, this.indexE)) {
-                    message.count=1;
-                    this.holder.items.push(message)
+                console.log()
+                if (!this.isInArray(this.basket.getBasket().items, message, this.indexE)) {
+                    message.count = 1;
+                    this.basket.getBasket().items.push(message)
                 } else {
                     if (this.indexE.i)
-                        this.holder.items.splice((Number)(this.indexE.i) - 1, 1);
+                        this.basket.getBasket().items.splice((Number)(this.indexE.i) - 1, 1);
                 }
             }
         });
-        this.holder.items = [];
+        this.basket.getBasket().items = [];
     }
 
     submit(item: any) {
@@ -205,24 +209,84 @@ export class OrderOrderComponent {
     selector: "app-order-favorite",
     template: `
         <sm-menu title="Save & Pay" class="fluid vertical menu">
-            <a sm-item *ngFor="let item of items" [icon]="item.icon">{{item?.title}}</a>
+            <a sm-item [icon]="items[0].icon">
+                <div class="ui two column grid">
+                    <div class="left aligned column">
+                        {{items[0].title}}
+                    </div>
+                    <div class="right aligned column">
+                        <input type="number" placeholder="favorite" [(ngModel)]="name" #ctrl="ngModel" style="max-width: 6vw">
+                    </div>
+                </div>
+            </a>
+            <a sm-item [icon]="items[1].icon">
+                <div class="ui two column grid">
+                    <div class="left aligned column">
+                        {{items[1].title}}
+                    </div>
+                    <div class="right aligned column">
+
+                        <div class="ui big blue button" (click)="jump()">
+                            Pay
+                        </div>
+                    </div>
+                </div>
+            </a>
         </sm-menu>
     `
 })
 export class OrderFavoriteComponent {
+    config: any = null;
     html: string;
     items: Array<any> = [];
+    name: string;
+    orderId: any;
+    userId: number;
 
-    constructor() {
+    constructor(private getServiceUrlService: GetServiceUrlService,
+                private loginService: LoginService,
+                private favoriteService: FavoriteService,
+                getPathsService: GetPathsService,
+                private postDatasByPath: PostDatasByPath,
+                private errorService: ErrorService
+    ) {
+        getPathsService.getPathsData().subscribe(config => this.config = config.config.view);
         this.items = [{
-            "title": "Name it",
+            "title": "1. Name it",
             "link": "Home",
-            "icon": "gamepad"
+            "icon": "tag big"
         }, {
-            "title": "Pay",
+            "title": "2. and",
             "link": "Chanel",
-            "icon": "video camera"
+            "icon": "credit card alternative big"
         }];
+        this.userId = loginService.getLast();
+        loginService.getMessage().subscribe(message => {
+            if (message) {
+                this.userId = message.id
+            }
+        });
+    }
+
+    makeIPExternal(uri: string): string {
+        return this.getServiceUrlService.makeIPExternal(uri);
+    }
+
+    jump() {
+        var favorite=this.favoriteService.makeOrderfromBasket();
+        this.postDatasByPath.postPathsData(this.config.favorite.path +
+            this.config.favorite.one.path,
+            favorite)
+            .subscribe(data => {
+                    console.log(data)
+
+                },
+                (err) => {
+                    this.errorHandle("order Saving", err)
+                });
+    }
+    errorHandle(msg: string, err: any) {
+        this.errorService.sendMessage(msg);
     }
 }
 interface DynamicURI {
@@ -238,22 +302,26 @@ interface DynamicURI {
     `
 })
 export class OrderPayComponent {
+    config: any = null;
     orderId: any;
     userId: number;
 
-    constructor(private getServiceUrlService: GetServiceUrlService, private router: Router, private loginService: LoginService, private orderService: OrderService) {
+    constructor(private getServiceUrlService: GetServiceUrlService,
+                private loginService: LoginService,
+                private orderService: OrderService,
+                private postDatasByPath: PostDatasByPath,
+                private getPathsService: GetPathsService,
+                private errorService: ErrorService,
+                private favoriteService: FavoriteService
+    ) {
+        getPathsService.getPathsData().subscribe(config => this.config = config.config.view);
         this.userId = loginService.getLast();
         loginService.getMessage().subscribe(message => {
             if (message) {
                 this.userId = message.id
             }
         });
-        this.orderId = orderService.getLast();
-        orderService.getMessage().subscribe(message => {
-            if (message) {
-                this.orderId = message.id
-            }
-        });
+        favoriteService.getMessage().subscribe(message=>this.jump())
     }
 
     makeIPExternal(uri: string): string {
@@ -261,12 +329,26 @@ export class OrderPayComponent {
     }
 
     jump() {
-        var returnURI: DynamicURI = {uri: ""};
-        this.getServiceUrlService.getUrl("BILLING").subscribe(uriJson => {
-            returnURI.uri = this.makeIPExternal(uriJson.uri) + "/?orderId=" + this.orderId + "&&accountId=" + this.userId;
-            window.location.href = this.makeIPExternal(returnURI.uri)
+        var order=this.orderService.makeOrderfromBasket();
+        this.postDatasByPath.postPathsData(this.config.order.path +
+            this.config.order.one.path,
+            order)
+            .subscribe(data => {
+                this.orderId=data;
+                    console.log(data)
+                    var returnURI: DynamicURI = {uri: ""};
+                    this.getServiceUrlService.getUrl("BILLING").subscribe(uriJson => {
+                        returnURI.uri = this.makeIPExternal(uriJson.uri) + "/?orderId=" + this.orderId + "&&accountId=" + this.userId;
+                        window.location.href = this.makeIPExternal(returnURI.uri)
 
-        })
+                    })
+                },
+                (err) => {
+                    this.errorHandle("order Saving", err)
+                });
+    }
+    errorHandle(msg: string, err: any) {
+        this.errorService.sendMessage(msg);
     }
 }
 

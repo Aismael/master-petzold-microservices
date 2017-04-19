@@ -5,10 +5,12 @@ import {Http} from "@angular/http";
 @Injectable()
 export class ErrorService {
     private subject = new Subject<any>();
-    constructor(){
+
+    constructor() {
     }
+
     sendMessage(message: string) {
-        this.subject.next({ text: message });
+        this.subject.next({text: message});
     }
 
     clearMessage() {
@@ -24,42 +26,151 @@ export class ErrorService {
 @Injectable()
 export class LoginService {
     private subject = new Subject<any>();
-    private id:number;
-    constructor(){}
-    sendMessage(id: number) {
-        this.id=id;
-        this.subject.next({ id: id });
-        console.log("account id:"+id);
+    private id: number;
+
+    constructor() {
     }
+
+    sendMessage(id: number) {
+        this.id = id;
+        this.subject.next({id: id});
+        console.log("account id:" + id);
+    }
+
     clearMessage() {
-        this.id=null;
+        this.id = null;
         this.subject.next();
     }
-    getLast():number{
+
+    getLast(): number {
         return this.id;
     }
+
     getMessage(): Observable<any> {
         return this.subject.asObservable();
     }
 }
 
+class FavoriteObject {
+    name: "";
+    count: 0;
+    id: null;
+    accountId: number;
+    itemSetStubDtos: ItemSetStubDTO[];
+}
+@Injectable()
+export class FavoriteIdService {
+    id:number;
+    getId(): any {
+        return this.id;
+    }
+}
+@Injectable()
+export class ShopBasketService {
+    basket = {items: new Array()};
+
+    getBasket(): any {
+        return this.basket
+    }
+}
+@Injectable()
+export class FavoriteService {
+    private subject = new Subject<any>();
+    private favorite: FavoriteObject = null;
+
+    constructor(private basketService: ShopBasketService, private loginService: LoginService) {
+    }
+
+    sendMessage(favorite: FavoriteObject) {
+        this.favorite = favorite;
+        this.subject.next(favorite);
+    }
+
+    clearMessage() {
+        this.favorite = null;
+        this.subject.next();
+    }
+
+    getLast(): FavoriteObject {
+        return this.favorite;
+    }
+
+    getMessage(): Observable<any> {
+        return this.subject.asObservable();
+    }
+
+    makeOrderfromBasket() {
+        this.favorite = new FavoriteObject();
+        var favorite = this.favorite;
+        favorite.itemSetStubDtos = [];
+        this.basketService.getBasket().items.forEach(function (data: any) {
+            favorite.itemSetStubDtos.push(new ItemSetStubDTO(data.id, data.count))
+        })
+        this.favorite.accountId = this.loginService.getLast();
+        console.log(JSON.stringify(this.favorite))
+        this.sendMessage(favorite);
+        return favorite;
+    }
+}
+
+class OrderObject {
+    id: null;
+    posted: false;
+    date: Date;
+    accountId: number;
+    itemSetStubDtos: ItemSetStubDTO[];
+
+    constructor() {
+        this.date = new Date()
+    }
+
+}
+
+class ItemSetStubDTO {
+    count: number;
+    itemID: number;
+
+    constructor(count: number, itemID: number) {
+        this.itemID = itemID;
+        this.count = count;
+    }
+
+}
 @Injectable()
 export class OrderService {
     private subject = new Subject<any>();
-    private id:number;
-    constructor(){}
-    sendMessage(id: number) {
-        this.id=id;
-        this.subject.next({ id: id });
-        console.log("account id:"+id);
+    private order: OrderObject = null;
+
+    constructor(private basketService: ShopBasketService, private loginService: LoginService) {
     }
+
+    makeOrderfromBasket(): OrderObject {
+        this.order = new OrderObject();
+        var order = this.order;
+        order.itemSetStubDtos = [];
+        this.basketService.getBasket().items.forEach(function (data: any) {
+            order.itemSetStubDtos.push(new ItemSetStubDTO(data.id, data.count))
+        })
+        this.order.accountId = this.loginService.getLast();
+        console.log(JSON.stringify(this.order))
+        this.sendMessage(order);
+        return order;
+    }
+
+    sendMessage(order: OrderObject) {
+        this.order = order;
+        this.subject.next(order);
+    }
+
     clearMessage() {
-        this.id=null;
+        this.order = null;
         this.subject.next();
     }
-    getLast():number{
-        return this.id;
+
+    getLast(): OrderObject {
+        return this.order;
     }
+
     getMessage(): Observable<any> {
         return this.subject.asObservable();
     }
@@ -67,23 +178,25 @@ export class OrderService {
 interface DynamicURI {
     uri: string
 }
+
 @Injectable()
 export class GetServiceUrlService {
     constructor(private http: Http) {
     }
 
     getUrl(name: String) {
-        return this.http.get('/call/' + name)
+        return this.http.get("/call/" + name)
             .map(response => response.json())
     }
 
-    makeIPExternal(uri: string) :string{
+    makeIPExternal(uri: string): string {
         var aLink = document.createElement("a");
         aLink.href = uri;
         return self.location.protocol + "//" + self.location.hostname + ":" + aLink.port
     }
-    getURIByName(name: string) :DynamicURI{
-        var returnURI: DynamicURI = {uri: ''};
+
+    getURIByName(name: string): DynamicURI {
+        var returnURI: DynamicURI = {uri: ""};
         this.getUrl(name).subscribe(uriJson => returnURI.uri = uriJson.uri)
         return returnURI;
     }
@@ -92,28 +205,29 @@ export class GetServiceUrlService {
 @Injectable()
 export class ShopService {
     private subject = new Subject<any>();
-    private item:any;
-    constructor(){}
+    private item: any;
+
+    constructor() {
+    }
+
     sendMessage(item: any) {
-        this.item=item;
+        item.on = false;
+        this.item = item;
         this.subject.next(item);
     }
+
     clearMessage() {
-        this.item=null;
+        this.item = null;
         this.subject.next();
     }
-    getLast():number{
+
+    getLast(): number {
         return this.item;
     }
+
     getMessage(): Observable<any> {
         return this.subject.asObservable();
     }
-    submit(item: any) {
-        if (!item.on) {
-            item.on = true;
-        } else {
-            item.on = false;
-            this.sendMessage(item);
-        }
-    }
+
+
 }

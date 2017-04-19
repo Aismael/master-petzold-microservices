@@ -1,5 +1,8 @@
 package Order.DTOs;
 
+import Order.Entities.ItemSet;
+import Order.Entities.OrderConcepts.Favorite;
+
 import java.util.ArrayList;
 
 /**
@@ -29,6 +32,16 @@ public class FavoriteDTO {
         this.name = name;
         this.count = count;
         this.accountId = accountId;
+
+    }
+    public FavoriteDTO(Favorite favorite) {
+        this.name = favorite.getName();
+        this.count = favorite.getCount();
+        this.id = favorite.getId();
+        this.accountId = favorite.getAccount().getOne().getId();
+        for (ItemSet itemset : favorite.getItemSets().getAll()) {
+            this.getItemSetStubDTOS().add(new ItemSetStubDTO(itemset));
+        }
 
     }
 

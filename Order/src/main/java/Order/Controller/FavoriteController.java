@@ -1,6 +1,7 @@
 package Order.Controller;
 
 import Order.DTOs.FavoriteDTO;
+import Order.DTOs.FavoriteDTOList;
 import Order.DTOs.ItemSetStubDTO;
 import Order.Entities.ItemSet;
 import Order.Entities.OrderConcepts.Favorite;
@@ -45,8 +46,8 @@ public class FavoriteController {
      * @return Liste der Favoriten
      */
     @RequestMapping(value = "${RESTConfiguration.view.favorite.all.path}")
-    public List<Favorite> findFavorites() {
-        return favoriteRepository.findAll();
+    public FavoriteDTOList findFavorites() {
+        return new FavoriteDTOList( favoriteRepository.findAll());
     }
 
     /**
@@ -56,8 +57,8 @@ public class FavoriteController {
      */
     @RequestMapping(value = "${RESTConfiguration.view.favorite.all.path}" +
             "${RESTConfiguration.view.favorite.all.account.path}" + "/{accountId}")
-    public List<Favorite> findFavoritesByAccountId(@PathVariable Long accountId) {
-        return favoriteRepository.findAllByAccountId(accountId);
+    public FavoriteDTOList findFavoritesByAccountId(@PathVariable Long accountId) {
+        return new FavoriteDTOList(favoriteRepository.findAllByAccountId(accountId));
     }
 
     /**
@@ -67,7 +68,7 @@ public class FavoriteController {
      */
     @RequestMapping(value = "${RESTConfiguration.view.favorite.one.path}" +
             "${RESTConfiguration.view.favorite.one.order.path}" + "/{favoriteId}", method = RequestMethod.POST)
-    public Order orderFavorite(@PathVariable Long favoriteId) {
+    public Long orderFavorite(@PathVariable Long favoriteId) {
         Favorite favorite = favoriteRepository.getOne(favoriteId);
         favorite.setCount(favorite.getCount() + 1);
         Order order = new Order(favorite.getAccount().getOne(), new Date());
@@ -79,7 +80,7 @@ public class FavoriteController {
         }
         orderRepository.saveAndFlush(order);
         favoriteRepository.saveAndFlush(favorite);
-        return order;
+        return order.getId();
     }
 
     /**
