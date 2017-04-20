@@ -25,6 +25,16 @@ import java.util.Set;
 public class XOrder {
     @Id
     private Long id;
+
+    public boolean isPayed() {
+        return payed;
+    }
+
+    public void setPayed(boolean payed) {
+        this.payed = payed;
+    }
+
+    private boolean payed=false;
     private Date sendDate;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")

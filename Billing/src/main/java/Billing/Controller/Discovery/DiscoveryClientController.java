@@ -26,7 +26,6 @@ import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -126,19 +125,19 @@ public class DiscoveryClientController implements CommandLineRunner {
                          *
                          */
                         if (it.getName().equals("account")) {
-                            StompSessionHandler sessionHandler = new DtoOutOfJsonSessionHandler(send, subscribe, AccountDto.class, payload -> {
+                            StompSessionHandler sessionHandler = new DtoOutOfJsonSessionHandler(send, subscribe, AccountDTO.class, payload -> {
 
-                                if (payload instanceof AccountDto) {
-                                    AccountDto accountDto = (AccountDto)payload;
+                                if (payload instanceof AccountDTO) {
+                                    AccountDTO accountDto = (AccountDTO)payload;
                                     try {
                                         accountRepository.saveAndFlush(new Account(accountDto.getId(),accountDto.getMail()));
                                     } catch (Exception e) {
                                         System.err.println("Account:" + "Incomplete");
-                                        e.printStackTrace();
+                                        //e.printStackTrace();
                                     }
                                 }
                                 return true;
-                            }, payload -> new AccountDto());
+                            }, payload -> new AccountDTO());
                             generateStompClientFromWebSocketClient(s, sessionHandler, finalWebSocketConfigDto.getName());
                         }
                         /**
@@ -158,7 +157,7 @@ public class DiscoveryClientController implements CommandLineRunner {
                                         orderRepository.saveAndFlush(o);
                                     } catch (Exception e) {
                                         System.err.println("order:" + "Incomplete");
-                                        e.printStackTrace();
+                                        //e.printStackTrace();
                                     }
                                 }
                                 return true;

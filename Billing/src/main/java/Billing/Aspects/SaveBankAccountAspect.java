@@ -41,18 +41,24 @@ public class SaveBankAccountAspect {
     public void broadcast(JoinPoint joinPoint, Object returnValue) {
         if (returnValue instanceof Account) {
             if (bankRepository.findByName("Standard") != null) {
-                BankAccount bankAccount = new BankAccount();
-                bankAccount.setAmmount(new BigDecimal("100"));
-                bankAccount.getAccount().add((Account) returnValue);
-                Bank bank = bankRepository.findByName("Standard");
-                bank.getBankAccounts().add(bankAccount);
-                //bankAccountRepository.saveAndFlush(bankAccount);
-                bankRepository.saveAndFlush(bank);
+                otherSteps((Account) returnValue, "Standard");
             }
         }
-
-
+        if (returnValue instanceof Account) {
+            if (bankRepository.findByName("Paypal") != null) {
+                otherSteps((Account) returnValue, "Paypal");
+            }
+        }
     }
 
+    public void otherSteps(Account returnValue, String name) {
+        BankAccount bankAccount = new BankAccount();
+        bankAccount.setAmmount(new BigDecimal("100"));
+        bankAccount.getAccount().add((Account) returnValue);
+        Bank bank = bankRepository.findByName(name);
+        bank.getBankAccounts().add(bankAccount);
+        //bankAccountRepository.saveAndFlush(bankAccount);
+        bankRepository.saveAndFlush(bank);
+    }
 
 }

@@ -45,7 +45,7 @@ class DataLoader implements ApplicationRunner {
     void run(ApplicationArguments args) throws Exception {
         Bank b = new Bank(answertime: 200, name: "AmericanStandard")
         Bank b2 = new Bank(answertime: 250, name: "OrderFastBank")
-        Bank b3 = new Bank(answertime: 150, name: "Payfal")
+        Bank b3 = new Bank(answertime: 150, name: "Paypal")
         Bank b4 = new Bank(answertime: 100, name: "Standard")
         bankRepository.saveAndFlush(b)
         bankRepository.saveAndFlush(b2)

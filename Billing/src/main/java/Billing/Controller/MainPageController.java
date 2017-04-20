@@ -1,8 +1,6 @@
 package Billing.Controller;
 
-import Billing.DTOs.MakeNewBankAccountDTO;
-import Billing.DTOs.PayDTO;
-import Billing.Entities.Bank;
+import Billing.DTOs.*;
 import Billing.Entities.BankAccount;
 import Billing.Entities.XOrder;
 import Billing.Exception.payException;
@@ -16,7 +14,6 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * Rest Controller für die Abfragen der Angular JS UI für den Bezahl Use Case
@@ -48,10 +45,10 @@ public class MainPageController {
             "${RESTConfiguration.view.order.one.idAndAccount.path}" +
             "/{id}/{accountId}"
     )
-    public XOrder orderByAccount(@PathVariable("id") Long id,
-                                 @PathVariable("accountId") Long accountId) {
+    public OrderDTO orderByAccount(@PathVariable("id") Long id,
+                                   @PathVariable("accountId") Long accountId) {
         System.out.println("oba");
-        return orderRepository.findByIdAndAccountId(id, accountId);
+        return new OrderDTO(orderRepository.findByIdAndAccountId(id, accountId));
     }
 
     /**
@@ -64,8 +61,8 @@ public class MainPageController {
             "${RESTConfiguration.view.bankAccount.all.path}" +
             "${RESTConfiguration.view.bankAccount.all.account.path}" + "/{accountId}"
     )
-    public List<BankAccount> bankAccountsByAccountId(@PathVariable("accountId") Long accountId) {
-        return bankAccountRepository.findAllByAccountId(accountId);
+    public BankAccountDTOList bankAccountsByAccountId(@PathVariable("accountId") Long accountId) {
+        return new BankAccountDTOList(bankAccountRepository.findAllByAccountId(accountId));
     }
 
     /**
@@ -79,13 +76,13 @@ public class MainPageController {
             "${RESTConfiguration.view.bankAccount.one.account.path}"
             , method = RequestMethod.POST
     )
-    public BankAccount makebankAccountsByAccountIdAndBankid(@RequestBody MakeNewBankAccountDTO makeNewBankAccountDTO) {
+    public BankAccountDTO makebankAccountsByAccountIdAndBankid(@RequestBody MakeNewBankAccountDTO makeNewBankAccountDTO) {
         BankAccount bankAccount = new BankAccount();
         bankAccount.setAmmount(new BigDecimal("100"));
         bankAccount.getBank().add(bankRepository.getOne(makeNewBankAccountDTO.getBankId()));
         bankAccount.getAccount().add(accountRepository.getOne(makeNewBankAccountDTO.getAccountId()));
         bankAccountRepository.flush();
-        return bankAccountRepository.saveAndFlush(bankAccount);
+        return new BankAccountDTO(bankAccountRepository.saveAndFlush(bankAccount));
     }
 
     /**
@@ -99,17 +96,17 @@ public class MainPageController {
             "${RESTConfiguration.view.bankAccount.one.pay.path}"
             , method = RequestMethod.POST
     )
-    public BankAccount pay(@RequestBody PayDTO payDTO) {
+    public BankAccountDTO pay(@RequestBody PayDTO payDTO) {
         XOrder order = orderRepository.getOne(payDTO.getOrderId());
         BankAccount bankAccount = bankAccountRepository.findOne(payDTO.getBankAccountId());
-        System.out.println("xxx" + order.getSum().toString());
-        System.out.println("yyy" + bankAccount.getAmmount().toString());
         if (bankAccount.getAmmount().subtract(order.getSum()).longValue() >= 0) {
             bankAccount.setAmmount(bankAccount.getAmmount().subtract(order.getSum()));
         } else {
             throw new payException(bankAccount.toString());
         }
-        return bankAccountRepository.saveAndFlush(bankAccount);
+        order.setPayed(true);
+        orderRepository.saveAndFlush(order);
+        return new BankAccountDTO(bankAccountRepository.saveAndFlush(bankAccount));
     }
 
     /**
@@ -119,8 +116,8 @@ public class MainPageController {
      */
     @RequestMapping(value = "${RESTConfiguration.view.bank.path}" +
             "${RESTConfiguration.view.bank.all.path}")
-    public List<Bank> getAllBanks() {
-        return bankRepository.findAll();
+    public BankDTOList getAllBanks() {
+        return new BankDTOList(bankRepository.findAll());
     }
 }
 

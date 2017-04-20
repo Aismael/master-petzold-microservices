@@ -3,6 +3,7 @@ package Billing.DTOs;
 import Billing.Entities.Position;
 import Billing.Entities.XOrder;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -14,7 +15,18 @@ public class OrderDTO {
     private Long id;
     private Long accountId;
     private Date date;
+
+    public BigDecimal getSum() {
+        return sum;
+    }
+
+    public void setSum(BigDecimal sum) {
+        this.sum = sum;
+    }
+
+    private BigDecimal sum;
     private ArrayList<ItemSetStubDTO> itemSetStubDTOS = new ArrayList<>();
+    private boolean payed;
     public OrderDTO() {
     }
 
@@ -43,6 +55,8 @@ public class OrderDTO {
         for (Position position : order.getPositions().getAll()) {
             this.getItemSetStubDTOS().add(new ItemSetStubDTO(position));
         }
+        this.payed=order.isPayed();
+        this.sum=order.getSum();
 
     }
 
