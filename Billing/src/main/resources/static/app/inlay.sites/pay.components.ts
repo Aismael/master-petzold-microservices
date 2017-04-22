@@ -5,29 +5,40 @@ import {NavigationEnd, Router} from "@angular/router";
 @Component({
     selector: "app-bill",
     template: `
-        <div class="ui grid">
-            <div class="four wide column">
-                <sm-menu title="Your Accounts" class="ui four  fluid  menu vertical inverted blue ">
-                    <a sm-item *ngFor="let bankAccount of accounts" [icon]="bankAccount.name"
-                       (click)="click(bankAccount)">{{bankAccount?.bankname}}</a>
-                </sm-menu>
-            </div>
-            <div class="twelve wide stretched column">
-                <div class="ui segment">
-                    <h4>your Actual ammount for your Account at {{actualAccount.bankname}} is {{actualAccount.ammount}} $
-                        and you have to pay {{sum}} $
-                        <div class="ui section divider"></div>
-                        so your new ammount would be {{actualAccount.ammount - sum}}
-                        <div class="ui section divider"></div>
-                    </h4>
-                    <div class="ui massive green labeled icon button" (click)="pay()">
-                        <i class="credit card alternative icon"></i>
-                        Pay @ {{actualAccount.bankname}}
+        <div *ngIf="sub2">
+            <div class="ui grid">
+                <div class="four wide column">
+                    <sm-menu title="Your Accounts" class="fluid vertical menu inverted blue">
+                        <a sm-item *ngFor="let bankAccount of accounts" [icon]="bankAccount.name"
+                           (click)="click(bankAccount)">{{bankAccount?.bankname}}
+                            <i class="arrow circle right icon" *ngIf="bankAccount?.bankname===actualAccount.bankname">
+                            </i>
+                        </a>
+                    </sm-menu>
+                </div>
+                <div class="twelve wide stretched column">
+                    <div class="ui segment">
+                        <h4>your Actual ammount for your Account at {{actualAccount.bankname}} is {{actualAccount.ammount}} $
+                            and you have to pay {{sum}} $
+                            <div class="ui section divider"></div>
+                            so your new ammount would be {{actualAccount.ammount - sum}}
+                            <div class="ui section divider"></div>
+                        </h4>
+                        <div class="ui massive green labeled icon button" (click)="pay()">
+                            <i class="credit card alternative icon"></i>
+                            Pay @ {{actualAccount.bankname}}
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="ui section divider"></div>
+            <div class="one wide center aligned centered column">
+                <div class="ui massive red labeled icon button" (click)="request()">
+                    <i class="university icon"></i>
+                    request new Account
+                </div>
+            </div>
         </div>
-        <div class="ui section divider"></div>
         <router-outlet></router-outlet>
     `
 })
@@ -54,9 +65,9 @@ export class PayComponent {
                 private shop: ShopService,
                 private postDatasByPath: PostDatasByPath,
                 private getServiceUrlService: GetServiceUrlService,) {
-        this.payDTO={
+        this.payDTO = {
             bankAccountId: 0,
-                orderId: 0
+            orderId: 0
         };
         this.id = loginService.getLast();
         this.orderId = fromOrderService.getLast();
@@ -65,7 +76,7 @@ export class PayComponent {
         this.router.events.subscribe((event) => {
                 if (event instanceof NavigationEnd) {
                     this.sub2 = !(event.urlAfterRedirects.includes("make"));
-
+                    this.load();
                 }
             }
         );
@@ -75,6 +86,10 @@ export class PayComponent {
         });
         this.sum = shop.getLast().sum;
         this.actualAccount = {ammount: 0, bankname: "noname", id: 0}
+    }
+
+    request() {
+        this.router.navigate(["/bill/pay/make"])
     }
 
     pay() {
@@ -108,6 +123,7 @@ export class PayComponent {
     }
 
     load() {
+        if (this.config) {
         this.getDatasByPath.getPathsData(
             this.config.bankAccount.path +
             this.config.bankAccount.all.path +
@@ -121,8 +137,8 @@ export class PayComponent {
             },
             (err) => {
                 this.errorService.sendMessage("Account doesnt exist" + err);
-
             })
+    }
     }
 
     makeIPExternal(uri: string): string {

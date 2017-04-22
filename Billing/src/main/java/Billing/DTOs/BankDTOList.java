@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Aismael on 20.04.2017.
  */
 public class BankDTOList {
-    public ArrayList<BankDTO> getBankDTOListList() {
+    public ArrayList<BankDTO> getBankDTOList() {
         return bankList;
     }
 
@@ -20,10 +20,11 @@ public class BankDTOList {
 
     ArrayList<BankDTO> bankList = new ArrayList<>();
 
+
     @Override
     public String toString() {
-        return "BankDTOListDTOList{" +
-                "bankList=" + bankList.toString() +
+        return "BankDTOList{" +
+                "bankList=" + bankList +
                 '}';
     }
 

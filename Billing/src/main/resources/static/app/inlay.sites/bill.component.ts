@@ -135,7 +135,7 @@ export class OrderOrderComponent {
     template: `
         <div class="ui massive green labeled icon button" (click)="click()">
             <i class="credit card alternative icon"></i>
-            Pay
+            Choose Pay Method
         </div>
     `
 })

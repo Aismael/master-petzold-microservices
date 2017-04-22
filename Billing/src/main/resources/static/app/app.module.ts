@@ -16,6 +16,7 @@ import {NgSemanticModule} from "ng-semantic";
 import {SearchArrayPipe} from "./pipes/array";
 import {BillComponent, BillPayComponent, OrderOrderComponent} from "./inlay.sites/bill.component";
 import {PayComponent} from "./inlay.sites/pay.components";
+import {MakeComponent} from "./inlay.sites/make.component";
 
 @NgModule({
     imports: [
@@ -39,7 +40,8 @@ import {PayComponent} from "./inlay.sites/pay.components";
         BillComponent,
         OrderOrderComponent,
         BillPayComponent,
-        PayComponent
+        PayComponent,
+        MakeComponent
         ],
     bootstrap: [
         SideSteps,
