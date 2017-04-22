@@ -52,12 +52,17 @@ bootRepackage      {
 
 dependencies {
 
-    compile ('org.codehaus.groovy:groovy-all')
-    //compile ('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile('org.codehaus.groovy:groovy-all')
+    compile('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
     compile("org.springframework.cloud:spring-cloud-starter-feign:1.2.3.RELEASE")
     compile("org.springframework.cloud:spring-cloud-starter-eureka:1.2.3.RELEASE")
+    compile("org.springframework.boot:spring-boot")
+    compile("org.springframework.boot:spring-boot-starter-websocket")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-logging")
+    compile("org.springframework.boot:spring-boot-starter-tomcat")
+
 }
 
 

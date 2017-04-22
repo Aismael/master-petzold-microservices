@@ -9,15 +9,17 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
-
+@Configuration
 @SpringBootApplication
 @RestController
 @ComponentScan({"ESL"})
@@ -27,6 +29,7 @@ import java.io.IOException;
 @EnableConfigurationProperties
 @EnableDiscoveryClient
 @EnableFeignClients
+@EnableEurekaClient
 
 public class Application {
     @Autowired
