@@ -1,40 +1,60 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="orderApp">
+<html>
 <head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <script src="libraries/angular.js"></script>
-    <script src="libraries/angular-route.min.js"></script>
-    <script src="libraries/jquery-3.1.1.js"></script>
-    <script src="libraries/ui-bootstrap-tpls-2.4.0.js"></script>
-    <script src="libraries/bootstrap/js/bootstrap.min.js"></script>
-    <link href="libraries/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="libraries/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <script src="/code/jquery/com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
 
-    <script src="libraries/ng-table/ng-table.js"></script>
-    <link href="libraries/ng-table/ng-table.css" rel="stylesheet">
-    <link href="libraries/ng-table/own.css" rel="stylesheet">
+    <script src="semantic/dist/semantic.js"></script>
+    <script scr="semantic/dist/components/accordion.js"></script>
 
-    <script src="libraries/trNgGrid/trNgGrid.js"></script>
-    <link href="libraries/trNgGrid/trNgGrid.css" rel="stylesheet">
-
-    <script src="app/app.js"></script>
-
-
+    <script>
+        $(function () {
+            $("#headerBar").load("/main.parts/header.bar.html");
+            $("#footerBar").load("/main.parts/footer.bar.html");
+            $("#leftSide").load("/main.parts/left.side.html");
+            $("#rightSide").load("/main.parts/right.side.html");
+            $("#inlayFrame").load("/main.parts/inlay.frame.html");
+        });
+    </script>
+    <title>Angular QuickStart</title>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles.css">
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js?main=browser"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="systemjs.config.js"></script>
+    <script>
+        System.import('main.ts').catch(function (err) {
+            console.error(err);
+        });
+    </script>
 </head>
-<body class="container">
-<p>Get your greeting <a href="/greeting">here</a></p>
-<div ng-controller="dataService">
-    <div ng-controller="configCtrl" ng-init="loadService.init('/config/json')">
-
-        <div ng-include='url.data'>
+<body>
+<script>
+    $('.ui.sticky')
+        .sticky({
+            context: '#wireOne',
+            pushing: true
+        });
+</script>
+<div id="headerBar"></div>
+<div class="ui bottom attached segment">
+    <div class="ui internally celled grid" style="min-height: 90vh">
+        <div class="three wide column" style="margin-top: 6vh">
+            <div id="leftSide"></div>
         </div>
-        <p>
-            <button type="button" class="btn btn-primary" ng-click="url.data='accountPage.html'">
-                logout
-            </button>
-        </p>
+        <div class="ten wide column" style="margin-top: 6vh">
+            <div id="inlayFrame"></div>
+        </div>
+        <div class="three wide column" style="margin-top: 6vh">
+            <div id="rightSide"></div>
+        </div>
     </div>
 </div>
+</div>
+<div id="footerBar"></div>
+
 </body>
 </html>
