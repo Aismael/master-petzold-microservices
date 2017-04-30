@@ -5,4 +5,5 @@ ownLibs/build/*
 .gradle/
 .idea/
 /build/
+*.class
 

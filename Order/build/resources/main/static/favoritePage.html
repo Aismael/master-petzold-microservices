@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Hi</title>
+</head>
+<body>
+<div ng-controller="favoritePageCtrl">
+    favorite
+    <table tr-ng-grid="" items="myItems" selected-items="mySelectedItems" selection-mode="SingleRow"
+           fields="['id','name','count','currency']">
+        <thead>
+        <tr>
+            <th>
+                <div field-name="itemSets.all" class="tr-ng-title">
+                    Items
+                </div>
+            </th>
+        </tr>
+        <tbody>
+        <tr>
+            <td>
+                <div ng-repeat="itemSet in gridItem.itemSets.all">
+                   <li>
+                       ID:{{itemSet.item.one.id}} Count:{{itemSet.count}} x {{itemSet.item.one.name}} : {{itemSet.item.one.currency}} €
+                   </li>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p>
+        <button type="button" class="btn btn-primary" ng-click="makeOrder()" ng-if="mySelectedItems[0].id">
+            Order Favorite No: {{mySelectedItems[0].id}} called {{mySelectedItems[0].name}}
+        </button>
+    </p>
+    <div>
+        {{mySelectedItems[0]}}
+
+    </div>
+</div>
+</body>
+</html>
