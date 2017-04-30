@@ -11,3 +11,13 @@
 *.war
 *.jar
 *.jar
+associations/build/libs/associations-1.0-SNAPSHOT.jar
+*.jar
+associations/build/libs/associations-1.0-SNAPSHOT.jar
+associations/build/libs/associations-1.0-SNAPSHOT.jar
+Order/build/distributions/order-1.0-SNAPSHOT.tar
+Order/build/distributions/order-1.0-SNAPSHOT.zip
+Order/build/distributions/order-1.0-SNAPSHOT.zip
+slimEurekaClient/src/main/docker/SpringBootDocker.jar
+*.bat
+slimEurekaClient/build/libs/slimEurekaClient-1.0-SNAPSHOT.war.original
