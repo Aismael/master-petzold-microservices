@@ -26,19 +26,21 @@ public class Order extends OrderConcept {
     private ToOne<Order, Account> toAccount = new ToOne<>(
             () -> account, (Account a) -> account = a,
             this, Account::getOrders);
-
-    public Boolean getPosted() {
-        return posted;
-    }
-
     private Boolean posted = false;
     private Date date;
     public Order(Account account, Date date) {
         this.account = account;
         this.date = date;
     }
-
     public Order() {
+    }
+
+    public Boolean getPosted() {
+        return posted;
+    }
+
+    public void setPosted(Boolean posted) {
+        this.posted = posted;
     }
 
     public IToAny<Account> getAccount() {
@@ -51,10 +53,6 @@ public class Order extends OrderConcept {
 
     public Boolean isPosted() {
         return posted;
-    }
-
-    public void setPosted(Boolean posted) {
-        this.posted = posted;
     }
 
     public Date getDate() {

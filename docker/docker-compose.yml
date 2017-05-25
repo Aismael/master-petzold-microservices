@@ -79,3 +79,11 @@ services:
         - db
     links:
         - db:db
+  ui:
+     container_name: UI
+     image: uifd/ui-for-docker
+     privileged: true
+     ports:
+        - 9000:9000
+     volumes:
+        - /var/run/docker.sock:/var/run/docker.sock

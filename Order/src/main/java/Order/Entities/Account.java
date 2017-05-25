@@ -22,21 +22,11 @@ public class Account {
     @Transient
     private ToMany<Account, Order> toOrders =
             new ToMany<>(() -> orders, this, Order::getAccount);
-
-    public IToAny<Order> getOrders() {
-        return toOrders;
-    }
-
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private Set<Favorite> favorites = new HashSet<>();
     @Transient
     private ToMany<Account, Favorite> toFavorites =
             new ToMany<>(() -> favorites, this, Favorite::getAccount);
-
-    public IToAny<Favorite> getFavorites() {
-        return toFavorites;
-    }
-
     @Id
     @GeneratedValue
     private Long id;
@@ -45,9 +35,16 @@ public class Account {
     @Column(unique = true)
     private String mail;
 
+    public IToAny<Order> getOrders() {
+        return toOrders;
+    }
 
     public void setOrders(Set<Order> orders) {
         this.orders = orders;
+    }
+
+    public IToAny<Favorite> getFavorites() {
+        return toFavorites;
     }
 
     public void setFavorites(Set<Favorite> favorites) {

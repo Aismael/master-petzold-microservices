@@ -76,7 +76,7 @@ task copyToDockerDeploy << {
     task copyJarToBin {
         copy {
             from jar.getArchivePath()
-            into 'src/main/docker'
+            into '../rocket.chat/'
             rename {String fileName ->
                 fileName.replace(jar.getArchivePath().getName(), "SpringBootDocker.jar")
             }
