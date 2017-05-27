@@ -1,0 +1,81 @@
+group 'How-To-Microservice-Spring-Boot'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
+
+    }
+}
+
+//MYSQL on Docker
+//docker run -d -p 3306:3306 --name demo-mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=demo -e MYSQL_USER=demo_user -e MYSQL_PASSWORD=demo_pass -d mysql:5.6
+
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
+
+jar {
+    baseName = 'gs-spring-boot-docker'
+    version = '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+
+springBoot {
+    mainClass = "Tutorials.Tutorial_1.Application"
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+
+    compile('org.codehaus.groovy:groovy-all')
+    compile("org.springframework.boot:spring-boot")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+    compile("org.springframework.boot:spring-boot-starter-logging")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.cloud:spring-cloud-starter-feign:1.2.3.RELEASE")
+    compile("org.springframework.cloud:spring-cloud-starter-eureka:1.2.3.RELEASE")
+    compile('org.springframework.hateoas:spring-hateoas')
+    compile('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
+
+    testCompile("junit:junit")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+
+    runtime("mysql:mysql-connector-java")
+
+}
+
+/**
+ * Method to Copy built jar file and Rename it for easy
+ * Docker-Deployment independent from Versioning
+ * at build-process
+ */
+task copyToDockerDeploy << {
+    task copyJarToBin {
+        copy {
+            from jar.getArchivePath()
+            into 'src/main/docker'
+            rename { String fileName ->
+                fileName.replace(jar.getArchivePath().getName(), "SpringBootDocker.jar")
+            }
+        }
+
+    }
+}
+
+build.finalizedBy(copyToDockerDeploy)
