@@ -1,7 +1,0 @@
-version: '2'
-services:
-    cookbookconsumer:
-        container_name: CookBookConsumer
-        build: .
-        ports:
-          - 8900:8900
