@@ -21,26 +21,24 @@ var HomeButton = (function () {
 }());
 HomeButton = __decorate([
     core_1.Component({
-        selector: 'home-button',
+        selector: "home-button",
         template: " <a class=\"ui item\" [routerLink]=\"['/home']\">Home</a>"
     })
 ], HomeButton);
 exports.HomeButton = HomeButton;
 var Inlay = (function () {
-    function Inlay(sanitizerArg, router) {
+    function Inlay(sanitizerArg, router, route, loginService, fromOrderService, errorService) {
         var _this = this;
         this.sanitizerArg = sanitizerArg;
         this.router = router;
+        this.route = route;
+        this.errorService = errorService;
         this.inlayUrl = "inlay.html";
-        this.choose = false;
-        this.order = false;
-        this.favorite = false;
+        this.home = false;
         this.sanitizer = sanitizerArg;
         this.router.events.subscribe(function (event) {
             if (event instanceof router_1.NavigationEnd) {
-                _this.choose = event.urlAfterRedirects.includes("choose");
-                _this.order = event.urlAfterRedirects.includes("order");
-                _this.favorite = event.urlAfterRedirects.includes("favorite");
+                _this.home = event.urlAfterRedirects.includes("home");
             }
         });
     }
@@ -48,10 +46,15 @@ var Inlay = (function () {
 }());
 Inlay = __decorate([
     core_1.Component({
-        selector: 'inlay',
-        template: "\n        <div class=\"ui breadcrumb\">\n            <a [routerLink]=\"['/']\" >Home</a>\n            <i class=\"right angle icon divider\" *ngIf=\"choose\"></i>\n            <a [routerLink]=\"['/choose']\" *ngIf=\"choose\">Choose</a>\n            <i class=\"right angle icon divider\" *ngIf=\"order\"></i>\n            <a [routerLink]=\"['/choose/order']\" *ngIf=\"order\">Order</a>\n            <i class=\"right angle icon divider\" *ngIf=\"favorite\"></i>\n            <a [routerLink]=\"['/choose/favorite']\" *ngIf=\"favorite\">Favorite</a>\n        </div>\n        <router-outlet></router-outlet>\n    "
+        selector: "inlay",
+        template: "\n        <div class=\"ui breadcrumb\">\n            <a [routerLink]=\"['/home']\" *ngIf=\"home\">Bill</a>\n            \n        </div>\n        <router-outlet></router-outlet>\n        <app-error></app-error>\n    "
     }),
-    __metadata("design:paramtypes", [platform_browser_1.DomSanitizer, router_1.Router])
+    __metadata("design:paramtypes", [platform_browser_1.DomSanitizer,
+        router_1.Router,
+        router_1.ActivatedRoute,
+        services_1.LoginService,
+        services_1.FromOrderService,
+        services_1.ErrorService])
 ], Inlay);
 exports.Inlay = Inlay;
 var InlayState;
@@ -72,21 +75,21 @@ var SideSteps = (function () {
                 description: "Choose your shipping options",
                 URI: this.getURIByName("ORDER"),
                 icon: "shop",
-                state: InlayState.ACTIVE
+                state: InlayState.COMPLETED
             }, {
                 id: 2,
                 name: "Billing",
                 description: "Enter billing information",
                 URI: this.getURIByName("BILLING"),
                 icon: "payment",
-                state: InlayState.New
+                state: InlayState.COMPLETED
             }, {
                 id: 3,
                 name: "Chat",
                 description: "Verify order details",
                 URI: this.getURIByName("ESL"),
                 icon: "mail",
-                state: InlayState.New
+                state: InlayState.ACTIVE
             }
         ];
         this.selectServiceInlay(this.serviceInlays[0]);
@@ -105,10 +108,38 @@ var SideSteps = (function () {
 }());
 SideSteps = __decorate([
     core_1.Component({
-        selector: 'side-step',
-        template: "\n        <div class=\"ui fluid vertical steps\">\n            <div *ngFor=\"let si of serviceInlays\" class=\"{{si.state}} step\" id=\"{{si.name}}\">\n                <i class=\"{{si.icon}} icon\"></i>\n                <div class=\"content\">\n                    <div class=\"title\">{{si.name}}</div>\n                    <div class=\"description\">{{si.description}}\n                    </div>\n                    <a [href]=\"sanitizer.bypassSecurityTrustUrl(makeIPExternal(si.URI.uri))\">\n                        got to\n                    </a>\n                </div>\n            </div>\n        </div>"
+        selector: "side-step",
+        template: "\n        <div class=\"ui fluid vertical steps\">\n            <div *ngFor=\"let si of serviceInlays\" class=\"{{si.state}} step\" id=\"{{si.name}}\">\n                <i class=\"{{si.icon}} icon\"></i>\n                <div class=\"content\">\n                    <div class=\"title\">{{si.name}}</div>\n                    <div class=\"description\">{{si.description}}\n                    </div>\n                    <a [href]=\"sanitizer.bypassSecurityTrustUrl(makeIPExternal(si.URI.uri))\">\n                        direct-Link-Test\n                    </a>\n                </div>\n            </div>\n        </div>"
     }),
     __metadata("design:paramtypes", [platform_browser_1.DomSanitizer, services_1.GetServiceUrlService])
 ], SideSteps);
 exports.SideSteps = SideSteps;
+var ErrorComponent = (function () {
+    function ErrorComponent(e) {
+        var _this = this;
+        this.e = e;
+        this.text = "";
+        e.getMessage().subscribe(function (message) {
+            if (message) {
+                $(".ui.basic.modal").modal("show");
+                _this.text = message.text;
+            }
+        });
+    }
+    ErrorComponent.prototype.ngOnDestroy = function () {
+        $(".ui.basic.modal").remove();
+    };
+    ErrorComponent.prototype.clearMessage = function () {
+        this.e.clearMessage();
+    };
+    return ErrorComponent;
+}());
+ErrorComponent = __decorate([
+    core_1.Component({
+        selector: "app-error",
+        template: "\n        <div class=\"ui basic modal\">\n            <div class=\"ui icon header\">\n                <i class=\"error icon\"></i>\n                {{text}} is wrong\n            </div>\n            <div class=\"content\">\n                <p>your {{text}} is incorrect</p>\n            </div>\n            <div class=\"actions\">\n                <div class=\"ui green ok inverted button\">\n                    <i class=\"checkmark icon\" (click)=\"clearMessage()\"></i>\n                    OK\n                </div>\n            </div>\n        </div>"
+    }),
+    __metadata("design:paramtypes", [services_1.ErrorService])
+], ErrorComponent);
+exports.ErrorComponent = ErrorComponent;
 //# sourceMappingURL=app.global.js.map

@@ -32,6 +32,32 @@ ErrorService = __decorate([
     __metadata("design:paramtypes", [])
 ], ErrorService);
 exports.ErrorService = ErrorService;
+var FromOrderService = (function () {
+    function FromOrderService() {
+        this.subject = new Subject_1.Subject();
+    }
+    FromOrderService.prototype.sendMessage = function (id) {
+        this.id = id;
+        this.subject.next({ id: id });
+        console.log("order id:" + id);
+    };
+    FromOrderService.prototype.clearMessage = function () {
+        this.id = null;
+        this.subject.next();
+    };
+    FromOrderService.prototype.getLast = function () {
+        return this.id;
+    };
+    FromOrderService.prototype.getMessage = function () {
+        return this.subject.asObservable();
+    };
+    return FromOrderService;
+}());
+FromOrderService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [])
+], FromOrderService);
+exports.FromOrderService = FromOrderService;
 var LoginService = (function () {
     function LoginService() {
         this.subject = new Subject_1.Subject();
@@ -58,21 +84,118 @@ LoginService = __decorate([
     __metadata("design:paramtypes", [])
 ], LoginService);
 exports.LoginService = LoginService;
-var OrderService = (function () {
-    function OrderService() {
-        this.subject = new Subject_1.Subject();
+var FavoriteObject = (function () {
+    function FavoriteObject() {
     }
-    OrderService.prototype.sendMessage = function (id) {
-        this.id = id;
-        this.subject.next({ id: id });
-        console.log("account id:" + id);
+    return FavoriteObject;
+}());
+var FavoriteIdService = (function () {
+    function FavoriteIdService() {
+    }
+    FavoriteIdService.prototype.getId = function () {
+        return this.id;
+    };
+    return FavoriteIdService;
+}());
+FavoriteIdService = __decorate([
+    core_1.Injectable()
+], FavoriteIdService);
+exports.FavoriteIdService = FavoriteIdService;
+var ShopBasketService = (function () {
+    function ShopBasketService() {
+        this.basket = { items: new Array() };
+    }
+    ShopBasketService.prototype.getBasket = function () {
+        return this.basket;
+    };
+    return ShopBasketService;
+}());
+ShopBasketService = __decorate([
+    core_1.Injectable()
+], ShopBasketService);
+exports.ShopBasketService = ShopBasketService;
+var FavoriteService = (function () {
+    function FavoriteService(basketService, loginService) {
+        this.basketService = basketService;
+        this.loginService = loginService;
+        this.subject = new Subject_1.Subject();
+        this.favorite = null;
+    }
+    FavoriteService.prototype.sendMessage = function (favorite) {
+        this.favorite = favorite;
+        this.subject.next(favorite);
+    };
+    FavoriteService.prototype.clearMessage = function () {
+        this.favorite = null;
+        this.subject.next();
+    };
+    FavoriteService.prototype.getLast = function () {
+        return this.favorite;
+    };
+    FavoriteService.prototype.getMessage = function () {
+        return this.subject.asObservable();
+    };
+    FavoriteService.prototype.makeOrderfromBasket = function () {
+        this.favorite = new FavoriteObject();
+        var favorite = this.favorite;
+        favorite.itemSetStubDTOS = [];
+        this.basketService.getBasket().items.forEach(function (data) {
+            favorite.itemSetStubDTOS.push(new ItemSetStubDTO(data.count, data.id));
+        });
+        this.favorite.accountId = this.loginService.getLast();
+        console.log(JSON.stringify(this.favorite));
+        this.sendMessage(favorite);
+        return favorite;
+    };
+    return FavoriteService;
+}());
+FavoriteService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [ShopBasketService, LoginService])
+], FavoriteService);
+exports.FavoriteService = FavoriteService;
+var OrderObject = (function () {
+    function OrderObject() {
+        this.date = new Date();
+    }
+    return OrderObject;
+}());
+var ItemSetStubDTO = (function () {
+    function ItemSetStubDTO(count, itemID) {
+        this.itemID = itemID;
+        this.count = count;
+    }
+    return ItemSetStubDTO;
+}());
+var OrderService = (function () {
+    function OrderService(basketService, loginService) {
+        this.basketService = basketService;
+        this.loginService = loginService;
+        this.subject = new Subject_1.Subject();
+        this.order = null;
+    }
+    OrderService.prototype.makeOrderfromBasket = function () {
+        this.order = new OrderObject();
+        var order = this.order;
+        order.itemSetStubDTOS = [];
+        this.basketService.getBasket().items.forEach(function (data) {
+            order.itemSetStubDTOS.push(new ItemSetStubDTO(data.count, data.id));
+        });
+        this.order.accountId = this.loginService.getLast();
+        console.log(JSON.stringify(this.order));
+        this.sendMessage(order);
+        return order;
+    };
+    OrderService.prototype.sendMessage = function (order) {
+        this.order = order;
+        this.subject.next(order);
     };
     OrderService.prototype.clearMessage = function () {
-        this.id = null;
+        this.order = null;
         this.subject.next();
     };
     OrderService.prototype.getLast = function () {
-        return this.id;
+        return this.order;
     };
     OrderService.prototype.getMessage = function () {
         return this.subject.asObservable();
@@ -81,7 +204,7 @@ var OrderService = (function () {
 }());
 OrderService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [ShopBasketService, LoginService])
 ], OrderService);
 exports.OrderService = OrderService;
 var GetServiceUrlService = (function () {
@@ -89,7 +212,7 @@ var GetServiceUrlService = (function () {
         this.http = http;
     }
     GetServiceUrlService.prototype.getUrl = function (name) {
-        return this.http.get('/call/' + name)
+        return this.http.get("/call/" + name)
             .map(function (response) { return response.json(); });
     };
     GetServiceUrlService.prototype.makeIPExternal = function (uri) {
@@ -98,7 +221,7 @@ var GetServiceUrlService = (function () {
         return self.location.protocol + "//" + self.location.hostname + ":" + aLink.port;
     };
     GetServiceUrlService.prototype.getURIByName = function (name) {
-        var returnURI = { uri: '' };
+        var returnURI = { uri: "" };
         this.getUrl(name).subscribe(function (uriJson) { return returnURI.uri = uriJson.uri; });
         return returnURI;
     };
@@ -109,4 +232,30 @@ GetServiceUrlService = __decorate([
     __metadata("design:paramtypes", [http_1.Http])
 ], GetServiceUrlService);
 exports.GetServiceUrlService = GetServiceUrlService;
+var ShopService = (function () {
+    function ShopService() {
+        this.subject = new Subject_1.Subject();
+    }
+    ShopService.prototype.sendMessage = function (item) {
+        item.on = false;
+        this.item = item;
+        this.subject.next(item);
+    };
+    ShopService.prototype.clearMessage = function () {
+        this.item = null;
+        this.subject.next();
+    };
+    ShopService.prototype.getLast = function () {
+        return this.item;
+    };
+    ShopService.prototype.getMessage = function () {
+        return this.subject.asObservable();
+    };
+    return ShopService;
+}());
+ShopService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [])
+], ShopService);
+exports.ShopService = ShopService;
 //# sourceMappingURL=services.js.map
