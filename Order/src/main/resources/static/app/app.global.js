@@ -106,7 +106,7 @@ var SideSteps = (function () {
 SideSteps = __decorate([
     core_1.Component({
         selector: 'side-step',
-        template: "\n        <div class=\"ui fluid vertical steps\">\n            <div *ngFor=\"let si of serviceInlays\" class=\"{{si.state}} step\" id=\"{{si.name}}\">\n                <i class=\"{{si.icon}} icon\"></i>\n                <div class=\"content\">\n                    <div class=\"title\">{{si.name}}</div>\n                    <div class=\"description\">{{si.description}}\n                    </div>\n                    <a [href]=\"sanitizer.bypassSecurityTrustUrl(makeIPExternal(si.URI.uri))\">\n                        got to\n                    </a>\n                </div>\n            </div>\n        </div>"
+        template: "\n        <div class=\"ui fluid vertical steps\">\n            <div *ngFor=\"let si of serviceInlays\" class=\"{{si.state}} step\" id=\"{{si.name}}\">\n                <i class=\"{{si.icon}} icon\"></i>\n                <div class=\"content\">\n                    <div class=\"title\">{{si.name}}</div>\n                    <div class=\"description\">{{si.description}}\n                    </div>\n                    <a [href]=\"sanitizer.bypassSecurityTrustUrl(makeIPExternal(si.URI.uri))\">\n                        direct-Link-Test\n                    </a>\n                </div>\n            </div>\n        </div>"
     }),
     __metadata("design:paramtypes", [platform_browser_1.DomSanitizer, services_1.GetServiceUrlService])
 ], SideSteps);

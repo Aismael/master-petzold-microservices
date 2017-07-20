@@ -1,5 +1,6 @@
 package Billing.Aspects;
 
+import Billing.DTOs.BankAccountDTO;
 import Billing.DTOs.PayDTO;
 import Billing.Entities.BankAccount;
 import Billing.Entities.XOrder;
@@ -67,9 +68,11 @@ public class MsgAspect {
     public void broadcast(JoinPoint joinPoint, Object returnValue) {
         System.out.println("postchat");
         System.out.println(returnValue.getClass());
-        if (returnValue instanceof BankAccount) {
+        if (returnValue instanceof BankAccountDTO) {
+            String mail =bankAccountRepository.getOne(payDTO.getBankAccountId()).getAccount().getOne().getMail();
             XOrder order = orderRepository.getOne(payDTO.getOrderId());
-            chatController.sendMsg(((BankAccount) returnValue).getAccount().getOne().getMail(), "You Payed: " + makeOrderToMsg(order));
+            System.out.println(mail);
+            chatController.sendMsg(mail,"You Payed: " + makeOrderToMsg(order));
         }
     }
 

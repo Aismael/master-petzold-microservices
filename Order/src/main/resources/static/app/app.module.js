@@ -22,6 +22,7 @@ var choose_components_1 = require("./inlay.sites/choose.components");
 var order_component_1 = require("./inlay.sites/order.component");
 var favorite_component_1 = require("./inlay.sites/favorite.component");
 var ng_semantic_1 = require("ng-semantic");
+var array_1 = require("./pipes/array");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -29,7 +30,14 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule, http_1.HttpModule, router_1.RouterModule.forRoot(app_routes_1.routes), forms_1.FormsModule, ng_semantic_1.NgSemanticModule
+        imports: [
+            platform_browser_1.BrowserModule,
+            http_1.HttpModule,
+            router_1.RouterModule.forRoot(app_routes_1.routes),
+            forms_1.FormsModule,
+            ng_semantic_1.NgSemanticModule,
+            forms_1.FormsModule,
+            forms_1.ReactiveFormsModule
         ],
         declarations: [
             app_global_1.SideSteps,
@@ -47,16 +55,30 @@ AppModule = __decorate([
             favorite_component_1.FavoriteComponent,
             order_component_1.OrderitemsComponent,
             order_component_1.OrderOrderComponent,
-            order_component_1.OrderFavoriteComponent, order_component_1.OrderPayComponent
+            order_component_1.OrderFavoriteComponent,
+            order_component_1.OrderPayComponent,
+            array_1.SearchArrayPipe,
+            favorite_component_1.FavoriteFavoriteComponent,
+            favorite_component_1.FavoritePayComponent,
         ],
-        bootstrap: [app_global_1.SideSteps, app_global_1.Inlay, app_global_1.HomeButton],
-        providers: [services_1.GetServiceUrlService,
+        bootstrap: [
+            app_global_1.SideSteps,
+            app_global_1.Inlay,
+            app_global_1.HomeButton
+        ],
+        providers: [
+            services_1.GetServiceUrlService,
             app_rest_paths_1.GetPathsService,
             app_rest_paths_1.GetDatasByPath,
             services_1.ErrorService,
             app_rest_paths_1.PostDatasByPath,
             services_1.LoginService,
-            services_1.OrderService],
+            services_1.OrderService,
+            services_1.ShopService,
+            services_1.FavoriteService,
+            services_1.ShopBasketService,
+            services_1.FavoriteIdService
+        ],
         schemas: [core_1.CUSTOM_ELEMENTS_SCHEMA]
     })
 ], AppModule);

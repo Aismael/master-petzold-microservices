@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 !*.jar
 *.jar
 */build/*
@@ -12,7 +11,7 @@
 *.zip
 *.original
 *.war
-
+/build
 
 *.bat
 =======
@@ -63,4 +62,3 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
->>>>>>> 2cb5f2877f223e8e55a7c1d476056cf18e745fc5

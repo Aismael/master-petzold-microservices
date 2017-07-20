@@ -95,7 +95,7 @@ interface ServiceInlay {
                     <div class="description">{{si.description}}
                     </div>
                     <a [href]="sanitizer.bypassSecurityTrustUrl(makeIPExternal(si.URI.uri))">
-                        got to
+                        direct-Link-Test
                     </a>
                 </div>
             </div>
